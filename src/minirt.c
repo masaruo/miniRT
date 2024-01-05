@@ -6,11 +6,13 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/05 16:23:41 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/05 18:18:46 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.h"
+#include "t_vec3.h"
+#include "t_world.h"
+#include "mlx.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -23,11 +25,8 @@ void	sphere(void)
 	t_vec3			sphere_vec;
 	t_vec3			screen_vec;
 	t_vec3			dir_vec;
+	t_world const	world = tworld_init();
 	double const	sphere_r = 1;
-
-	printf("P3\n");
-	printf("%d %d\n", window_width, window_height);
-	printf("255\n");
 
 	camera_vec = vec3_init(0, 0, -5);
 	sphere_vec = vec3_init(0, 0, 5);
@@ -49,7 +48,7 @@ void	sphere(void)
 			double d = b * b - 4 * a * c;
 			if (d >= 0)
 			{
-				printf("255 0 0\n");
+				mlx_pixel_put(world.mlx, world.win, world.screen_witdh, world.screen_height, )
 			}
 			else
 			{
