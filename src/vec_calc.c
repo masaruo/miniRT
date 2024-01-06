@@ -6,11 +6,11 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:23:36 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/05 16:13:03 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/06 15:47:37 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.h"
+#include "t_vec3.h"
 #include <math.h>
 
 double	vec3_dot(t_vec3 const *a, t_vec3 const *b)

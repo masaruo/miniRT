@@ -1,23 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec_utils.c                                        :+:      :+:    :+:   */
+/*   mlx_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/05 14:07:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/06 15:47:29 by mogawa           ###   ########.fr       */
+/*   Created: 2024/01/06 11:20:42 by mogawa            #+#    #+#             */
+/*   Updated: 2024/01/06 11:20:53 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "t_vec3.h"
+#include "mlx_utils.h"
 
-t_vec3	vec3_init(double in_x, double in_y, double in_z)
-{
-	t_vec3	vec;
-
-	vec.x = in_x;
-	vec.y = in_y;
-	vec.z = in_z;
-	return (vec);
-}

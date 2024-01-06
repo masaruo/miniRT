@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec_utils.c                                        :+:      :+:    :+:   */
+/*   t_color.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/05 14:07:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/06 15:47:29 by mogawa           ###   ########.fr       */
+/*   Created: 2024/01/05 15:38:30 by mogawa            #+#    #+#             */
+/*   Updated: 2024/01/05 18:10:12 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "t_vec3.h"
+#ifndef T_COLOR_H
+#define T_COLOR_H
 
-t_vec3	vec3_init(double in_x, double in_y, double in_z)
+typedef struct s_color
 {
-	t_vec3	vec;
+	double	red;
+	double	green;
+	double	blue;
+}	t_color;
 
-	vec.x = in_x;
-	vec.y = in_y;
-	vec.z = in_z;
-	return (vec);
-}
+#endif

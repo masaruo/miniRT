@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tworld_utils.c                                     :+:      :+:    :+:   */
+/*   t_image.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/05 17:42:43 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/06 14:40:22 by mogawa           ###   ########.fr       */
+/*   Created: 2024/01/06 14:29:09 by mogawa            #+#    #+#             */
+/*   Updated: 2024/01/06 16:26:53 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "t_image.h"
 #include "mlx.h"
-#include "t_world.h"
 
-t_world	tworld_init(void)
+t_image	timage_init(void *mlx_ptr, int width, int height)
 {
-	t_world	world;
+	t_image	img;
 
-	world.screen_witdh = WITDH;
-	world.screen_height = HEIGHT;
-	world.mlx_ptr = mlx_init();
+	img.img_ptr = mlx_new_image(mlx_ptr, width, height);
 	//todo error
-	world.win_ptr = mlx_new_window(world.mlx_ptr, world.screen_witdh, world.screen_height, TITLE);
+	img.addr = mlx_get_data_addr(img.img_ptr, &img.bits_per_pixel, &img.line_length, &img.endian);
 	//todo error
-	world.img = timage_init(&world.mlx_ptr, WITDH, HEIGHT);
-	return (world);
+	return (img);
+}
+
+void	my_mlx_pixcel_put(t_image const *img, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
 }

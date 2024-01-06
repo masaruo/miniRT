@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/05 18:18:46 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/06 16:30:57 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@
 #define window_width 512
 #define window_height 512
 
-void	sphere(void)
+void	sphere(t_world const *world)
 {
 	t_vec3			camera_vec;
 	t_vec3			sphere_vec;
 	t_vec3			screen_vec;
 	t_vec3			dir_vec;
-	t_world const	world = tworld_init();
 	double const	sphere_r = 1;
 
 	camera_vec = vec3_init(0, 0, -5);
@@ -48,19 +47,24 @@ void	sphere(void)
 			double d = b * b - 4 * a * c;
 			if (d >= 0)
 			{
-				mlx_pixel_put(world.mlx, world.win, world.screen_witdh, world.screen_height, )
+				my_mlx_pixcel_put(world->mlx_ptr, world->screen_witdh, world->screen_height, 0x00FF0000);
 			}
 			else
 			{
-				printf("0 0 255\n");
+				my_mlx_pixcel_put(world->mlx_ptr, world->screen_witdh, world->screen_height, 0x000000FF);
 			}
 		}
 	}
+	mlx_put_image_to_window(world->mlx_ptr, world->win_ptr, world->img.img_ptr, world->screen_witdh, world->screen_height);
 	return ;
 }
 
 int	main(void)
 {
-	sphere();
+	t_world	world;
+
+	//todo parse check
+	world = tworld_init();
+	sphere(&world);
 	return (EXIT_SUCCESS);
 }
