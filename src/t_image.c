@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 14:29:09 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/06 16:26:53 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/08 12:06:16 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ t_image	timage_init(void *mlx_ptr, int width, int height)
 
 void	my_mlx_pixcel_put(t_image const *img, int x, int y, int color)
 {
-	char	*dst;
+	char	*pixcel;
+	int		offset;
 
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	// todo input error handle
+	offset = y * img->line_length + x * (img->bits_per_pixel / 8);
+	pixcel = img->addr + offset;
+	*(unsigned int*)pixcel = color;
 }

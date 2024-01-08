@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 15:40:05 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/06 16:21:20 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/08 19:31:11 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include "t_image.h"
 
-# define WITDH (512)
-# define HEIGHT (512)
 # define TITLE ("mogawa's miniRT")
 
 typedef struct s_world
@@ -28,6 +26,6 @@ typedef struct s_world
 	t_image	img;
 }	t_world;
 
-t_world	tworld_init(void);
+t_world	tworld_init(int in_witdh, int in_height);
 
 #endif
