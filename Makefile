@@ -6,13 +6,13 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/01/06 16:15:28 by mogawa           ###   ########.fr        #
+#    Updated: 2024/01/10 20:12:11 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	:=	miniRT
 CC		:=	cc
-CFLAGS	:=	-Wall -Werror -Werror -MMD -MP
+CFLAGS	:=	-Wall -Wextra -MMD -MP
 SRCDIR	:=	./src
 OBJDIR	:=	./obj
 LIBFTDIR	:=	./libft
@@ -23,10 +23,10 @@ INCLUDE	:=	-I./include -I$(LIBFTDIR)/include -I$(MLXDIR)
 SRCS		:=	\
 			mlx_utils.c \
 			t_image.c \
-			tworld_utils.c \
-			vec_calc.c \
-			vec_calc2.c \
+			t_world.c \
 			vec_utils.c \
+			t_color.c \
+			math_utils.c \
 			minirt.c
 OBJS	:=	$(SRCS:%.c=$(OBJDIR)/%.o)
 DEPS	:=	$(OBJS:%.o=%.d)

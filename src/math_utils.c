@@ -1,28 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vec_calc2.c                                        :+:      :+:    :+:   */
+/*   math_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/05 15:58:30 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/06 15:47:17 by mogawa           ###   ########.fr       */
+/*   Created: 2024/01/10 20:04:33 by mogawa            #+#    #+#             */
+/*   Updated: 2024/01/10 20:11:27 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "t_vec3.h"
+#include "math_utils.h"
 
-t_vec3	vec3_add(t_vec3 const *a, t_vec3 const *b)
+double	double_clamp(double num, double min, double max)
 {
-	return (vec3_init(a->x + b->x, a->y + b->y, a->z + b->z));
+	if (num < min)
+		return (min);
+	else if (num > max)
+		return (max);
+	else
+		return (num);
 }
 
-t_vec3	vec3_subtract(t_vec3 const *a, t_vec3 const *b)
+double	double_min(double a, double b)
 {
-	return (vec3_init(a->x - b->x, a->y - b->y, a->z - b->z));
+	if (a > b)
+		return (b);
+	else
+		return (a);
 }
 
-t_vec3	vec3_multiply(t_vec3 const *a, double scalar)
+double double_max(double a, double b)
 {
-	return (vec3_init(a->x * scalar, a->y * scalar, a->z * scalar));
+	if (a > b)
+		return (a);
+	else
+		return (b);
 }
