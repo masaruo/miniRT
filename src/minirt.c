@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/11 15:34:43 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/12 12:49:24 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	sphere(t_world const *world, t_image const *image)
 	eyePos.start = vec3_init(0, 0, -5);
 	t_shape			sphere2;
 	sphere2.type = e_sphere;
-	sphere2.u_data.sphere.center = vec3_init(0, 0, 5);
+	sphere2.u_data.sphere.center = vec3_init(1, 5, 50);
 	sphere2.u_data.sphere.r = 1;
 	t_light			light;
 	light.type = e_point;
-	light.vector = vec3_init(-5, 5, -5);
+	light.vector = vec3_init(0, 50, 0);
 	t_vec3			pw;//スクリーン上の点
 
 	pw.z = 0;
@@ -99,14 +99,14 @@ void	sphere(t_world const *world, t_image const *image)
 void	plane(t_world const *world, t_image const *image)
 {
 	t_ray	camera;
-	camera.start = vec3_init(-50, 0, 20);
+	camera.start = vec3_init(0, 0, -5);
 	t_shape	plane;
 	plane.type = e_plane;
-	plane.u_data.plane.position = vec3_init(0, 0, -10);
+	plane.u_data.plane.position = vec3_init(0, -1, 0);
 	plane.u_data.plane.normal = vec3_init(0, 1, 0);
 	t_light	light;
 	light.type = e_point;
-	light.vector = vec3_init(-40, 50, 0);
+	light.vector = vec3_init(-5, 5, -5);
 	light.brightness = 0.6;
 	t_vec3	pw;
 	pw.z = 0;
@@ -121,7 +121,40 @@ void	plane(t_world const *world, t_image const *image)
 			t_intersect isect;
 			if (get_intersect(&plane, &camera, &isect))
 			{
-				my_mlx_pixcel_put(image, x, y, get_hex_color(0, 0, 0));
+				t_vec3	lightDir = vec3_subtract(&light.vector, &isect.position);
+				lightDir = vec3_normalize(&lightDir);
+				//! ambient
+				double Ka = 0.01;
+				double Ia = 0.1;
+				double Ra = Ka * Ia;
+				//! diffuse
+				double Rd = 0;
+				double Kd = 0.69;
+				double n_dot_l = vec3_dot(&isect.normal, &lightDir);
+				Rd = double_clamp(n_dot_l, 0, 1) * Kd;
+				//! specular
+				double Rs = 0;
+				double alpha = 8;
+				double Ks = 0.3;
+				t_vec3 r = vec3_copy(&isect.normal);
+				r = vec3_multiply(&r, 2 * n_dot_l);
+				r = vec3_subtract(&r, &lightDir);
+				double v_dot_r = vec3_dot(&lightDir, &r);
+				Rs = Ks * pow(v_dot_r, alpha);
+				//! combine
+				if (n_dot_l < 0)
+				{
+					Rd = 0;
+				}
+				if (v_dot_r < 0)
+				{
+					Rs = 0;
+				}
+				double phong = Ra + Rd + Rs;
+				int grey = (int)(255 * phong);
+				// t_color color = tcolor_init(grey, grey, grey);
+				my_mlx_pixcel_put(image, x, y, get_hex_color(grey, grey, grey));
+				
 			}
 			else
 				my_mlx_pixcel_put(image, x, y, get_hex_color(255, 255, 255));

@@ -6,13 +6,14 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:28:11 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/11 15:36:17 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/12 12:51:12 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_intersect.h"
 #include <math.h>
 #include "math_utils.h"
+#include <stdio.h>
 
 static void	_calc_intersection(t_intersect *ans, double t)
 {
@@ -63,9 +64,32 @@ static int	_intersect_against_sphere(t_shape const *shape, t_ray const *ray, t_i
 	return (HAS_INTERSECTION);
 }
 
-static int	_intersect_against_plane()
+static int	_intersect_against_plane(t_shape const *shape, t_ray const *ray, t_intersect *ans)
 {
-	
+	double	t;
+	double	numerator;
+	double	denominator;
+	t_vec3 const plane_to_camera = vec3_subtract(&ray->start, &shape->u_data.plane.position);
+
+	t = -1;
+	numerator = vec3_dot(&plane_to_camera, &shape->u_data.plane.normal) * -1;
+	denominator = vec3_dot(&ray->direction, &shape->u_data.plane.normal);
+	if (denominator == 0)
+		return (NO_INTERSECTION);
+	t = numerator / denominator;
+	if (t >= 0)
+	{
+		ans->distance = t;
+		t_vec3 tmp = vec3_multiply(&ray->direction, t);
+		ans->position = vec3_add(&ray->start, &tmp);
+		ans->normal = shape->u_data.plane.normal;
+	}
+	else
+	{
+		return (NO_INTERSECTION);
+	}
+	dprintf(2, "numerator=[%lf], denom=[%lf], t=[%lf]\n", numerator,denominator,t);
+	return (HAS_INTERSECTION);
 }
 
 int	get_intersect(t_shape const *shape, t_ray const *ray, t_intersect *ans)
@@ -76,7 +100,7 @@ int	get_intersect(t_shape const *shape, t_ray const *ray, t_intersect *ans)
 	}
 	else if (shape->type == e_plane)
 	{
-
+		return (_intersect_against_plane(shape, ray, ans));
 	}
 	else
 	{
