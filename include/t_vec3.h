@@ -6,12 +6,12 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:59:21 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/11 09:52:17 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/12 14:16:27 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_VECTOR_H
-#define T_VECTOR_H
+#ifndef T_VEC3_H
+#define T_VEC3_H
 
 typedef struct s_vec3
 {
