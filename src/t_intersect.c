@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:28:11 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/16 11:34:54 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/16 13:55:19 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	_calc_intersection(t_intersect *ans, double t)
 }
 
 //球体との交差判定
-static int	_intersect_against_sphere(t_shape const *shape, t_ray const *ray, t_intersect *ans)
+static int	_intersect_against_sphere(t_shape const *shape, t_ray const *ray, t_intersect *out_intersect)
 {
 	t_vec3 const	sphere_to_ray = vec3_subtract(&ray->start, &shape->u_data.sphere.center);
 	double const	a = vec3_dot(&ray->direction, &ray->direction);//? 1で決め打ちでもいいか？
@@ -57,16 +57,21 @@ static int	_intersect_against_sphere(t_shape const *shape, t_ray const *ray, t_i
 	{
 		return (NO_INTERSECTION);
 	}
-	ans->distance = t;
+	// 最も近いintersect
+	if (out_intersect->distance < t)
+	{
+		return (HAS_INTERSECTION);
+	}
+	out_intersect->distance = t;
 	t_vec3	tmp = vec3_multiply(&ray->direction, t);
-	ans->position = vec3_add(&ray->start, &tmp);
-	ans->normal = vec3_subtract(&ans->position, &shape->u_data.sphere.center);
-	ans->normal = vec3_normalize(&ans->normal);
+	out_intersect->position = vec3_add(&ray->start, &tmp);
+	out_intersect->normal = vec3_subtract(&out_intersect->position, &shape->u_data.sphere.center);
+	out_intersect->normal = vec3_normalize(&out_intersect->normal);
 	return (HAS_INTERSECTION);
 }
 
 //平面との交差判定
-static int	_intersect_against_plane(t_shape const *shape, t_ray const *ray, t_intersect *ans)
+static int	_intersect_against_plane(t_shape const *shape, t_ray const *ray, t_intersect *out_intersect)
 {
 	double	t;
 	double	numerator;
@@ -81,10 +86,10 @@ static int	_intersect_against_plane(t_shape const *shape, t_ray const *ray, t_in
 	t = numerator / denominator;
 	if (t >= 0)
 	{
-		ans->distance = t;
+		out_intersect->distance = t;
 		t_vec3 tmp = vec3_multiply(&ray->direction, t);
-		ans->position = vec3_add(&ray->start, &tmp);
-		ans->normal = shape->u_data.plane.normal;
+		out_intersect->position = vec3_add(&ray->start, &tmp);
+		out_intersect->normal = shape->u_data.plane.normal;
 	}
 	else
 	{
@@ -94,15 +99,15 @@ static int	_intersect_against_plane(t_shape const *shape, t_ray const *ray, t_in
 	return (HAS_INTERSECTION);
 }
 
-int	get_intersect(t_shape const *shape, t_ray const *ray, t_intersect *ans)
+int	get_intersect(t_shape const *shape, t_ray const *ray, t_intersect *out_intersect)
 {
 	if (shape->type == e_sphere)
 	{
-		return (_intersect_against_sphere(shape, ray, ans));
+		return (_intersect_against_sphere(shape, ray, out_intersect));
 	}
 	else if (shape->type == e_plane)
 	{
-		return (_intersect_against_plane(shape, ray, ans));
+		return (_intersect_against_plane(shape, ray, out_intersect));
 	}
 	else
 	{

@@ -6,14 +6,12 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 14:32:18 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/12 14:34:45 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/16 12:55:26 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_LIST_UTILS_H
 #define T_LIST_UTILS_H
 #include "libft.h"
-
-
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/16 10:27:34 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/16 14:53:04 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include "t_light.h"
 #include "t_intersect.h"
 #include "libft.h"
+#include <limits.h>
 
 #define window_width 512
 #define window_height 512
@@ -30,23 +31,37 @@
 void	sphere(t_world const *world, t_image const *image)
 {
 	t_ray			eyePos;
+	// t_shape			sphere1;
+	// sphere1.type = e_sphere;
+	// sphere1.u_data.sphere.center = vec3_init(0, 0, 5);
+	// sphere1.u_data.sphere.r = 1;
 	t_shape			sphere1;
+	// sphere1 = ft_calloc(1, sizeof(t_shape));
 	sphere1.type = e_sphere;
-	sphere1.u_data.sphere.center = vec3_init(0, 0, 5);
+	sphere1.u_data.sphere.center = vec3_init(1, 10, 50);
 	sphere1.u_data.sphere.r = 1;
-	// t_shape			sphere2;
-	// sphere2.type = e_sphere;
-	// sphere2.u_data.sphere.center = vec3_init(1, 5, 50);
-	// sphere2.u_data.sphere.r = 1;
+	sphere1.color = tcolor_init(255, 0, 0);
+	t_shape			sphere2;
+	sphere2.type = e_sphere;
+	sphere2.u_data.sphere.center = vec3_init(0, 0, 5);
+	sphere2.u_data.sphere.r = 1;
+	sphere2.color = tcolor_init(10, 0, 255);
+	t_shape	plane;
+	plane.type = e_plane;
+	plane.u_data.plane.position = vec3_init(0, -1, 10);
+	plane.u_data.plane.normal = vec3_init(0, 1, 0);
+	plane.color = tcolor_init(51, 204, 51);
 	t_light			light;
 	light.type = e_point;
 	light.vector = vec3_init(0, 5, 5);
 	t_vec3			pw;//スクリーン上の点
-	t_list			*head_of_shapes;
+	t_list			*head_of_shapes = NULL;
 
-	// ft_lstadd_back(&head_of_shapes, ft_lstnew(NULL));
-	// ft_lstadd_back(&head_of_shapes, ft_lstnew(&sphere1));
-	// ft_lstadd_back(&head_of_shapes, ft_lstnew(&sphere2));
+	// head_of_shapes = ft_lstnew(NULL);
+	ft_lstadd_back(&head_of_shapes, ft_lstnew(NULL));
+	ft_lstadd_back(&head_of_shapes, ft_lstnew(&sphere1));
+	ft_lstadd_back(&head_of_shapes, ft_lstnew(&sphere2));
+	ft_lstadd_back(&head_of_shapes, ft_lstnew(&plane));
 	pw.z = 0;
 	for (double y = 0; y < window_height; y++)
 	{
@@ -57,13 +72,17 @@ void	sphere(t_world const *world, t_image const *image)
 			t_vec3	tmp = vec3_init(0, 0, -5);
 			eyePos = t_ray_init(&tmp, &pw);
 
-			// t_list *crnt = head_of_shapes->next;
-			// while (crnt)
-			// {
-				t_intersect isect;
-			// 	t_shape		*shape;
-				// shape = crnt->content;
-				if (get_intersect(&sphere1, &eyePos, &isect))
+			t_intersect isect;
+			isect.distance = __DBL_MAX__;
+			t_list *crnt;
+			crnt = head_of_shapes->next;
+			while (crnt)
+			{
+				t_shape *shape;
+				// if (crnt->content == NULL)
+					// continue ;
+				shape = crnt->content;
+				if (get_intersect(shape, &eyePos, &isect))
 				{
 					t_vec3	lightDir = vec3_subtract(&light.vector, &isect.position);
 					lightDir = vec3_normalize(&lightDir);
@@ -95,16 +114,14 @@ void	sphere(t_world const *world, t_image const *image)
 						Rs = 0;
 					}
 					double phong = Ra + Rd + Rs;
-					int grey = (int)(255 * phong);
-					// t_color color = tcolor_init(grey, grey, grey);
-					my_mlx_pixcel_put(image, x, y, get_hex_color(grey, grey, grey));
+					my_mlx_pixcel_put(image, x, y, tcolor_to_hex(tcolor_scalar_multiply(shape->color, phong)));
 				}
-				else
+				else if (isect.distance == __DBL_MAX__)
 				{
 					my_mlx_pixcel_put(image, x, y, get_hex_color(100, 149, 237));
 				}
-				// crnt = crnt->next;
-			// }
+				crnt = crnt->next;
+			}
 		}
 	}
 	return ;

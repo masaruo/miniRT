@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/01/12 13:57:53 by mogawa           ###   ########.fr        #
+#    Updated: 2024/01/16 13:32:40 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,10 +53,12 @@ $(NAME) : $(OBJS)
 	$(MAKE) -C $(MLXDIR)
 	$(CC) $(CFLAGS) $(LIBFT) $(MLX) $(LDFLAGS) $^ -o $@
 
-debug: fclean
+debug: 
+	$(RM) -r $(OBJDIR)
 	$(MAKE) WITH_DEBUG=1 all
 
-asan: fclean
+asan: 
+	$(RM) -r $(OBJDIR)
 	$(MAKE) WITH_ASAN=1 all
 
 clean:
