@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:28:11 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/12 13:03:56 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/16 11:13:58 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	_calc_intersection(t_intersect *ans, double t)
 	return ;
 }
 
+//球体との交差判定
 static int	_intersect_against_sphere(t_shape const *shape, t_ray const *ray, t_intersect *ans)
 {
 	t_vec3 const	sphere_to_ray = vec3_subtract(&ray->start, &shape->u_data.sphere.center);
@@ -64,6 +65,7 @@ static int	_intersect_against_sphere(t_shape const *shape, t_ray const *ray, t_i
 	return (HAS_INTERSECTION);
 }
 
+//平面との交差判定
 static int	_intersect_against_plane(t_shape const *shape, t_ray const *ray, t_intersect *ans)
 {
 	double	t;
