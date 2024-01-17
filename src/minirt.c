@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/16 14:53:04 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/16 20:49:10 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ void	sphere(t_world const *world, t_image const *image)
 	sphere2.color = tcolor_init(10, 0, 255);
 	t_shape	plane;
 	plane.type = e_plane;
-	plane.u_data.plane.position = vec3_init(0, -1, 10);
+	plane.u_data.plane.position = vec3_init(0, -1, 50);
 	plane.u_data.plane.normal = vec3_init(0, 1, 0);
 	plane.color = tcolor_init(51, 204, 51);
 	t_light			light;
 	light.type = e_point;
-	light.vector = vec3_init(0, 5, 5);
+	light.vector = vec3_init(-10, 5, 5);
 	t_vec3			pw;//スクリーン上の点
 	t_list			*head_of_shapes = NULL;
 
@@ -199,7 +199,10 @@ int	main(void)
 	t_world	world;
 	t_image image;
 
-	//todo parse check
+	//todo parse
+	//todo getnextline
+	//todo ft_spolit
+	//todo validation
 	world = tworld_init(window_width, window_height);
 	image = timage_init(world.mlx_ptr, world.screen_witdh, world.screen_height);
 	sphere(&world, &image);
