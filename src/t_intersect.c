@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:28:11 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/17 12:27:47 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/17 13:14:45 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,6 @@
 #include <math.h>
 #include "math_utils.h"
 #include <stdio.h>
-
-static void	_calc_intersection(t_intersect *ans, double t)
-{
-	// ans->distance = t;
-	// ans->position
-	return ;
-}
 
 //球体との交差判定
 static int	_intersect_against_sphere(t_shape const *shape, t_ray const *ray, t_intersect *out_intersect)

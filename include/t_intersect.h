@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:21:56 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/17 12:36:46 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/17 14:32:07 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 #define NO_INTERSECTION (0)
 #define HAS_INTERSECTION (1)
+#define EPSILON (1.0f / 512)
 
 typedef struct s_intersect
 {

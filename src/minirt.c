@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/17 13:08:44 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/17 13:18:09 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,17 +107,17 @@ t_list	*ADHOC_create_shape_list(t_list *shapes)//todo delete
 	sphere1->type = e_sphere;
 	sphere1->u_data.sphere.center = vec3_init(1, 10, 50);
 	sphere1->u_data.sphere.r = 1;
-	sphere1->color = tcolor_init(255, 0, 0);//red
+	sphere1->color = tcolor_init(0, 0, 255);//blue
 	t_shape			*sphere2;
 	sphere2 = ft_calloc(1, sizeof(t_shape));
 	sphere2->type = e_sphere;
 	sphere2->u_data.sphere.center = vec3_init(0, 0, 5);
 	sphere2->u_data.sphere.r = 1;
-	sphere2->color = tcolor_init(0, 0, 255);//blue
+	sphere2->color = tcolor_init(255, 0, 0);//red
 	t_shape	*plane;
 	plane = ft_calloc(1, sizeof(t_shape));
 	plane->type = e_plane;
-	plane->u_data.plane.position = vec3_init(0, -1, 5);
+	plane->u_data.plane.position = vec3_init(0, -1, 0);
 	plane->u_data.plane.normal = vec3_init(0, 1, 0);
 	plane->color = tcolor_init(128, 128, 128);//grey
 
