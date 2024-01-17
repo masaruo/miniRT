@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:28:11 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/16 15:37:41 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/17 11:15:20 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	get_intersect(t_shape const *shape, t_ray const *ray, t_intersect *out_inter
 	}
 }
 
-int	get_nearest_shape(t_scene const *scene, t_ray const *ray, double max_distance, int exit_once_found, t_shape **out_shape, t_intersect *out_intersect)
+int	get_nearest_shape(t_world const *world, t_ray const *ray, double max_distance, int exit_once_found, t_shape **out_shape, t_intersect *out_intersect)
 {
 	
 }
