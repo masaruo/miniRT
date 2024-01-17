@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:21:56 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/17 11:15:32 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/17 12:36:46 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ typedef struct s_intersect
 	double	distance;
 	t_vec3	position;
 	t_vec3	normal;//標準化後
+	t_shape	*nearest_shape;
 }	t_intersect;
 
 int	get_intersect(t_shape const *shape, t_ray const *ray, t_intersect *ans);
-int	get_nearest_shape(t_world const *world, t_ray const *ray, double max_distance, int exit_once_found, t_shape **out_shape, t_intersect *out_intersect);
 
 #endif

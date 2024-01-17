@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:28:11 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/17 11:15:20 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/17 12:27:47 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static int	_intersect_against_sphere(t_shape const *shape, t_ray const *ray, t_i
 	{
 		return (HAS_INTERSECTION);
 	}
+	out_intersect->nearest_shape = shape;
 	out_intersect->distance = t;
 	t_vec3	tmp = vec3_multiply(&ray->direction, t);
 	out_intersect->position = vec3_add(&ray->start, &tmp);
@@ -90,6 +91,7 @@ static int	_intersect_against_plane(t_shape const *shape, t_ray const *ray, t_in
 		{
 			return (HAS_INTERSECTION);
 		}
+		out_intersect->nearest_shape = shape;
 		out_intersect->distance = t;
 		t_vec3 tmp = vec3_multiply(&ray->direction, t);
 		out_intersect->position = vec3_add(&ray->start, &tmp);
@@ -116,9 +118,4 @@ int	get_intersect(t_shape const *shape, t_ray const *ray, t_intersect *out_inter
 	{
 		return (NO_INTERSECTION);
 	}
-}
-
-int	get_nearest_shape(t_world const *world, t_ray const *ray, double max_distance, int exit_once_found, t_shape **out_shape, t_intersect *out_intersect)
-{
-	
 }
