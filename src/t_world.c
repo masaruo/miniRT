@@ -6,23 +6,12 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:42:43 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/16 21:13:35 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/17 11:29:13 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mlx.h"
 #include "t_world.h"
-
-static t_list	parse_input(char *line)
-{
-	char const	**input = ft_split(line, ' ');
-	char const	*identifier = input[0];
-
-	if (ft_strcmp(identifier, "sp") == 0 || ft_strcmp(identifier, "pl") == 0)
-		return ;
-	else
-		return ;
-}
 
 t_world	tworld_init(int in_witdh, int in_height)
 {
