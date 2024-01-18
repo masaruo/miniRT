@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/01/17 11:09:05 by mogawa           ###   ########.fr        #
+#    Updated: 2024/01/18 13:23:17 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,8 @@ SRCS		:=	\
 			vec_utils.c \
 			t_color.c \
 			math_utils.c \
-			t_intersect.c \
 			t_ray.c \
+			t_shape.c \
 			minirt.c
 OBJS	:=	$(SRCS:%.c=$(OBJDIR)/%.o)
 DEPS	:=	$(OBJS:%.o=%.d)

@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:21:56 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/18 09:09:54 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/18 13:24:26 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,6 @@ typedef struct s_intersect
 	// t_shape	*nearest_shape;
 }	t_intersect;
 
-int	get_intersect(t_shape const *shape, t_ray const *ray, t_intersect *ans);
+// int	get_intersect(t_shape const *shape, t_ray const *ray, t_intersect *ans);
 
 #endif

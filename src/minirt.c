@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/18 10:58:33 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/18 13:46:38 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,14 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 
 			t_intersect isect;
 			isect.distance = __DBL_MAX__;
-			isect.nearest_shape = NULL;
+			// isect.nearest_shape = NULL;
 			t_list *crnt;
 			crnt = world->shapes->next;
 			while (crnt)
 			{
 				t_shape	*shape;
 				shape = crnt->content;
-				get_intersect(shape, &eyePos, &isect);
+				test_intersection(shape, &eyePos, &isect);
 				crnt = crnt->next;
 			}
 			if (isect.distance < __DBL_MAX__)
@@ -90,7 +90,9 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 					Rs = 0;
 				}
 				double phong = Ra + Rd + Rs;
-				my_mlx_pixcel_put(image, x, y, tcolor_to_hex(tcolor_scalar_multiply(isect.nearest_shape->color, phong)));
+				int col = (int)(255 * phong);
+				my_mlx_pixcel_put(image, x, y, get_hex_color(col, col, col));
+				// my_mlx_pixcel_put(image, x, y, tcolor_to_hex(tcolor_scalar_multiply(isect.nearest_shape->color, phong)));
 			}
 			else
 			{
@@ -104,27 +106,27 @@ t_list	*ADHOC_create_shape_list(t_list *shapes)//todo delete
 {
 	t_shape			*sphere1;
 	sphere1 = ft_calloc(1, sizeof(t_shape));
-	sphere1->type = e_sphere;
+	sphere1->type = sphere_type;
 	sphere1->u_data.sphere.center = vec3_init(1, 10, 50);
 	sphere1->u_data.sphere.r = 1;
 	sphere1->color = tcolor_init(0, 0, 255);//blue
 	t_shape			*sphere2;
 	sphere2 = ft_calloc(1, sizeof(t_shape));
-	sphere2->type = e_sphere;
+	sphere2->type = sphere_type;
 	sphere2->u_data.sphere.center = vec3_init(0, 0, 5);
 	sphere2->u_data.sphere.r = 1;
 	sphere2->color = tcolor_init(255, 0, 0);//red
 	t_shape	*plane;
 	plane = ft_calloc(1, sizeof(t_shape));
-	plane->type = e_plane;
+	plane->type = plane_type;
 	plane->u_data.plane.position = vec3_init(0, -1, 0);
 	plane->u_data.plane.normal = vec3_init(0, 1, 0);
 	plane->color = tcolor_init(128, 128, 128);//grey
 
 	ft_lstadd_back(&shapes, ft_lstnew(NULL));
-	ft_lstadd_back(&shapes, ft_lstnew(sphere1));
+	// ft_lstadd_back(&shapes, ft_lstnew(sphere1));
 	ft_lstadd_back(&shapes, ft_lstnew(sphere2));
-	ft_lstadd_back(&shapes, ft_lstnew(plane));
+	// ft_lstadd_back(&shapes, ft_lstnew(plane));
 	return (shapes);
 }
 
