@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/17 13:18:09 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/18 10:58:33 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 		{
 			pw.x = 2 * x / (window_width - 1) - 1;
 			t_vec3	tmp = vec3_init(0, 0, -5);
-			eyePos = t_ray_init(&tmp, &pw);
+			eyePos = t_ray_create_ray(&tmp, &pw);
 
 			t_intersect isect;
 			isect.distance = __DBL_MAX__;
