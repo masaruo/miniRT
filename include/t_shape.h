@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:39:35 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/18 13:34:41 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/18 16:34:00 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,11 @@
 // マテリアル構造体
 typedef struct s_material
 {
-	double	ambient;
-	double	diffuse;
-	double	specular;
 	t_color	color;
+	t_color	ambient;//! 定数になるはずだから、いらないかも
+	t_color	diffuse;
+	t_color	specular;
+	double	shininess;
 }	t_material;
 
 typedef struct s_sphere
@@ -56,9 +57,9 @@ typedef struct s_shape
 		t_sphere	sphere;
 	}	u_data;
 	t_material		material;
-	t_color			color;
+	// t_color			color;
 }	t_shape;
 
-int	test_intersection(t_shape const *shape, t_ray const *ray, t_intersect *out_intersect);
+int		test_intersection(t_shape const *shape, t_ray const *ray, t_intersect *out_intersect);
 
 #endif

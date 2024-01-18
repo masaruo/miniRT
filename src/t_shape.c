@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:31:04 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/18 13:37:59 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/18 15:20:20 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "math.h"
 #include "math_utils.h"
 
-// ２時関数tの解を、判別式を用いて計算
+// ２関数tの解を、判別式を用いて計算
 static	double	calculate_t_distance(double d, double b, double a)
 {
 	double			t_distance;

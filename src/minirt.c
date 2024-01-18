@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/18 15:04:55 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/18 16:36:56 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,22 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 			// isect.nearest_shape = NULL;
 			t_list *crnt;
 			crnt = world->shapes->next;
-			t_shape	*crnt_shape;
+			t_shape	*nearest_shape;
 			while (crnt)
 			{
 				t_shape	*shape;
 				shape = crnt->content;
 				int res;
-				res = test_intersection(shape, &eyePos, &isect);
+				t_intersect	crnt_intersect;
+				res = test_intersection(shape, &eyePos, &crnt_intersect);
 				if (res == HAS_INTERSECTION)
-					crnt_shape = shape;
+				{
+					if (crnt_intersect.distance < isect.distance)
+					{
+						isect = crnt_intersect;
+						nearest_shape = shape;
+					}
+				}
 				crnt = crnt->next;
 			}
 			if (isect.distance < __DBL_MAX__)
@@ -67,18 +74,18 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 				t_vec3	lightDir = vec3_subtract(&light.vector, &isect.position);
 				lightDir = vec3_normalize(&lightDir);
 				//! ambient
-				double Ka = 0.01;
+				double Ka = nearest_shape->material.ambient;
 				double Ia = 0.1;
 				double Ra = Ka * Ia;
 				//! diffuse
+				double Kd = nearest_shape->material.diffuse;
 				double Rd = 0;
-				double Kd = 0.69;
 				double n_dot_l = vec3_dot(&isect.normal, &lightDir);
 				Rd = double_clamp(n_dot_l, 0, 1) * Kd;
 				//! specular
+				double Ks = nearest_shape->material.specular;
 				double Rs = 0;
 				double alpha = 8;
-				double Ks = 0.3;
 				t_vec3 r = vec3_copy(&isect.normal);
 				r = vec3_multiply(&r, 2 * n_dot_l);
 				r = vec3_subtract(&r, &lightDir);
@@ -97,7 +104,7 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 				// int col = (int)(255 * phong);
 				// my_mlx_pixcel_put(image, x, y, get_hex_color(col, col, col));
 				// my_mlx_pixcel_put(image, x, y, tcolor_to_hex(tcolor_scalar_multiply(isect.nearest_shape->color, phong)));
-				my_mlx_pixcel_put(image, x, y, tcolor_to_hex(tcolor_scalar_multiply(crnt_shape->color, phong)));
+				my_mlx_pixcel_put(image, x, y, tcolor_to_hex(tcolor_scalar_multiply(nearest_shape->material.color, phong)));
 			}
 			else
 			{
@@ -112,26 +119,77 @@ t_list	*ADHOC_create_shape_list(t_list *shapes)//todo delete
 	t_shape			*sphere1;
 	sphere1 = ft_calloc(1, sizeof(t_shape));
 	sphere1->type = sphere_type;
-	sphere1->u_data.sphere.center = vec3_init(1, 10, 50);
+	sphere1->u_data.sphere.center = vec3_init(3, 0, 25);
 	sphere1->u_data.sphere.r = 1;
-	// sphere1->color = tcolor_init(0, 0, 255);//blue
+	sphere1->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+	sphere1->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+	sphere1->material.diffuse = tcolor_set(0.69, 0, 0);
+	sphere1->material.specular = tcolor_set(0.30, 0.30, 0.30);
+	sphere1->material.shininess = 8;
+
 	t_shape			*sphere2;
 	sphere2 = ft_calloc(1, sizeof(t_shape));
 	sphere2->type = sphere_type;
-	sphere2->u_data.sphere.center = vec3_init(0, 0, 5);
+	sphere2->u_data.sphere.center = vec3_init(2, 0, 20);
 	sphere2->u_data.sphere.r = 1;
-	sphere2->color = tcolor_convert_rgbcolor(255, 0, 0);
+	sphere2->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+	sphere2->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+	sphere2->material.diffuse = tcolor_set(0.00, 0.69, 0.00);
+	sphere2->material.specular = tcolor_set(0.30, 0.30, 0.30);
+	sphere2->material.shininess = 8;
+
+	t_shape			*sphere3;
+	sphere3 = ft_calloc(1, sizeof(t_shape));
+	sphere3->type = sphere_type;
+	sphere3->u_data.sphere.center = vec3_init(1, 0, 15);
+	sphere3->u_data.sphere.r = 1;
+	sphere3->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+	sphere3->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+	sphere3->material.diffuse = tcolor_set(0.00, 0.00, 0.69);
+	sphere3->material.specular = tcolor_set(0.30, 0.30, 0.30);
+	sphere3->material.shininess = 8;
+
+	
+	t_shape			*sphere4;
+	sphere4 = ft_calloc(1, sizeof(t_shape));
+	sphere4->type = sphere_type;
+	sphere4->u_data.sphere.center = vec3_init(0, 0, 10);
+	sphere4->u_data.sphere.r = 1;
+	sphere4->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+	sphere4->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+	sphere4->material.diffuse = tcolor_set(0.00, 0.69, 0.69);
+	sphere4->material.specular = tcolor_set(0.30, 0.30, 0.30);
+	sphere4->material.shininess = 8;
+	
+	t_shape			*sphere5;
+	sphere5 = ft_calloc(1, sizeof(t_shape));
+	sphere5->type = sphere_type;
+	sphere5->u_data.sphere.center = vec3_init(-1, 0, 5);
+	sphere5->u_data.sphere.r = 1;
+	sphere5->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+	sphere5->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+	sphere5->material.diffuse = tcolor_set(0.69, 0.00, 0.69);
+	sphere5->material.specular = tcolor_set(0.30, 0.30, 0.30);
+	sphere5->material.shininess = 8;
+	
 	t_shape	*plane;
 	plane = ft_calloc(1, sizeof(t_shape));
 	plane->type = plane_type;
 	plane->u_data.plane.position = vec3_init(0, -1, 0);
 	plane->u_data.plane.normal = vec3_init(0, 1, 0);
-	// plane->color = tcolor_init(128, 128, 128);//grey
+	plane->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+	plane->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+	plane->material.diffuse = tcolor_set(0.69, 0.69, 0.69);
+	plane->material.specular = tcolor_set(0.30, 0.30, 0.30);
+	plane->material.shininess = 8;
 
 	ft_lstadd_back(&shapes, ft_lstnew(NULL));
-	// ft_lstadd_back(&shapes, ft_lstnew(sphere1));
+	ft_lstadd_back(&shapes, ft_lstnew(sphere1));
 	ft_lstadd_back(&shapes, ft_lstnew(sphere2));
-	// ft_lstadd_back(&shapes, ft_lstnew(plane));
+	ft_lstadd_back(&shapes, ft_lstnew(sphere3));
+	ft_lstadd_back(&shapes, ft_lstnew(sphere4));
+	ft_lstadd_back(&shapes, ft_lstnew(sphere5));
+	ft_lstadd_back(&shapes, ft_lstnew(plane));
 	return (shapes);
 }
 
