@@ -6,11 +6,11 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/16 10:27:34 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/19 22:34:32 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "t_vec3.h"
+#include "t_vec3.h"
 #include "t_world.h"
 #include "mlx.h"
 #include "t_color.h"
@@ -23,30 +23,20 @@
 #include "t_light.h"
 #include "t_intersect.h"
 #include "libft.h"
+#include <limits.h>
+#include "phong.h"
 
 #define window_width 512
 #define window_height 512
 
-void	sphere(t_world const *world, t_image const *image)
+void	get_intersect_with_shape(t_world const *world, t_image const *image)
 {
 	t_ray			eyePos;
-	t_shape			sphere1;
-	sphere1.type = e_sphere;
-	sphere1.u_data.sphere.center = vec3_init(0, 0, 5);
-	sphere1.u_data.sphere.r = 1;
-	// t_shape			sphere2;
-	// sphere2.type = e_sphere;
-	// sphere2.u_data.sphere.center = vec3_init(1, 5, 50);
-	// sphere2.u_data.sphere.r = 1;
 	t_light			light;
 	light.type = e_point;
-	light.vector = vec3_init(0, 5, 5);
+	light.vector = vec3_init(-5, 5, -5);
 	t_vec3			pw;//スクリーン上の点
-	t_list			*head_of_shapes;
 
-	// ft_lstadd_back(&head_of_shapes, ft_lstnew(NULL));
-	// ft_lstadd_back(&head_of_shapes, ft_lstnew(&sphere1));
-	// ft_lstadd_back(&head_of_shapes, ft_lstnew(&sphere2));
 	pw.z = 0;
 	for (double y = 0; y < window_height; y++)
 	{
@@ -55,139 +45,138 @@ void	sphere(t_world const *world, t_image const *image)
 		{
 			pw.x = 2 * x / (window_width - 1) - 1;
 			t_vec3	tmp = vec3_init(0, 0, -5);
-			eyePos = t_ray_init(&tmp, &pw);
+			eyePos = t_ray_create_ray(&tmp, &pw);
 
-			// t_list *crnt = head_of_shapes->next;
-			// while (crnt)
-			// {
-				t_intersect isect;
-			// 	t_shape		*shape;
-				// shape = crnt->content;
-				if (get_intersect(&sphere1, &eyePos, &isect))
-				{
-					t_vec3	lightDir = vec3_subtract(&light.vector, &isect.position);
-					lightDir = vec3_normalize(&lightDir);
-					//! ambient
-					double Ka = 0.01;
-					double Ia = 0.1;
-					double Ra = Ka * Ia;
-					//! diffuse
-					double Rd = 0;
-					double Kd = 0.69;
-					double n_dot_l = vec3_dot(&isect.normal, &lightDir);
-					Rd = double_clamp(n_dot_l, 0, 1) * Kd;
-					//! specular
-					double Rs = 0;
-					double alpha = 8;
-					double Ks = 0.3;
-					t_vec3 r = vec3_copy(&isect.normal);
-					r = vec3_multiply(&r, 2 * n_dot_l);
-					r = vec3_subtract(&r, &lightDir);
-					double v_dot_r = vec3_dot(&lightDir, &r);
-					Rs = Ks * pow(v_dot_r, alpha);
-					//! combine
-					if (n_dot_l < 0)
-					{
-						Rd = 0;
-					}
-					if (v_dot_r < 0)
-					{
-						Rs = 0;
-					}
-					double phong = Ra + Rd + Rs;
-					int grey = (int)(255 * phong);
-					// t_color color = tcolor_init(grey, grey, grey);
-					my_mlx_pixcel_put(image, x, y, get_hex_color(grey, grey, grey));
-				}
-				else
-				{
-					my_mlx_pixcel_put(image, x, y, get_hex_color(100, 149, 237));
-				}
-				// crnt = crnt->next;
-			// }
-		}
-	}
-	return ;
-}
-
-void	plane(t_world const *world, t_image const *image)
-{
-	t_ray	camera;
-	camera.start = vec3_init(0, 0, -5);
-	t_shape	plane;
-	plane.type = e_plane;
-	plane.u_data.plane.position = vec3_init(0, -1, 0);
-	plane.u_data.plane.normal = vec3_init(0, 1, 0);
-	t_light	light;
-	light.type = e_point;
-	light.vector = vec3_init(-10, 5, -5);
-	light.brightness = 0.6;
-	t_vec3	pw;
-	pw.z = 0;
-	for (double y = 0; y < window_height; y++)
-	{
-		pw.y = -2 * y / (window_height - 1) + 1; 
-		for (double x = 0; x < window_width; x++)
-		{
-			pw.x = 2 * x / (window_width - 1) - 1;
-			camera.direction = vec3_subtract(&pw, &camera.start);
-			camera.direction = vec3_normalize(&camera.direction);
 			t_intersect isect;
-			if (get_intersect(&plane, &camera, &isect))
+			isect.distance = __DBL_MAX__;
+			t_list *crnt;
+			crnt = world->shapes->next;
+			t_shape	*nearest_shape;
+			while (crnt)
 			{
-				t_vec3	lightDir = vec3_subtract(&light.vector, &isect.position);
-				lightDir = vec3_normalize(&lightDir);
-				//! ambient
-				double Ka = 0.01;
-				double Ia = 0.1;
-				double Ra = Ka * Ia;
-				//! diffuse
-				double Rd = 0;
-				double Kd = 0.69;
-				double n_dot_l = vec3_dot(&isect.normal, &lightDir);
-				Rd = double_clamp(n_dot_l, 0, 1) * Kd;
-				//! specular
-				double Rs = 0;
-				double alpha = 8;
-				double Ks = 0.3;
-				t_vec3 r = vec3_copy(&isect.normal);
-				r = vec3_multiply(&r, 2 * n_dot_l);
-				r = vec3_subtract(&r, &lightDir);
-				double v_dot_r = vec3_dot(&lightDir, &r);
-				Rs = Ks * pow(v_dot_r, alpha);
-				//! combine
-				if (n_dot_l < 0)
+				t_shape	*shape;
+				shape = crnt->content;
+				int res;
+				t_intersect	crnt_intersect;
+				res = test_intersection(shape, &eyePos, &crnt_intersect);
+				if (res == HAS_INTERSECTION)
 				{
-					Rd = 0;
+					if (crnt_intersect.distance < isect.distance)
+					{
+						isect = crnt_intersect;
+						nearest_shape = shape;
+					}
 				}
-				if (v_dot_r < 0)
-				{
-					Rs = 0;
-				}
-				double phong = Ra + Rd + Rs;
-				int grey = (int)(255 * phong);
-				// t_color color = tcolor_init(grey, grey, grey);
-				my_mlx_pixcel_put(image, x, y, get_hex_color(grey, grey, grey));
-				
+				crnt = crnt->next;
+			}
+			if (isect.distance < __DBL_MAX__)
+			{
+				t_color col;
+				col = tcolor_calc_phong(nearest_shape, &isect, &light, &eyePos);
+				my_mlx_pixcel_put(image, x, y, tcolor_to_hex(col));
 			}
 			else
-				my_mlx_pixcel_put(image, x, y, get_hex_color(255, 255, 255));
+			{
+				my_mlx_pixcel_put(image, x, y, get_hex_color(100, 149, 237));//空色	
+			}
 		}
 	}
+}
+
+t_list	*ADHOC_create_shape_list(t_list *shapes)//todo delete
+{
+	t_shape			*sphere1;
+	sphere1 = ft_calloc(1, sizeof(t_shape));
+	sphere1->type = sphere_type;
+	sphere1->u_data.sphere.center = vec3_init(3, 0, 25);
+	sphere1->u_data.sphere.r = 1;
+	sphere1->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+	sphere1->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+	sphere1->material.diffuse = tcolor_set(0.69, 0, 0);
+	sphere1->material.specular = tcolor_set(0.30, 0.30, 0.30);
+	sphere1->material.shininess = 8;
+
+	t_shape			*sphere2;
+	sphere2 = ft_calloc(1, sizeof(t_shape));
+	sphere2->type = sphere_type;
+	sphere2->u_data.sphere.center = vec3_init(2, 0, 20);
+	sphere2->u_data.sphere.r = 1;
+	sphere2->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+	sphere2->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+	sphere2->material.diffuse = tcolor_set(0.00, 0.69, 0.00);
+	sphere2->material.specular = tcolor_set(0.30, 0.30, 0.30);
+	sphere2->material.shininess = 8;
+
+	t_shape			*sphere3;
+	sphere3 = ft_calloc(1, sizeof(t_shape));
+	sphere3->type = sphere_type;
+	sphere3->u_data.sphere.center = vec3_init(1, 0, 15);
+	sphere3->u_data.sphere.r = 1;
+	sphere3->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+	sphere3->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+	sphere3->material.diffuse = tcolor_set(0.00, 0.00, 0.69);
+	sphere3->material.specular = tcolor_set(0.30, 0.30, 0.30);
+	sphere3->material.shininess = 8;
+
 	
+	t_shape			*sphere4;
+	sphere4 = ft_calloc(1, sizeof(t_shape));
+	sphere4->type = sphere_type;
+	sphere4->u_data.sphere.center = vec3_init(0, 0, 10);
+	sphere4->u_data.sphere.r = 1;
+	sphere4->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+	sphere4->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+	sphere4->material.diffuse = tcolor_set(0.00, 0.69, 0.69);
+	sphere4->material.specular = tcolor_set(0.30, 0.30, 0.30);
+	sphere4->material.shininess = 8;
+	
+	t_shape			*sphere5;
+	sphere5 = ft_calloc(1, sizeof(t_shape));
+	sphere5->type = sphere_type;
+	sphere5->u_data.sphere.center = vec3_init(-1, 0, 5);
+	sphere5->u_data.sphere.r = 1;
+	sphere5->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+	sphere5->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+	sphere5->material.diffuse = tcolor_set(0.69, 0.00, 0.69);
+	sphere5->material.specular = tcolor_set(0.30, 0.30, 0.30);
+	sphere5->material.shininess = 8;
+	
+	t_shape	*plane;
+	plane = ft_calloc(1, sizeof(t_shape));
+	plane->type = plane_type;
+	plane->u_data.plane.position = vec3_init(0, -1, 0);
+	plane->u_data.plane.normal = vec3_init(0, 1, 0);
+	plane->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+	plane->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+	plane->material.diffuse = tcolor_set(0.69, 0.69, 0.69);
+	plane->material.specular = tcolor_set(0.30, 0.30, 0.30);
+	plane->material.shininess = 8;
+
+	ft_lstadd_back(&shapes, ft_lstnew(NULL));
+	ft_lstadd_back(&shapes, ft_lstnew(sphere1));
+	ft_lstadd_back(&shapes, ft_lstnew(sphere2));
+	ft_lstadd_back(&shapes, ft_lstnew(sphere3));
+	ft_lstadd_back(&shapes, ft_lstnew(sphere4));
+	ft_lstadd_back(&shapes, ft_lstnew(sphere5));
+	ft_lstadd_back(&shapes, ft_lstnew(plane));
+	return (shapes);
 }
 
 int	main(void)
 {
 	t_world	world;
-	t_image image;
+	// t_image image;
 
-	//todo parse check
+	//todo parse
+	//todo getnextline
+	//todo ft_spolit
+	//todo validation
 	world = tworld_init(window_width, window_height);
-	image = timage_init(world.mlx_ptr, world.screen_witdh, world.screen_height);
-	sphere(&world, &image);
-	// plane(&world, &image);
-	mlx_put_image_to_window(world.mlx_ptr, world.win_ptr, image.img_ptr, 0, 0);
+	world.img = timage_init(world.mlx_ptr, world.screen_witdh, world.screen_height);
+	world.shapes = NULL;//todo refactor
+	world.shapes = ADHOC_create_shape_list(world.shapes);//todo refactor
+	get_intersect_with_shape(&world, &world.img);
+	mlx_put_image_to_window(world.mlx_ptr, world.win_ptr, world.img.img_ptr, 0, 0);
 	mlx_loop(world.mlx_ptr);
 	return (EXIT_SUCCESS);
 }

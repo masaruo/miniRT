@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:59:21 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/12 14:16:27 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/19 15:25:37 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,12 @@ t_vec3	vec3_multiply(t_vec3 const *a, double scalar);
 
 double	vec3_dot(t_vec3 const *a, t_vec3 const *b);
 t_vec3	vec3_cross(t_vec3 const *a, t_vec3 const *b);
-double	vec3_lengthSq(t_vec3 const *a);
+double	vec3_square(t_vec3 const *a);
 double	vec3_length(t_vec3 const *a);
 t_vec3	vec3_normalize(t_vec3 const *a);
 void	vec3_print(t_vec3 const *a);
 t_vec3	vec3_copy(t_vec3 const *a);
+
+t_vec3	vec3_normalized_subtract(t_vec3 const *a, t_vec3 const *b);
 
 #endif

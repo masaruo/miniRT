@@ -6,12 +6,13 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:02:06 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/11 12:50:58 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/19 16:54:10 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_LIGHT_H
 #define T_LIGHT_H
+
 #include "t_color.h"
 #include "t_vec3.h"
 
@@ -19,14 +20,16 @@ typedef enum
 {
 	e_point,
 	e_directional,
-}	e_light_type;
+}	t_light_type;
 
 typedef struct s_light
 {
-	e_light_type	type;
-	t_vec3			vector;
-	t_color			color;
-	double			brightness;
+	t_light_type	type;
+	t_vec3			vector;//点光源の時は光源位置、面光源=光源の方向
+	t_color			color;//[RGB][0.0 - 1.0]
+	double			brightness;//[0.0 - 1.0]
 }	t_light;
+
+// t_light	light_at(t_vec3 const *position);
 
 #endif

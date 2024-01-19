@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/01/12 13:57:53 by mogawa           ###   ########.fr        #
+#    Updated: 2024/01/19 22:21:42 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,14 +21,15 @@ MLXDIR	:=	./mlx
 MLX		:=	$(MLXDIR)/libmlx_Darwin.a
 INCLUDE	:=	-I./include -I$(LIBFTDIR)/include -I$(MLXDIR)
 SRCS		:=	\
-			mlx_utils.c \
+			get_next_line.c get_next_line_utils.c \
+			math_utils.c \
+			phong.c \
+			t_color.c \
 			t_image.c \
+			t_ray.c \
+			t_shape.c \
 			t_world.c \
 			vec_utils.c \
-			t_color.c \
-			math_utils.c \
-			t_intersect.c \
-			t_ray.c \
 			minirt.c
 OBJS	:=	$(SRCS:%.c=$(OBJDIR)/%.o)
 DEPS	:=	$(OBJS:%.o=%.d)
@@ -53,10 +54,12 @@ $(NAME) : $(OBJS)
 	$(MAKE) -C $(MLXDIR)
 	$(CC) $(CFLAGS) $(LIBFT) $(MLX) $(LDFLAGS) $^ -o $@
 
-debug: fclean
+debug: 
+	$(RM) -r $(OBJDIR)
 	$(MAKE) WITH_DEBUG=1 all
 
-asan: fclean
+asan: 
+	$(RM) -r $(OBJDIR)
 	$(MAKE) WITH_ASAN=1 all
 
 clean:
