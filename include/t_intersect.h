@@ -6,12 +6,13 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:21:56 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/18 15:18:31 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/19 16:17:19 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_INTERSECT_H
 #define T_INTERSECT_H
+
 #include "t_vec3.h"
 #include "t_shape.h"
 #include "t_ray.h"

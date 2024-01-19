@@ -6,12 +6,13 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:02:06 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/18 14:53:04 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/19 16:54:10 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_LIGHT_H
 #define T_LIGHT_H
+
 #include "t_color.h"
 #include "t_vec3.h"
 
@@ -29,6 +30,6 @@ typedef struct s_light
 	double			brightness;//[0.0 - 1.0]
 }	t_light;
 
-t_light	light_at(t_vec3 const *position);
+// t_light	light_at(t_vec3 const *position);
 
 #endif

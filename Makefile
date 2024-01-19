@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/01/18 15:02:53 by mogawa           ###   ########.fr        #
+#    Updated: 2024/01/19 17:09:18 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,14 +22,13 @@ MLX		:=	$(MLXDIR)/libmlx_Darwin.a
 INCLUDE	:=	-I./include -I$(LIBFTDIR)/include -I$(MLXDIR)
 SRCS		:=	\
 			get_next_line.c get_next_line_utils.c \
-			mlx_utils.c \
-			t_image.c \
-			t_world.c \
-			vec_utils.c \
-			t_color.c \
 			math_utils.c \
+			t_color.c \
+			t_image.c \
 			t_ray.c \
 			t_shape.c \
+			t_world.c \
+			vec_utils.c \
 			minirt.c
 OBJS	:=	$(SRCS:%.c=$(OBJDIR)/%.o)
 DEPS	:=	$(OBJS:%.o=%.d)

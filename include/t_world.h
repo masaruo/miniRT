@@ -6,16 +6,16 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 15:40:05 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/16 15:44:12 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/19 17:13:32 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_WORLD_H
 #define T_WORLD_H
 
+# include "t_color.h"
 # include "t_image.h"
 # include "libft.h"
-# include "t_color.h"
 
 # define TITLE ("miniRT")
 

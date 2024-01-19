@@ -6,14 +6,15 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:39:35 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/18 16:34:00 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/19 17:02:46 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_SHAPE_H
 #define T_SHAPE_H
-#include "t_vec3.h"
+
 #include "t_color.h"
+#include "t_vec3.h"
 #include "t_intersect.h"
 #include "t_ray.h"
 

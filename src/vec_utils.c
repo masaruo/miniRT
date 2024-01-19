@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:07:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/18 09:40:09 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/19 15:27:17 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,14 @@ t_vec3	vec3_copy(t_vec3 const *a)
 	new.x = a->x;
 	new.y = a->y;
 	new.z = a->z;
+	return (new);
+}
+
+t_vec3	vec3_normalized_subtract(t_vec3 const *a, t_vec3 const *b)
+{
+	t_vec3	new;
+
+	new = vec3_subtract(a, b);
+	new = vec3_normalize(&new);
 	return (new);
 }

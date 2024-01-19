@@ -6,11 +6,11 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/18 16:36:56 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/19 16:50:16 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "t_vec3.h"
+#include "t_vec3.h"
 #include "t_world.h"
 #include "mlx.h"
 #include "t_color.h"
@@ -48,7 +48,6 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 
 			t_intersect isect;
 			isect.distance = __DBL_MAX__;
-			// isect.nearest_shape = NULL;
 			t_list *crnt;
 			crnt = world->shapes->next;
 			t_shape	*nearest_shape;
@@ -71,40 +70,55 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 			}
 			if (isect.distance < __DBL_MAX__)
 			{
-				t_vec3	lightDir = vec3_subtract(&light.vector, &isect.position);
-				lightDir = vec3_normalize(&lightDir);
-				//! ambient
-				double Ka = nearest_shape->material.ambient;
-				double Ia = 0.1;
-				double Ra = Ka * Ia;
-				//! diffuse
-				double Kd = nearest_shape->material.diffuse;
-				double Rd = 0;
-				double n_dot_l = vec3_dot(&isect.normal, &lightDir);
-				Rd = double_clamp(n_dot_l, 0, 1) * Kd;
-				//! specular
-				double Ks = nearest_shape->material.specular;
-				double Rs = 0;
-				double alpha = 8;
-				t_vec3 r = vec3_copy(&isect.normal);
-				r = vec3_multiply(&r, 2 * n_dot_l);
-				r = vec3_subtract(&r, &lightDir);
-				double v_dot_r = vec3_dot(&lightDir, &r);
-				Rs = Ks * pow(v_dot_r, alpha);
-				//! combine
-				if (n_dot_l < 0)
-				{
-					Rd = 0;
-				}
-				if (v_dot_r < 0)
-				{
-					Rs = 0;
-				}
-				double phong = Ra + Rd + Rs;
-				// int col = (int)(255 * phong);
-				// my_mlx_pixcel_put(image, x, y, get_hex_color(col, col, col));
-				// my_mlx_pixcel_put(image, x, y, tcolor_to_hex(tcolor_scalar_multiply(isect.nearest_shape->color, phong)));
-				my_mlx_pixcel_put(image, x, y, tcolor_to_hex(tcolor_scalar_multiply(nearest_shape->material.color, phong)));
+				// t_color	col = tcolor_set(0, 0, 0);
+				// t_color	ambient = nearest_shape->material.ambient;
+				// ambient = tcolor_scalar_multiply(ambient, 0.1);
+				// col = tcolor_add(col, ambient);
+				// t_vec3	lightDir = vec3_subtract(&light.vector, &isect.position);
+				// lightDir = vec3_normalize(&lightDir);
+				// //! ambient
+				// // double Ka = nearest_shape->material.ambient;
+				// // double Ia = 0.1;
+				// // double Ra = Ka * Ia;
+				// //! diffuse
+				// // double Kd = nearest_shape->material.diffuse;
+				// // double Rd = 0;
+				// double n_dot_l = vec3_dot(&isect.normal, &lightDir);
+				// // Rd = double_clamp(n_dot_l, 0, 1) * Kd;
+				// // n_dot_l = double_clamp(n_dot_l, 0, 1);
+				// t_color	diffuse = nearest_shape->material.diffuse;
+				// diffuse = tcolor_scalar_multiply(diffuse, double_clamp(n_dot_l, 0, 1));
+				// //! specular
+				// // double Ks = nearest_shape->material.specular;
+				// // double Rs = 0;
+				// // double alpha = 8;
+				// // t_vec3 r = vec3_copy(&isect.normal);
+				// t_vec3 r;//ライトを左から右に
+				// r = vec3_multiply(&isect.normal, 2 * n_dot_l);
+				// r = vec3_subtract(&r, &lightDir);
+				// t_vec3 v = vec3_multiply(&eyePos.direction, -1);
+				// double v_dot_r = vec3_dot();
+				// // Rs = Ks * pow(v_dot_r, alpha);
+				// t_color	specular;
+				// specular = nearest_shape->material.specular;
+				// tcolor_scalar_multiply(specular, double_clamp(pow(v_dot_r, nearest_shape->material.shininess), 0, 1));
+				// //! combine
+				// if (n_dot_l < 0)
+				// {
+				// 	// Rd = 0;
+				// 	tcolor_scalar_multiply(diffuse, 0);
+				// }
+				// if (v_dot_r < 0)
+				// {
+				// 	// Rs = 0;
+				// 	tcolor_scalar_multiply(specular, 0);
+				// }
+				// // double phong = Ra + Rd + Rs;
+				// col = tcolor_add(col, diffuse);
+				// col = tcolor_add(col, specular);
+				t_color col;
+				col = tcolor_calc_phong(nearest_shape, &isect, &light, &eyePos);
+				my_mlx_pixcel_put(image, x, y, tcolor_to_hex(col));
 			}
 			else
 			{

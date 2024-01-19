@@ -6,12 +6,13 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:57:18 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/18 11:03:27 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/19 16:17:34 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_RAY_H
 #define T_RAY_H
+
 #include "t_vec3.h"
 
 typedef struct s_ray
