@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/01/19 17:09:18 by mogawa           ###   ########.fr        #
+#    Updated: 2024/01/19 22:21:42 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ INCLUDE	:=	-I./include -I$(LIBFTDIR)/include -I$(MLXDIR)
 SRCS		:=	\
 			get_next_line.c get_next_line_utils.c \
 			math_utils.c \
+			phong.c \
 			t_color.c \
 			t_image.c \
 			t_ray.c \

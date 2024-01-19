@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/19 16:50:16 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/19 22:20:18 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include "t_intersect.h"
 #include "libft.h"
 #include <limits.h>
+#include "phong.h"
 
 #define window_width 512
 #define window_height 512
