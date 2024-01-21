@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 08:22:03 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/19 22:19:36 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/20 16:49:59 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "math_utils.h"
 #include "t_color.h"
 
-static t_color	tcolor_clamp(t_color color)
+t_color	tcolor_clamp(t_color color)
 {
 	t_color	new;
 

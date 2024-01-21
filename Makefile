@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/01/19 22:21:42 by mogawa           ###   ########.fr        #
+#    Updated: 2024/01/20 16:21:16 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS		:=	\
 			phong.c \
 			t_color.c \
 			t_image.c \
+			t_list.c \
 			t_ray.c \
 			t_shape.c \
 			t_world.c \

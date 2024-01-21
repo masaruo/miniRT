@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/19 22:34:32 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/21 14:44:06 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include "libft.h"
 #include <limits.h>
 #include "phong.h"
+#include "t_list.h"
 
 #define window_width 512
 #define window_height 512
@@ -32,10 +33,8 @@
 void	get_intersect_with_shape(t_world const *world, t_image const *image)
 {
 	t_ray			eyePos;
-	t_light			light;
-	light.type = e_point;
-	light.vector = vec3_init(-5, 5, -5);
 	t_vec3			pw;//スクリーン上の点
+	t_list *crnt;
 
 	pw.z = 0;
 	for (double y = 0; y < window_height; y++)
@@ -49,7 +48,6 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 
 			t_intersect isect;
 			isect.distance = __DBL_MAX__;
-			t_list *crnt;
 			crnt = world->shapes->next;
 			t_shape	*nearest_shape;
 			while (crnt)
@@ -72,7 +70,8 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 			if (isect.distance < __DBL_MAX__)
 			{
 				t_color col;
-				col = tcolor_calc_phong(nearest_shape, &isect, &light, &eyePos);
+				col = tcolor_calc_phong(nearest_shape, world->lights, &isect, &eyePos);
+				// tcolor_clamp(col);
 				my_mlx_pixcel_put(image, x, y, tcolor_to_hex(col));
 			}
 			else
@@ -83,8 +82,11 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 	}
 }
 
-t_list	*ADHOC_create_shape_list(t_list *shapes)//todo delete
+t_list	*ADHOC_create_shape_list(void)//todo delete
 {
+	t_list	*shapes;
+
+	shapes = ft_calloc(1, sizeof(t_list *));
 	t_shape			*sphere1;
 	sphere1 = ft_calloc(1, sizeof(t_shape));
 	sphere1->type = sphere_type;
@@ -118,7 +120,6 @@ t_list	*ADHOC_create_shape_list(t_list *shapes)//todo delete
 	sphere3->material.specular = tcolor_set(0.30, 0.30, 0.30);
 	sphere3->material.shininess = 8;
 
-	
 	t_shape			*sphere4;
 	sphere4 = ft_calloc(1, sizeof(t_shape));
 	sphere4->type = sphere_type;
@@ -152,7 +153,7 @@ t_list	*ADHOC_create_shape_list(t_list *shapes)//todo delete
 	plane->material.specular = tcolor_set(0.30, 0.30, 0.30);
 	plane->material.shininess = 8;
 
-	ft_lstadd_back(&shapes, ft_lstnew(NULL));
+	shapes = ft_lstnew(NULL);
 	ft_lstadd_back(&shapes, ft_lstnew(sphere1));
 	ft_lstadd_back(&shapes, ft_lstnew(sphere2));
 	ft_lstadd_back(&shapes, ft_lstnew(sphere3));
@@ -161,10 +162,42 @@ t_list	*ADHOC_create_shape_list(t_list *shapes)//todo delete
 	ft_lstadd_back(&shapes, ft_lstnew(plane));
 	return (shapes);
 }
+t_list	*ADHOC_create_lights_list(void)
+{
+	t_list	*lights;
+
+	lights = ft_calloc(1, sizeof(t_list *));
+	t_light	*light1;
+	light1 = ft_calloc(1, sizeof(t_light));
+	light1->type = e_directional;
+	light1->vector = vec3_init(-5, 5, -5);
+	light1->brightness = tcolor_set(0.5, 0.5, 0.5);
+	//todo color light1->color = 
+
+	t_light	*light2;
+	light2 = ft_calloc(1, sizeof(t_light));
+	light2->type = e_directional;
+	light2->vector = vec3_init(5, 0, -5);
+	light2->brightness = tcolor_set(0.5, 0.5, 0.5);
+
+	t_light	*light3;
+	light3 = ft_calloc(1, sizeof(t_light));
+	light3->type = e_directional;
+	light3->vector = vec3_init(5, 20, -5);
+	light3->brightness = tcolor_set(0.5, 0.5, 0.5);
+
+	lights = ft_lstnew(NULL);
+	ft_lstadd_back(&lights, ft_lstnew(light1));
+	ft_lstadd_back(&lights, ft_lstnew(light2));
+	ft_lstadd_back(&lights, ft_lstnew(light3));
+	return (lights);
+}
 
 int	main(void)
 {
 	t_world	world;
+	t_list	*shapes;
+	t_list	*lights;
 	// t_image image;
 
 	//todo parse
@@ -173,8 +206,11 @@ int	main(void)
 	//todo validation
 	world = tworld_init(window_width, window_height);
 	world.img = timage_init(world.mlx_ptr, world.screen_witdh, world.screen_height);
-	world.shapes = NULL;//todo refactor
-	world.shapes = ADHOC_create_shape_list(world.shapes);//todo refactor
+	shapes = ADHOC_create_shape_list();//todo refactor
+	// print_tshape(shapes);
+	lights = ADHOC_create_lights_list();//todo refactor
+	world.shapes = shapes;
+	world.lights = lights;
 	get_intersect_with_shape(&world, &world.img);
 	mlx_put_image_to_window(world.mlx_ptr, world.win_ptr, world.img.img_ptr, 0, 0);
 	mlx_loop(world.mlx_ptr);

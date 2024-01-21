@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   phong.h                                            :+:      :+:    :+:   */
+/*   t_list.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/19 22:17:12 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/20 15:01:48 by mogawa           ###   ########.fr       */
+/*   Created: 2024/01/20 16:20:27 by mogawa            #+#    #+#             */
+/*   Updated: 2024/01/20 16:44:47 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHONG_H
-#define PHONG_H
+#ifndef T_LIST_H
+#define T_LIST_H
 
-#include "t_shape.h"
-#include "t_color.h"
-#include "t_intersect.h"
-#include "t_ray.h"
-#include "t_light.h"
+#include "libft.h"
 
-t_color	tcolor_calc_phong(t_shape const *nearest, t_list const *light, t_intersect const *intersect, t_ray const *eye);
+void	print_tshape(t_list *head);
+void	print_tlight(t_list *head);
 
 #endif
