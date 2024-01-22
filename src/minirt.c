@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/21 14:44:06 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/22 16:11:05 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 {
 	t_ray			eyePos;
 	t_vec3			pw;//スクリーン上の点
-	t_list *crnt;
+	t_shape			nearest_shape;
 
 	pw.z = 0;
 	for (double y = 0; y < window_height; y++)
@@ -48,30 +48,31 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 
 			t_intersect isect;
 			isect.distance = __DBL_MAX__;
-			crnt = world->shapes->next;
-			t_shape	*nearest_shape;
-			while (crnt)
-			{
-				t_shape	*shape;
-				shape = crnt->content;
-				int res;
-				t_intersect	crnt_intersect;
-				res = test_intersection(shape, &eyePos, &crnt_intersect);
-				if (res == HAS_INTERSECTION)
-				{
-					if (crnt_intersect.distance < isect.distance)
-					{
-						isect = crnt_intersect;
-						nearest_shape = shape;
-					}
-				}
-				crnt = crnt->next;
-			}
-			if (isect.distance < __DBL_MAX__)
+			
+			// crnt = world->shapes->next;
+			// t_shape	*nearest_shape;
+			// while (crnt)
+			// {
+				// t_shape	*shape;
+				// shape = crnt->content;
+				// int res;
+				// t_intersect	crnt_intersect;
+				// res = test_intersection(shape, &eyePos, &crnt_intersect);
+				// if (res == HAS_INTERSECTION)
+				// {
+				// 	if (crnt_intersect.distance < isect.distance)
+				// 	{
+				// 		isect = crnt_intersect;
+				// 		nearest_shape = shape;
+				// 	}
+				// }
+				// crnt = crnt->next;
+			// }
+			// if (isect.distance < __DBL_MAX__)
+			if (test_all_intersection(world->shapes, &eyePos, &isect, &nearest_shape) == true)
 			{
 				t_color col;
-				col = tcolor_calc_phong(nearest_shape, world->lights, &isect, &eyePos);
-				// tcolor_clamp(col);
+				col = tcolor_calc_phong(&nearest_shape, world->lights, &isect, &eyePos);
 				my_mlx_pixcel_put(image, x, y, tcolor_to_hex(col));
 			}
 			else
