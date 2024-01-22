@@ -6,13 +6,14 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 22:17:28 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/21 15:07:17 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/22 18:16:23 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "phong.h"
 #include "math_utils.h"
 #include <math.h>
+#include "shadow.h"
 
 static t_color	_get_ambient_effect(t_shape const *nearest)
 {
@@ -25,7 +26,7 @@ static t_color	_get_ambient_effect(t_shape const *nearest)
 	return (ans);
 }
 
-static t_color	_get_diffuse_effect(t_shape const *nearest, t_list const *lights, t_intersect const *intersect)
+static t_color	_get_diffuse_effect(t_shape const *nearest, t_list const *lights, t_intersect const *intersect, t_list const *shapes)
 {
 	t_color	const diffuse = nearest->material.diffuse;
 	t_list	*crnt;
@@ -34,6 +35,7 @@ static t_color	_get_diffuse_effect(t_shape const *nearest, t_list const *lights,
 	double	n_dot_l;
 	t_color	tmp;
 	t_color ans;
+	t_ray	shadow;
 
 	ans = tcolor_set(0, 0, 0);
 	crnt = lights->next;
@@ -41,6 +43,14 @@ static t_color	_get_diffuse_effect(t_shape const *nearest, t_list const *lights,
 	{
 		light = crnt->content;
 		l = vec3_normalized_subtract(&light->vector, &intersect->position);
+		// shadow = get_shadow_ray(intersect, light);
+		// int has_object;
+		// has_object = test_shadow(shapes, &shadow, intersect, nearest, shadow.light_distance);
+		// if (has_object == HAS_INTERSECTION)
+		// {
+		// 	crnt = crnt->next;
+		// 	continue ;
+		// }
 		n_dot_l = vec3_dot(&intersect->normal, &l);
 		if (n_dot_l > 0)
 		{
@@ -54,7 +64,7 @@ static t_color	_get_diffuse_effect(t_shape const *nearest, t_list const *lights,
 	return (ans);
 }
 
-static t_color	_get_specular_effect(t_shape const *nearest, t_list const *lights, t_intersect const *intersect, t_ray const *eye)
+static t_color	_get_specular_effect(t_shape const *nearest, t_list const *lights, t_intersect const *intersect, t_ray const *eye, t_list const *shapes)
 {
 	t_color			specular;
 	double const	alpha = nearest->material.shininess;
@@ -67,6 +77,7 @@ static t_color	_get_specular_effect(t_shape const *nearest, t_list const *lights
 	double			v_dot_r;
 	t_color			ans;
 	t_color			tmp;
+	t_ray			shadow;
 
 	ans = tcolor_set(0, 0, 0);
 	specular = nearest->material.specular;
@@ -75,6 +86,14 @@ static t_color	_get_specular_effect(t_shape const *nearest, t_list const *lights
 	{
 		light = crnt->content;
 		l = vec3_normalized_subtract(&light->vector, &intersect->position);
+		// shadow = get_shadow_ray(intersect, light);
+		// int has_object;
+		// has_object = test_shadow(shapes, &shadow, intersect, nearest, shadow.light_distance);
+		// if (has_object == HAS_INTERSECTION)
+		// {
+		// 	crnt = crnt->next;
+		// 	continue ;
+		// }
 		n_dot_l = vec3_dot(&intersect->normal, &l);
 		if (n_dot_l > 0)
 		{
@@ -95,13 +114,14 @@ static t_color	_get_specular_effect(t_shape const *nearest, t_list const *lights
 	return (ans);
 }
 
-t_color	tcolor_calc_phong(t_shape const *nearest, t_list const *light, t_intersect const *intersect, t_ray const *eye)
+t_color	tcolor_calc_phong(t_shape const *nearest, t_list const *light, t_intersect const *intersect, t_ray const *eye, t_list const *shapes)
 {
 	t_color			phong;
+	t_list			*crnt;
 
 	phong = tcolor_set(0, 0, 0);
 	phong = tcolor_add(phong, _get_ambient_effect(nearest));
-	phong = tcolor_add(phong, _get_diffuse_effect(nearest, light, intersect));
-	phong = tcolor_add(phong, _get_specular_effect(nearest, light, intersect, eye));
+	phong = tcolor_add(phong, _get_diffuse_effect(nearest, light, intersect, shapes));
+	phong = tcolor_add(phong, _get_specular_effect(nearest, light, intersect, eye, shapes));
 	return (phong);
 }

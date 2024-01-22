@@ -6,13 +6,14 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:31:04 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/22 16:19:20 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/22 18:11:21 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_shape.h"
 #include "math.h"
 #include "math_utils.h"
+#include "shadow.h"
 
 // ２関数tの解を、判別式を用いて計算
 static	double	calculate_t_distance(double d, double b, double a)
@@ -132,4 +133,16 @@ int	test_all_intersection(t_list const * const shapes, t_ray const *ray, t_inter
 		crnt = crnt->next;
 	}
 	return (has_intersection);
+}
+
+int	test_shadow(t_list const * const shapes, t_ray const *ray, t_intersect *out_intersect, t_shape *out_nearest_shape, double max_distance)
+{
+	test_all_intersection(shapes, ray, out_intersect, out_nearest_shape);
+	if (out_intersect->distance >= max_distance)
+	{
+		return (NO_INTERSECTION);
+	}
+	else if (out_intersect->has_intersection == false)
+		return (NO_INTERSECTION);
+	return (HAS_INTERSECTION);
 }
