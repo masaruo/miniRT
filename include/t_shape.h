@@ -6,22 +6,29 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:39:35 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/16 14:38:00 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/19 17:02:46 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_SHAPE_H
 #define T_SHAPE_H
-#include "t_vec3.h"
+
 #include "t_color.h"
+#include "t_vec3.h"
+#include "t_intersect.h"
+#include "t_ray.h"
+
+#define NO_INTERSECTION (0)
+#define HAS_INTERSECTION (1)
 
 // マテリアル構造体
 typedef struct s_material
 {
-	double	ambient;
-	double	diffuse;
-	double	specular;
 	t_color	color;
+	t_color	ambient;//! 定数になるはずだから、いらないかも
+	t_color	diffuse;
+	t_color	specular;
+	double	shininess;
 }	t_material;
 
 typedef struct s_sphere
@@ -36,25 +43,24 @@ typedef struct s_plane
 	t_vec3	normal;
 }	t_plane;
 
-typedef enum
+typedef enum t_shape_type
 {
-	e_sphere,
-	e_plane,
-}	e_shape_type;
+	sphere_type,
+	plane_type,
+}	t_shape_type;
 
 typedef struct s_shape
 {
-	e_shape_type	type;
+	t_shape_type	type;
 	union
 	{
 		t_plane		plane;
 		t_sphere	sphere;
 	}	u_data;
-	t_material	material;
-	t_color		color;
+	t_material		material;
+	// t_color			color;
 }	t_shape;
 
-
-// t_sphere t_sphere_init(t_vec3 const *center, double in_r);
+int		test_intersection(t_shape const *shape, t_ray const *ray, t_intersect *out_intersect);
 
 #endif

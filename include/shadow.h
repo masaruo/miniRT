@@ -1,17 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_list_utils.h                                     :+:      :+:    :+:   */
+/*   shadow.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/12 14:32:18 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/16 12:55:26 by mogawa           ###   ########.fr       */
+/*   Created: 2024/01/21 17:42:53 by mogawa            #+#    #+#             */
+/*   Updated: 2024/01/21 17:56:22 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef T_LIST_UTILS_H
-#define T_LIST_UTILS_H
-#include "libft.h"
+#ifndef SHADOW_H
+#define SHADOW_H
+
+#include "t_ray.h"
+#include "t_intersect.h"
+#include "t_light.h"
+
+#define EPSILON (1.0f / 512)
 
 #endif
