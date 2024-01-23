@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:20:26 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/20 16:44:36 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/22 15:23:42 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	print_tshape(t_list *head)
 		{
 			t_sphere sphere;
 			sphere = shape->u_data.sphere;
-			printf("sphere's center [%lf], r [%lf]\n", sphere.center, sphere.r);
+			printf("sphere's r [%lf]\n", sphere.r);
 		}
 		else if (shape->type == plane_type)
 		{

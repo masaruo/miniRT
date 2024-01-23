@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/01/20 16:21:16 by mogawa           ###   ########.fr        #
+#    Updated: 2024/01/23 10:44:26 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,10 @@ SRCS		:=	\
 			get_next_line.c get_next_line_utils.c \
 			math_utils.c \
 			phong.c \
+			shadow.c \
 			t_color.c \
 			t_image.c \
+			t_intersect.c \
 			t_list.c \
 			t_ray.c \
 			t_shape.c \
