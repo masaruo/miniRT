@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:39:35 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/23 09:56:49 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/23 11:30:56 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "t_intersect.h"
 #include "t_ray.h"
 #include "t_material.h"
+#include "t_light.h"
 
 #define NO_INTERSECTION (0)
 #define HAS_INTERSECTION (1)
@@ -54,7 +55,7 @@ typedef struct s_shape
 
 int		test_intersection(t_shape const *shape, t_ray const *ray, t_intersect *out_intersect);
 #include "libft.h"
-int	test_shadow(t_list const * const shapes, t_ray const *ray, t_intersect *out_intersect, t_shape *out_nearest_shape, double max_distance);
 int	test_all_intersection(t_list const * const shapes, t_ray const *ray, t_intersect *out_intersect);
+int	test_shadow_intersection(t_list const * const shapes, t_light const *light, t_intersect const *intersect);
 
 #endif

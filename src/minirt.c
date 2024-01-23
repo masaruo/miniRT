@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/23 09:55:56 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/23 11:32:20 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 			if (test_all_intersection(world->shapes, &eye_ray, &intersection) == true)
 			{
 				t_color col;
-				col = tcolor_calc_phong(world->lights, &intersection, &eye_ray);
+				col = tcolor_calc_phong(world->lights, &intersection, &eye_ray, world->shapes);
 				my_mlx_pixcel_put(image, x, y, tcolor_to_hex(col));
 			}
 			else

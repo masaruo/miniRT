@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:31:04 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/23 09:57:35 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/23 11:31:51 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,9 +126,6 @@ int	test_all_intersection(t_list const * const shapes, t_ray const *ray, t_inter
 				out_intersect->has_intersection = true;
 				out_intersect->material = shape->material;
 				has_intersection = true;
-				// out_nearest_shape->material = shape->material;
-				// out_nearest_shape->type = shape->type;
-				// out_nearest_shape->u_data = shape->u_data;
 			}
 		}
 		crnt = crnt->next;
@@ -136,14 +133,33 @@ int	test_all_intersection(t_list const * const shapes, t_ray const *ray, t_inter
 	return (has_intersection);
 }
 
-int	test_shadow(t_list const * const shapes, t_ray const *ray, t_intersect *out_intersect, t_shape *out_nearest_shape, double max_distance)
+int	test_shadow_intersection(t_list const * const shapes, t_light const *light, t_intersect const *intersect)
 {
-	test_all_intersection(shapes, ray, out_intersect);
-	if (out_intersect->distance >= max_distance)
+	t_vec3	vector_light;
+	t_ray	shadow_ray;
+	t_list	*crnt;
+	t_shape	*shape;
+	t_intersect shadow_intersect;
+
+	vector_light = vec3_subtract(&light->vector, &intersect->position);
+	double	light_distance = vec3_length(&vector_light);
+	double	light_distance_minus_epsilon = light_distance - EPSILON;
+
+	shadow_ray.direction = vec3_normalize(&vector_light);
+	t_vec3	tmp;
+	tmp = vec3_multiply(&shadow_ray.direction, EPSILON);
+	shadow_ray.start = vec3_add(&intersect->position, &tmp);
+
+	crnt = shapes->next;
+	while (crnt)
 	{
-		return (NO_INTERSECTION);
+		shape = crnt->content;
+		if (test_intersection(shape, &shadow_ray, &shadow_intersect) == HAS_INTERSECTION)
+		{
+			if (shadow_intersect.distance < light_distance_minus_epsilon)
+				return (HAS_INTERSECTION);
+		}
+		crnt = crnt->next;
 	}
-	else if (out_intersect->has_intersection == false)
-		return (NO_INTERSECTION);
-	return (HAS_INTERSECTION);
+	return (NO_INTERSECTION);
 }
