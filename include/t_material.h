@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   phong.h                                            :+:      :+:    :+:   */
+/*   t_material.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/19 22:17:12 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/23 09:52:18 by mogawa           ###   ########.fr       */
+/*   Created: 2024/01/23 09:42:59 by mogawa            #+#    #+#             */
+/*   Updated: 2024/01/23 09:43:35 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHONG_H
-#define PHONG_H
+#ifndef T_MATERIAL_H
+#define T_MATERIAL_H
 
-#include "t_shape.h"
 #include "t_color.h"
-#include "t_intersect.h"
-#include "t_ray.h"
-#include "t_light.h"
 
-t_color	tcolor_calc_phong(t_list const *light, t_intersect const *intersect, t_ray const *eye);
+// マテリアル構造体
+typedef struct s_material
+{
+	t_color	color;
+	t_color	ambient;//! 定数になるはずだから、いらないかも
+	t_color	diffuse;
+	t_color	specular;
+	double	shininess;
+}	t_material;
 
 #endif

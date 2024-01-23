@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 22:17:28 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/22 18:16:23 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/23 09:55:25 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 #include <math.h>
 #include "shadow.h"
 
-static t_color	_get_ambient_effect(t_shape const *nearest)
+static t_color	_get_ambient_effect(t_intersect const *intersect)
 {
-	t_color	const	ambient = nearest->material.ambient;
+	t_color	const	ambient = intersect->material.ambient;
 	t_color			ans;
 	t_color			temp_brightness = tcolor_set(0.5, 0.5, 0.5);
 
@@ -26,9 +26,9 @@ static t_color	_get_ambient_effect(t_shape const *nearest)
 	return (ans);
 }
 
-static t_color	_get_diffuse_effect(t_shape const *nearest, t_list const *lights, t_intersect const *intersect, t_list const *shapes)
+static t_color	_get_diffuse_effect(t_list const *lights, t_intersect const *intersect)
 {
-	t_color	const diffuse = nearest->material.diffuse;
+	t_color	const diffuse = intersect->material.diffuse;
 	t_list	*crnt;
 	t_light	*light;
 	t_vec3	l;
@@ -64,10 +64,10 @@ static t_color	_get_diffuse_effect(t_shape const *nearest, t_list const *lights,
 	return (ans);
 }
 
-static t_color	_get_specular_effect(t_shape const *nearest, t_list const *lights, t_intersect const *intersect, t_ray const *eye, t_list const *shapes)
+static t_color	_get_specular_effect(t_list const *lights, t_intersect const *intersect, t_ray const *eye)
 {
 	t_color			specular;
-	double const	alpha = nearest->material.shininess;
+	double const	alpha = intersect->material.shininess;
 	t_list			*crnt;
 	t_light			*light;
 	t_vec3			l;
@@ -80,7 +80,7 @@ static t_color	_get_specular_effect(t_shape const *nearest, t_list const *lights
 	t_ray			shadow;
 
 	ans = tcolor_set(0, 0, 0);
-	specular = nearest->material.specular;
+	specular = intersect->material.specular;
 	crnt = lights->next;
 	while (crnt)
 	{
@@ -114,14 +114,14 @@ static t_color	_get_specular_effect(t_shape const *nearest, t_list const *lights
 	return (ans);
 }
 
-t_color	tcolor_calc_phong(t_shape const *nearest, t_list const *light, t_intersect const *intersect, t_ray const *eye, t_list const *shapes)
+t_color	tcolor_calc_phong(t_list const *light, t_intersect const *intersect, t_ray const *eye)
 {
 	t_color			phong;
 	t_list			*crnt;
 
 	phong = tcolor_set(0, 0, 0);
-	phong = tcolor_add(phong, _get_ambient_effect(nearest));
-	phong = tcolor_add(phong, _get_diffuse_effect(nearest, light, intersect, shapes));
-	phong = tcolor_add(phong, _get_specular_effect(nearest, light, intersect, eye, shapes));
+	phong = tcolor_add(phong, _get_ambient_effect(intersect));
+	phong = tcolor_add(phong, _get_diffuse_effect(light, intersect));
+	phong = tcolor_add(phong, _get_specular_effect(light, intersect, eye));
 	return (phong);
 }

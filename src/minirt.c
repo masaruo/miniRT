@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/22 17:18:56 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/23 09:55:56 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,8 @@
 
 void	get_intersect_with_shape(t_world const *world, t_image const *image)
 {
-	t_ray			eyePos;
+	t_ray			eye_ray;
 	t_vec3			pw;//スクリーン上の点
-	t_shape			nearest_shape;
 
 	pw.z = 0;
 	for (double y = 0; y < window_height; y++)
@@ -44,14 +43,14 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 		{
 			pw.x = 2 * x / (window_width - 1) - 1;
 			t_vec3	tmp = vec3_init(0, 0, -5);
-			eyePos = t_ray_create_ray(&tmp, &pw);
+			eye_ray = t_ray_create_ray(&tmp, &pw);
 
 			t_intersect intersection;
 			intersection.distance = __DBL_MAX__;
-			if (test_all_intersection(world->shapes, &eyePos, &intersection, &nearest_shape) == true)
+			if (test_all_intersection(world->shapes, &eye_ray, &intersection) == true)
 			{
 				t_color col;
-				col = tcolor_calc_phong(&nearest_shape, world->lights, &intersection, &eyePos, world->shapes);
+				col = tcolor_calc_phong(world->lights, &intersection, &eye_ray);
 				my_mlx_pixcel_put(image, x, y, tcolor_to_hex(col));
 			}
 			else

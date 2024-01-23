@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:31:04 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/22 18:11:21 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/23 09:57:35 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	test_intersection(t_shape const *shape, t_ray const *ray, t_intersect *out_i
 	}
 }
 
-int	test_all_intersection(t_list const * const shapes, t_ray const *ray, t_intersect *out_intersect, t_shape *out_nearest_shape)
+int	test_all_intersection(t_list const * const shapes, t_ray const *ray, t_intersect *out_intersect)
 {
 	t_list		*crnt;
 	t_shape		*shape;
@@ -124,10 +124,11 @@ int	test_all_intersection(t_list const * const shapes, t_ray const *ray, t_inter
 				out_intersect->normal = crnt_intersect.normal;
 				out_intersect->position = crnt_intersect.position;
 				out_intersect->has_intersection = true;
+				out_intersect->material = shape->material;
 				has_intersection = true;
-				out_nearest_shape->material = shape->material;
-				out_nearest_shape->type = shape->type;
-				out_nearest_shape->u_data = shape->u_data;
+				// out_nearest_shape->material = shape->material;
+				// out_nearest_shape->type = shape->type;
+				// out_nearest_shape->u_data = shape->u_data;
 			}
 		}
 		crnt = crnt->next;
@@ -137,7 +138,7 @@ int	test_all_intersection(t_list const * const shapes, t_ray const *ray, t_inter
 
 int	test_shadow(t_list const * const shapes, t_ray const *ray, t_intersect *out_intersect, t_shape *out_nearest_shape, double max_distance)
 {
-	test_all_intersection(shapes, ray, out_intersect, out_nearest_shape);
+	test_all_intersection(shapes, ray, out_intersect);
 	if (out_intersect->distance >= max_distance)
 	{
 		return (NO_INTERSECTION);
