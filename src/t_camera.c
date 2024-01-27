@@ -1,21 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   math_utils.h                                       :+:      :+:    :+:   */
+/*   t_camera.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 20:05:28 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/25 09:33:36 by mogawa           ###   ########.fr       */
+/*   Created: 2024/01/26 14:03:56 by mogawa            #+#    #+#             */
+/*   Updated: 2024/01/26 15:23:49 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MATH_UTILS_H
-#define MATH_UTILS_H
+#include "t_camera.h"
 
-double	double_min(double a, double b);
-double	double_max(double a, double b);
-double	double_clamp(double num, double min, double max);
-double	convert_degree_to_radian(double degree);
-
-#endif

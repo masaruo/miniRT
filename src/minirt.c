@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/23 11:32:20 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/27 09:54:25 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,66 @@
 #include "phong.h"
 #include "t_list.h"
 
-#define window_width 512
+#define window_width 700
 #define window_height 512
+
+t_vec3	cameraTransform(t_vec3 *point, t_vec3 *cameraPos, t_vec3 *cameraTarget, t_vec3 *worldUp)
+{
+	// t_vec3	cameraDirection = vec3_normalized_subtract(cameraTarget, cameraPos);
+	t_vec3	cameraRight = vec3_cross(worldUp, cameraTarget);
+	cameraRight = vec3_normalize(&cameraRight);
+	t_vec3	cameraUp = vec3_cross(cameraTarget, &cameraRight);
+
+	t_vec3 pointInCameraCoord;
+	t_vec3 cameraToPoint = vec3_subtract(point, cameraPos);
+	pointInCameraCoord.x = vec3_dot(&cameraToPoint, &cameraRight);
+	pointInCameraCoord.y = vec3_dot(&cameraToPoint, &cameraUp);
+	pointInCameraCoord.z = vec3_dot(&cameraToPoint, &cameraTarget);
+	return (pointInCameraCoord);
+}
+
+double	get_x_in_screen(double x_in_loop, double width, double height)
+{
+	double const	aspect_ratio = (width / height);
+	double const	ndc_x = (x_in_loop + 0.5) / width;//todo define 0.5
+	double const	screen_x = (2 * ndc_x) - 1;
+	double const	aspect_adjust_x = (screen_x * aspect_ratio);
+
+	return (aspect_adjust_x);
+}
+
+double	get_y_in_screen(double y_in_loop, double height)
+{
+	double const	ndc_y = (y_in_loop + 0.5) / height;//todo define 0.5
+	double const	screen_y = 1 - (2 * ndc_y);
+	return (screen_y);
+}
 
 void	get_intersect_with_shape(t_world const *world, t_image const *image)
 {
 	t_ray			eye_ray;
 	t_vec3			pw;//スクリーン上の点
+	t_vec3			cameraPos = vec3_init(0, 0, -5);
+	t_vec3			worldUp = vec3_init(0, 1, 0);
+	t_vec3			cameraTarget = vec3_init(0, 0, 1.0);
 
+	// eye_ray.start = vec3_init(-50, 0, 20);
 	pw.z = 0;
 	for (double y = 0; y < window_height; y++)
 	{
-		pw.y = -2 * y / (window_height - 1) + 1;
+		// pw.y = -2 * y / (window_height - 1) + 1;
+		pw.y = get_y_in_screen(y, window_height);
 		for (double x = 0; x < window_width; x++)
 		{
-			pw.x = 2 * x / (window_width - 1) - 1;
-			t_vec3	tmp = vec3_init(0, 0, -5);
-			eye_ray = t_ray_create_ray(&tmp, &pw);
+			// pw.x = 2 * x / (window_width - 1) - 1;
+			pw.x = get_x_in_screen(x, window_width, window_height);
+			// t_vec3	tmp = vec3_init(0, 0, -5);
+			// eye_ray = t_ray_create_ray(&tmp, &pw);
+			t_vec3 pwTransformed = cameraTransform(&pw, &cameraPos, &cameraTarget, &worldUp);
+			eye_ray = t_ray_create_ray(&cameraPos, &pwTransformed);
+		//! change
+			
+
 
 			t_intersect intersection;
 			intersection.distance = __DBL_MAX__;
