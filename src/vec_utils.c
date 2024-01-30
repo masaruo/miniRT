@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:07:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/19 15:27:17 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/29 14:32:01 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ t_vec3	vec3_normalize(t_vec3 const *a)
 {
 	double const	length = vec3_length(a);
 
+	if (length <= 0)
+		return (vec3_init(0, 0, 0));//! error handle
 	return (vec3_init(a->x / length, a->y / length, a->z / length));
 }
 

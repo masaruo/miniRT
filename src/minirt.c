@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/27 10:30:46 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/30 10:19:12 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,25 @@
 #include <limits.h>
 #include "phong.h"
 #include "t_list.h"
+#include "t_matrix.h"
 
-#define window_width 1000
+#define window_width 512
 #define window_height 512
 
-t_vec3	cameraTransform(t_vec3 *point, t_vec3 *cameraPos, t_vec3 *cameraTarget, t_vec3 *worldUp)
-{
-	// t_vec3	cameraDirection = vec3_normalized_subtract(cameraTarget, cameraPos);
-	t_vec3	cameraRight = vec3_cross(worldUp, cameraTarget);
-	cameraRight = vec3_normalize(&cameraRight);
-	t_vec3	cameraUp = vec3_cross(cameraTarget, &cameraRight);
+// t_vec3	cameraTransform(t_vec3 *point, t_vec3 *cameraPos, t_vec3 *cameraTarget, t_vec3 *worldUp)
+// {
+// 	// t_vec3	cameraDirection = vec3_normalized_subtract(cameraTarget, cameraPos);
+// 	t_vec3	cameraRight = vec3_cross(worldUp, cameraTarget);
+// 	cameraRight = vec3_normalize(&cameraRight);
+// 	t_vec3	cameraUp = vec3_cross(cameraTarget, &cameraRight);
 
-	t_vec3 pointInCameraCoord;
-	t_vec3 cameraToPoint = vec3_subtract(point, cameraPos);
-	pointInCameraCoord.x = vec3_dot(&cameraToPoint, &cameraRight);
-	pointInCameraCoord.y = vec3_dot(&cameraToPoint, &cameraUp);
-	pointInCameraCoord.z = vec3_dot(&cameraToPoint, &cameraTarget);
-	return (pointInCameraCoord);
-}
+// 	t_vec3 pointInCameraCoord;
+// 	t_vec3 cameraToPoint = vec3_subtract(point, cameraPos);
+// 	pointInCameraCoord.x = vec3_dot(&cameraToPoint, &cameraRight);
+// 	pointInCameraCoord.y = vec3_dot(&cameraToPoint, &cameraUp);
+// 	pointInCameraCoord.z = vec3_dot(&cameraToPoint, &cameraTarget);
+// 	return (pointInCameraCoord);
+// }
 
 double	get_x_in_camera(double x_in_loop, double width, double height, double fov)
 {
@@ -67,30 +68,57 @@ double	get_y_in_camera(double y_in_loop, double height, double fov)
 
 void	get_intersect_with_shape(t_world const *world, t_image const *image)
 {
-	t_ray			eye_ray;
-	t_vec3			screen_coord;//スクリーン上の点
-	t_vec3			cameraPos = vec3_init(0, 0, -5);
+	// t_vec3			screen_coord;//スクリーン上の点
+	// t_vec3			cameraPos = vec3_init(0, 0, -5);
 	t_vec3			worldUp = vec3_init(0, 1, 0);
 	t_vec3			cameraTarget = vec3_init(0, 0, 1.0);
-	double			fov = 30;
+	double			fov = 60;//!
 
 	// eye_ray.start = vec3_init(-50, 0, 20);
-	screen_coord.z = 1;
+	t_vec3 pw;
+	pw.z = -1;
+	// screen_coord.z = -1;
 	for (double y = 0; y < window_height; y++)
 	{
-		// pw.y = -2 * y / (window_height - 1) + 1;
-		screen_coord.y = get_y_in_camera(y, window_height, fov);
+		pw.y = -2 * y / (window_height - 1) + 1;
+		// screen_coord.y = get_y_in_camera(y, window_height, fov);
 		for (double x = 0; x < window_width; x++)
 		{
-			// pw.x = 2 * x / (window_width - 1) - 1;
-			screen_coord.x = get_x_in_camera(x, window_width, window_height, fov);
+			pw.x = 2 * x / (window_width - 1) - 1;
+			// screen_coord.x = get_x_in_camera(x, window_width, window_height, fov);
 			// t_vec3	tmp = vec3_init(0, 0, -5);
-			// eye_ray = t_ray_create_ray(&tmp, &pw);
-			t_vec3 pwTransformed = cameraTransform(&screen_coord, &cameraPos, &cameraTarget, &worldUp);
-			eye_ray = t_ray_create_ray(&cameraPos, &pwTransformed);
-		//! change
-			
+			// eye_ray = t_ray_create_ray(&tmp, &screen_coord);
+			// t_vec3 pwTransformed = cameraTransform(&screen_coord, &cameraPos, &cameraTarget, &worldUp);
+			// eye_ray = t_ray_create_ray(&cameraPos, &pwTransformed);
+			//! junnetwork
+			double sw = x - (world->screen_witdh - 1) / 2;
+			double sy = (world->screen_height - 1) / 2 - y;
+			double d = world->screen_witdh / 2 / tan(fov / 2);
 
+			t_vec3 camera_orientation = vec3_init(0, 0, 1);//! change
+			
+			t_vec3 d_center = vec3_multiply(&camera_orientation, d);
+			t_vec3 x_basis;
+			x_basis.x = d_center.z / sqrt(pow(d_center.z, 2) + pow(d_center.x, 2));
+			x_basis.y = 0;
+			x_basis.z = -d_center.x / sqrt(pow(d_center.z, 2) + pow(d_center.x, 2));
+			t_vec3 y_basis;
+			t_vec3 tmp = vec3_multiply(&d_center, -1);
+			y_basis = vec3_cross(&x_basis, &tmp);
+			y_basis = vec3_normalize(&y_basis);
+
+			t_vec3 xx = vec3_multiply(&x_basis, sw);
+			t_vec3 yy = vec3_multiply(&y_basis, sy);
+
+			t_vec3 ray_direction;
+			ray_direction = vec3_add(&xx, &yy);
+			ray_direction = vec3_add(&d_center, &ray_direction);
+			ray_direction = vec3_normalize(&ray_direction);
+
+			t_ray	eye_ray;
+			eye_ray.start = vec3_init(0, 0, -20);//!
+			eye_ray.direction = ray_direction;
+			
 
 			t_intersect intersection;
 			intersection.distance = __DBL_MAX__;
@@ -160,13 +188,24 @@ t_list	*ADHOC_create_shape_list(void)//todo delete
 	t_shape			*sphere5;
 	sphere5 = ft_calloc(1, sizeof(t_shape));
 	sphere5->type = sphere_type;
-	sphere5->u_data.sphere.center = vec3_init(-1, 0, 5);
-	sphere5->u_data.sphere.r = 1;
-	sphere5->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+	sphere5->u_data.sphere.center = vec3_init(3, 3, -3);
+	sphere5->u_data.sphere.r = 2;
+	sphere5->material.color = tcolor_convert_rgbcolor(0, 176, 176);
 	sphere5->material.ambient = tcolor_set(0.01, 0.01, 0.01);
 	sphere5->material.diffuse = tcolor_set(0.69, 0.00, 0.69);
 	sphere5->material.specular = tcolor_set(0.30, 0.30, 0.30);
 	sphere5->material.shininess = 8;
+
+	t_shape			*sphere6;
+	sphere6 = ft_calloc(1, sizeof(t_shape));
+	sphere6->type = sphere_type;
+	sphere6->u_data.sphere.center = vec3_init(0, 0, 0);
+	sphere6->u_data.sphere.r = 5;
+	sphere6->material.color = tcolor_convert_rgbcolor(0, 176, 176);
+	sphere6->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+	sphere6->material.diffuse = tcolor_set(0.69, 0.00, 0.69);
+	sphere6->material.specular = tcolor_set(0.30, 0.30, 0.30);
+	sphere6->material.shininess = 8;
 	
 	t_shape	*plane;
 	plane = ft_calloc(1, sizeof(t_shape));
@@ -180,12 +219,13 @@ t_list	*ADHOC_create_shape_list(void)//todo delete
 	plane->material.shininess = 8;
 
 	shapes = ft_lstnew(NULL);
-	ft_lstadd_back(&shapes, ft_lstnew(sphere1));
-	ft_lstadd_back(&shapes, ft_lstnew(sphere2));
-	ft_lstadd_back(&shapes, ft_lstnew(sphere3));
-	ft_lstadd_back(&shapes, ft_lstnew(sphere4));
+	// ft_lstadd_back(&shapes, ft_lstnew(sphere1));
+	// ft_lstadd_back(&shapes, ft_lstnew(sphere2));
+	// ft_lstadd_back(&shapes, ft_lstnew(sphere3));
+	// ft_lstadd_back(&shapes, ft_lstnew(sphere4));
 	ft_lstadd_back(&shapes, ft_lstnew(sphere5));
-	ft_lstadd_back(&shapes, ft_lstnew(plane));
+	ft_lstadd_back(&shapes, ft_lstnew(sphere6));
+	// ft_lstadd_back(&shapes, ft_lstnew(plane));
 	return (shapes);
 }
 t_list	*ADHOC_create_lights_list(void)
@@ -212,10 +252,17 @@ t_list	*ADHOC_create_lights_list(void)
 	light3->vector = vec3_init(5, 20, -5);
 	light3->brightness = tcolor_set(0.5, 0.5, 0.5);
 
+	t_light	*light4;
+	light4 = ft_calloc(1, sizeof(t_light));
+	light4->type = e_directional;
+	light4->vector = vec3_init(15, 15, -15);
+	light4->brightness = tcolor_set(0.5, 0.5, 0.5);
+
 	lights = ft_lstnew(NULL);
-	ft_lstadd_back(&lights, ft_lstnew(light1));
-	ft_lstadd_back(&lights, ft_lstnew(light2));
-	ft_lstadd_back(&lights, ft_lstnew(light3));
+	// ft_lstadd_back(&lights, ft_lstnew(light1));
+	// ft_lstadd_back(&lights, ft_lstnew(light2));
+	// ft_lstadd_back(&lights, ft_lstnew(light3));
+	ft_lstadd_back(&lights, ft_lstnew(light4));
 	return (lights);
 }
 
