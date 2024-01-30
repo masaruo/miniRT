@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/23 11:32:20 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/30 16:20:14 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,99 @@
 #include <limits.h>
 #include "phong.h"
 #include "t_list.h"
+#include "t_matrix.h"
 
 #define window_width 512
 #define window_height 512
 
+// t_vec3	cameraTransform(t_vec3 *point, t_vec3 *cameraPos, t_vec3 *cameraTarget, t_vec3 *worldUp)
+// {
+// 	// t_vec3	cameraDirection = vec3_normalized_subtract(cameraTarget, cameraPos);
+// 	t_vec3	cameraRight = vec3_cross(worldUp, cameraTarget);
+// 	cameraRight = vec3_normalize(&cameraRight);
+// 	t_vec3	cameraUp = vec3_cross(cameraTarget, &cameraRight);
+
+// 	t_vec3 pointInCameraCoord;
+// 	t_vec3 cameraToPoint = vec3_subtract(point, cameraPos);
+// 	pointInCameraCoord.x = vec3_dot(&cameraToPoint, &cameraRight);
+// 	pointInCameraCoord.y = vec3_dot(&cameraToPoint, &cameraUp);
+// 	pointInCameraCoord.z = vec3_dot(&cameraToPoint, &cameraTarget);
+// 	return (pointInCameraCoord);
+// }
+
+double	get_x_in_camera(double x_in_loop, double width, double height, double fov)
+{
+	double const	aspect_ratio = (width / height);
+	double const	ndc_x = (x_in_loop + 0.5) / width;//todo define 0.5
+	double const	screen_x = (2 * ndc_x) - 1;
+	double const	camera_x = screen_x * aspect_ratio;
+	double const	fov_adj_camera_x = camera_x * tan(convert_degree_to_radian(fov / 2));
+
+	return (fov_adj_camera_x);
+};
+
+double	get_y_in_camera(double y_in_loop, double height, double fov)
+{
+	double const	ndc_y = (y_in_loop + 0.5) / height;//todo define 0.5
+	double const	screen_y = 1 - (2 * ndc_y);
+	double const	fov_adj_camera_y = screen_y * tan(convert_degree_to_radian(fov / 2));
+
+	return (fov_adj_camera_y);
+}
+
 void	get_intersect_with_shape(t_world const *world, t_image const *image)
 {
-	t_ray			eye_ray;
-	t_vec3			pw;//スクリーン上の点
+	// t_vec3			screen_coord;//スクリーン上の点
+	// t_vec3			cameraPos = vec3_init(0, 0, -5);
+	// t_vec3			worldUp = vec3_init(0, 1, 0);
+	// t_vec3			cameraTarget = vec3_init(0, 0, 1.0);
+	double			fov = 60;//!
 
+	// eye_ray.start = vec3_init(-50, 0, 20);
+	t_vec3 pw;
 	pw.z = 0;
+	// screen_coord.z = -1;
 	for (double y = 0; y < window_height; y++)
 	{
 		pw.y = -2 * y / (window_height - 1) + 1;
+		// screen_coord.y = get_y_in_camera(y, window_height, fov);
 		for (double x = 0; x < window_width; x++)
 		{
 			pw.x = 2 * x / (window_width - 1) - 1;
-			t_vec3	tmp = vec3_init(0, 0, -5);
-			eye_ray = t_ray_create_ray(&tmp, &pw);
+			// screen_coord.x = get_x_in_camera(x, window_width, window_height, fov);
+			// t_vec3	tmp = vec3_init(0, 0, -5);
+			// eye_ray = t_ray_create_ray(&tmp, &screen_coord);
+			// t_vec3 pwTransformed = cameraTransform(&screen_coord, &cameraPos, &cameraTarget, &worldUp);
+			// eye_ray = t_ray_create_ray(&cameraPos, &pwTransformed);
+			//! junnetwork
+			double sw = x - (world->screen_witdh - 1) / 2;
+			double sy = (world->screen_height - 1) / 2 - y;
+			double d = (world->screen_witdh / 2) / tan(convert_degree_to_radian(fov / 2));
+
+			t_vec3 camera_orientation = vec3_init(0, 0.2, 1);//! change
+			
+			t_vec3 d_center = vec3_multiply(&camera_orientation, d);
+			t_vec3 x_basis;
+			x_basis.x = d_center.z / sqrt(pow(d_center.z, 2) + pow(d_center.x, 2));
+			x_basis.y = 0;
+			x_basis.z = -d_center.x / sqrt(pow(d_center.z, 2) + pow(d_center.x, 2));
+			t_vec3 y_basis;
+			t_vec3 tmp = vec3_multiply(&d_center, -1);
+			y_basis = vec3_cross(&x_basis, &tmp);
+			y_basis = vec3_normalize(&y_basis);
+
+			t_vec3 xx = vec3_multiply(&x_basis, sw);
+			t_vec3 yy = vec3_multiply(&y_basis, sy);
+
+			t_vec3 ray_direction;
+			ray_direction = vec3_add(&xx, &yy);
+			ray_direction = vec3_add(&d_center, &ray_direction);
+			ray_direction = vec3_normalize(&ray_direction);
+
+			t_ray	eye_ray;
+			eye_ray.start = vec3_init(10, 2, -5);//!
+			eye_ray.direction = ray_direction;
+			
 
 			t_intersect intersection;
 			intersection.distance = __DBL_MAX__;
@@ -113,13 +188,24 @@ t_list	*ADHOC_create_shape_list(void)//todo delete
 	t_shape			*sphere5;
 	sphere5 = ft_calloc(1, sizeof(t_shape));
 	sphere5->type = sphere_type;
-	sphere5->u_data.sphere.center = vec3_init(-1, 0, 5);
-	sphere5->u_data.sphere.r = 1;
-	sphere5->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+	sphere5->u_data.sphere.center = vec3_init(3, 3, -3);
+	sphere5->u_data.sphere.r = 2;
+	sphere5->material.color = tcolor_convert_rgbcolor(0, 176, 176);
 	sphere5->material.ambient = tcolor_set(0.01, 0.01, 0.01);
 	sphere5->material.diffuse = tcolor_set(0.69, 0.00, 0.69);
 	sphere5->material.specular = tcolor_set(0.30, 0.30, 0.30);
 	sphere5->material.shininess = 8;
+
+	t_shape			*sphere6;
+	sphere6 = ft_calloc(1, sizeof(t_shape));
+	sphere6->type = sphere_type;
+	sphere6->u_data.sphere.center = vec3_init(0, 0, 0);
+	sphere6->u_data.sphere.r = 5;
+	sphere6->material.color = tcolor_convert_rgbcolor(0, 176, 176);
+	sphere6->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+	sphere6->material.diffuse = tcolor_set(0.69, 0.00, 0.69);
+	sphere6->material.specular = tcolor_set(0.30, 0.30, 0.30);
+	sphere6->material.shininess = 8;
 	
 	t_shape	*plane;
 	plane = ft_calloc(1, sizeof(t_shape));
@@ -137,7 +223,8 @@ t_list	*ADHOC_create_shape_list(void)//todo delete
 	ft_lstadd_back(&shapes, ft_lstnew(sphere2));
 	ft_lstadd_back(&shapes, ft_lstnew(sphere3));
 	ft_lstadd_back(&shapes, ft_lstnew(sphere4));
-	ft_lstadd_back(&shapes, ft_lstnew(sphere5));
+	// ft_lstadd_back(&shapes, ft_lstnew(sphere5));
+	// ft_lstadd_back(&shapes, ft_lstnew(sphere6));
 	ft_lstadd_back(&shapes, ft_lstnew(plane));
 	return (shapes);
 }
@@ -165,10 +252,17 @@ t_list	*ADHOC_create_lights_list(void)
 	light3->vector = vec3_init(5, 20, -5);
 	light3->brightness = tcolor_set(0.5, 0.5, 0.5);
 
+	t_light	*light4;
+	light4 = ft_calloc(1, sizeof(t_light));
+	light4->type = e_directional;
+	light4->vector = vec3_init(15, 15, -15);
+	light4->brightness = tcolor_set(0.5, 0.5, 0.5);
+
 	lights = ft_lstnew(NULL);
 	ft_lstadd_back(&lights, ft_lstnew(light1));
 	ft_lstadd_back(&lights, ft_lstnew(light2));
 	ft_lstadd_back(&lights, ft_lstnew(light3));
+	// ft_lstadd_back(&lights, ft_lstnew(light4));
 	return (lights);
 }
 

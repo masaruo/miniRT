@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:59:21 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/19 15:25:37 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/26 11:02:49 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ typedef struct s_vec3
 	double	y;
 	double	z;
 }	t_vec3;
+
+typedef t_vec3 t_vector_vec3;//
+typedef t_vec3 t_position_vec3;//
+typedef t_vec3 t_normalized_vec3;//
 
 t_vec3	vec3_init(double in_x, double in_y, double in_z);
 

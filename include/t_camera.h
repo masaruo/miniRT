@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   math_utils.h                                       :+:      :+:    :+:   */
+/*   t_camera.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 20:05:28 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/25 09:33:36 by mogawa           ###   ########.fr       */
+/*   Created: 2024/01/26 14:03:25 by mogawa            #+#    #+#             */
+/*   Updated: 2024/01/26 14:07:14 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MATH_UTILS_H
-#define MATH_UTILS_H
+#ifndef T_CAMERA_H
+#define T_CAMERA_H
 
-double	double_min(double a, double b);
-double	double_max(double a, double b);
-double	double_clamp(double num, double min, double max);
-double	convert_degree_to_radian(double degree);
+#include "t_vec3.h"
+#include "t_image.h"
+
+typedef struct s_camera
+{
+	t_position_vec3		position;
+	t_vector_vec3		orientation;
+	double				field_of_view;
+	t_normalized_vec3	x_basis;
+	t_normalized_vec3	y_basis;
+	t_normalized_vec3	direction;
+	t_image				img;
+}	t_camera;
 
 #endif
