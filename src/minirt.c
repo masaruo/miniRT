@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/30 10:19:12 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/30 16:20:14 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,13 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 {
 	// t_vec3			screen_coord;//スクリーン上の点
 	// t_vec3			cameraPos = vec3_init(0, 0, -5);
-	t_vec3			worldUp = vec3_init(0, 1, 0);
-	t_vec3			cameraTarget = vec3_init(0, 0, 1.0);
+	// t_vec3			worldUp = vec3_init(0, 1, 0);
+	// t_vec3			cameraTarget = vec3_init(0, 0, 1.0);
 	double			fov = 60;//!
 
 	// eye_ray.start = vec3_init(-50, 0, 20);
 	t_vec3 pw;
-	pw.z = -1;
+	pw.z = 0;
 	// screen_coord.z = -1;
 	for (double y = 0; y < window_height; y++)
 	{
@@ -93,9 +93,9 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 			//! junnetwork
 			double sw = x - (world->screen_witdh - 1) / 2;
 			double sy = (world->screen_height - 1) / 2 - y;
-			double d = world->screen_witdh / 2 / tan(fov / 2);
+			double d = (world->screen_witdh / 2) / tan(convert_degree_to_radian(fov / 2));
 
-			t_vec3 camera_orientation = vec3_init(0, 0, 1);//! change
+			t_vec3 camera_orientation = vec3_init(0, 0.2, 1);//! change
 			
 			t_vec3 d_center = vec3_multiply(&camera_orientation, d);
 			t_vec3 x_basis;
@@ -116,7 +116,7 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 			ray_direction = vec3_normalize(&ray_direction);
 
 			t_ray	eye_ray;
-			eye_ray.start = vec3_init(0, 0, -20);//!
+			eye_ray.start = vec3_init(10, 2, -5);//!
 			eye_ray.direction = ray_direction;
 			
 
@@ -219,13 +219,13 @@ t_list	*ADHOC_create_shape_list(void)//todo delete
 	plane->material.shininess = 8;
 
 	shapes = ft_lstnew(NULL);
-	// ft_lstadd_back(&shapes, ft_lstnew(sphere1));
-	// ft_lstadd_back(&shapes, ft_lstnew(sphere2));
-	// ft_lstadd_back(&shapes, ft_lstnew(sphere3));
-	// ft_lstadd_back(&shapes, ft_lstnew(sphere4));
-	ft_lstadd_back(&shapes, ft_lstnew(sphere5));
-	ft_lstadd_back(&shapes, ft_lstnew(sphere6));
-	// ft_lstadd_back(&shapes, ft_lstnew(plane));
+	ft_lstadd_back(&shapes, ft_lstnew(sphere1));
+	ft_lstadd_back(&shapes, ft_lstnew(sphere2));
+	ft_lstadd_back(&shapes, ft_lstnew(sphere3));
+	ft_lstadd_back(&shapes, ft_lstnew(sphere4));
+	// ft_lstadd_back(&shapes, ft_lstnew(sphere5));
+	// ft_lstadd_back(&shapes, ft_lstnew(sphere6));
+	ft_lstadd_back(&shapes, ft_lstnew(plane));
 	return (shapes);
 }
 t_list	*ADHOC_create_lights_list(void)
@@ -259,10 +259,10 @@ t_list	*ADHOC_create_lights_list(void)
 	light4->brightness = tcolor_set(0.5, 0.5, 0.5);
 
 	lights = ft_lstnew(NULL);
-	// ft_lstadd_back(&lights, ft_lstnew(light1));
-	// ft_lstadd_back(&lights, ft_lstnew(light2));
-	// ft_lstadd_back(&lights, ft_lstnew(light3));
-	ft_lstadd_back(&lights, ft_lstnew(light4));
+	ft_lstadd_back(&lights, ft_lstnew(light1));
+	ft_lstadd_back(&lights, ft_lstnew(light2));
+	ft_lstadd_back(&lights, ft_lstnew(light3));
+	// ft_lstadd_back(&lights, ft_lstnew(light4));
 	return (lights);
 }
 
