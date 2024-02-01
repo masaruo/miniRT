@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 09:42:59 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/01 14:37:16 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/01 20:45:24 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 typedef struct s_material
 {
 	t_color	color;
-	t_color	ambient;//! 定数になるはずだから、いらないかも
-	t_color	diffuse;
-	t_color	specular;
-	double	shininess;
+	// t_color	ambient;//! 定数になるはずだから、いらないかも
+	// t_color	diffuse;
+	// t_color	specular;
+	// double	shininess;
 }	t_material;
 
 #endif

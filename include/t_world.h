@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 15:40:05 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/01 15:43:48 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/01 17:20:35 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 # include "t_color.h"
 # include "t_image.h"
 # include "libft.h"
+# include "t_camera.h"
 
 # define TITLE ("miniRT")
-# define WIDTH (512)
+# define WIDTH (1000)
 # define HEIGHT (512)
 
 typedef struct s_ambient
@@ -34,9 +35,9 @@ typedef struct s_world
 	int			screen_witdh;
 	int			screen_height;
 	t_image		img;
-	t_list		*shapes;//物体のリスト
-	t_list		*cameras;//カメラリスト
-	t_list		*lights;//光源リスト
+	t_list		*shapes;
+	t_list		*lights;
+	t_camera	camera;
 	t_ambient	ambient;
 }	t_world;
 

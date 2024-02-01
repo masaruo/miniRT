@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:31:04 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/23 11:31:51 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/01 20:48:14 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,8 @@ int	test_all_intersection(t_list const * const shapes, t_ray const *ray, t_inter
 				out_intersect->distance = crnt_intersect.distance;
 				out_intersect->normal = crnt_intersect.normal;
 				out_intersect->position = crnt_intersect.position;
-				out_intersect->has_intersection = true;
+				out_intersect->color = shape->material.color;
+				// out_intersect->has_intersection = true;
 				out_intersect->material = shape->material;
 				has_intersection = true;
 			}

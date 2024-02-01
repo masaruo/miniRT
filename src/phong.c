@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 22:17:28 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/01 16:07:46 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/01 20:52:22 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ static t_color	_get_diffuse_effect(t_light const *light, t_intersect const *inte
 	{
 		n_dot_l = double_clamp(n_dot_l, 0, 1);//!ここわかってない！
 		tmp = tcolor_multiply(intersect->material.color, light->color);//changed
+		// tmp = intersect->material.color;
 		tmp = tcolor_scalar_multiply(tmp, n_dot_l);//changed
 		tmp = tcolor_multiply(tmp, light->brightness);
+		// tmp = tcolor_clamp(tmp);//?
 		ans = tcolor_add(tmp, ans);
 	}
 	return (ans);
@@ -63,8 +65,10 @@ static t_color	_get_specular_effect(t_light const *light, t_intersect const *int
 		if (v_dot_r > 0)
 		{
 			tmp = tcolor_multiply(intersect->material.color, light->color);//changed
-			tmp = tcolor_scalar_multiply(tmp, pow(v_dot_r, 0.5));//changed from alpha
+			// tmp = intersect->material.color;
+			tmp = tcolor_scalar_multiply(tmp, pow(v_dot_r, 0.2));//changed from alpha
 			tmp = tcolor_multiply(tmp, light->brightness);
+			// tmp = tcolor_clamp(tmp);
 			ans = tcolor_add(tmp, ans);
 		}
 	}

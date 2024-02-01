@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/01 15:59:24 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/01 16:51:18 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,19 @@ t_shape	*_get_a_plain(char const **lines)
 	return (plane);
 }
 
+t_camera	_get_a_camera(char const **lines)
+{
+	t_camera	camera;
+
+	camera.position = vec3_str_init(lines[1]);
+	camera.orientation = vec3_str_init(lines[2]);//! range from -1 to 1
+	camera.field_of_view = atof(lines[3]);//! forbidden
+	camera.direction = vec3_init(0, 0, 0);
+	camera.x_basis = vec3_init(0, 0, 0);
+	camera.y_basis = vec3_init(0, 0, 0);
+	return (camera);
+}
+
 //todo 大文字のときの処理の停止
 int _parse_split_line(char const **lines, t_world * const world)
 {
@@ -104,7 +117,7 @@ int _parse_split_line(char const **lines, t_world * const world)
 	{
 		ft_lstadd_back(&world->shapes, ft_lstnew(_get_a_plain(lines)));
 	}
-	else if (!ft_strcmp(lines[FIRST_CHAR], "l"))
+	else if (!ft_strcmp(lines[FIRST_CHAR], "L"))
 	{
 		ft_lstadd_back(&world->lights, ft_lstnew(_get_a_light(lines)));
 	}
@@ -112,9 +125,9 @@ int _parse_split_line(char const **lines, t_world * const world)
 	{
 		;
 	}
-	else if (!ft_strcmp(lines[FIRST_CHAR], "c"))//!
+	else if (!ft_strcmp(lines[FIRST_CHAR], "C"))
 	{
-		;
+		world->camera = _get_a_camera(lines);
 	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/01 16:08:19 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/01 21:12:15 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,20 +67,19 @@ double	get_y_in_camera(double y_in_loop, double height, double fov)
 	return (fov_adj_camera_y);
 }
 
-void	get_intersect_with_shape(t_world const *world, t_image const *image)
+void	get_intersect_with_shape(t_world *world, t_image const *image)
 {
-	double			fov = 60;//!
-
 	t_vec3 pw;
+
 	pw.z = 0;
 	// screen_coord.z = -1;
 	for (double y = 0; y < world->screen_height; y++)
 	{
-		pw.y = -2 * y / (world->screen_height - 1) + 1;
+		// pw.y = -2 * y / (world->screen_height - 1) + 1;
 		// screen_coord.y = get_y_in_camera(y, window_height, fov);
 		for (double x = 0; x < world->screen_witdh; x++)
 		{
-			pw.x = 2 * x / (world->screen_witdh - 1) - 1;
+			// pw.x = 2 * x / (world->screen_witdh - 1) - 1;
 			// screen_coord.x = get_x_in_camera(x, window_width, window_height, fov);
 			// t_vec3	tmp = vec3_init(0, 0, -5);
 			// eye_ray = t_ray_create_ray(&tmp, &screen_coord);
@@ -90,22 +89,25 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 			//! junnetwork
 			double sw = x - (world->screen_witdh - 1) / 2;
 			double sy = (world->screen_height - 1) / 2 - y;
-			double d = (world->screen_witdh / 2) / tan(convert_degree_to_radian(fov / 2));
+			double d = (world->screen_witdh / 2) / tan(convert_degree_to_radian(world->camera.field_of_view / 2));
 
-			t_vec3 camera_orientation = vec3_init(0, 0, 1);//! change
+			// t_vec3 camera_orientation = vec3_init(0, 0, 1);//! change
 			
-			t_vec3 d_center = vec3_multiply(&camera_orientation, d);
+			t_vec3 d_center = vec3_multiply(&world->camera.orientation, d);
 			t_vec3 x_basis;
 			x_basis.x = d_center.z / sqrt(pow(d_center.z, 2) + pow(d_center.x, 2));
 			x_basis.y = 0;
 			x_basis.z = -d_center.x / sqrt(pow(d_center.z, 2) + pow(d_center.x, 2));
+			world->camera.x_basis = x_basis;
+
 			t_vec3 y_basis;
 			t_vec3 tmp = vec3_multiply(&d_center, -1);
 			y_basis = vec3_cross(&x_basis, &tmp);
 			y_basis = vec3_normalize(&y_basis);
+			world->camera.y_basis = y_basis;
 
-			t_vec3 xx = vec3_multiply(&x_basis, sw);
-			t_vec3 yy = vec3_multiply(&y_basis, sy);
+			t_vec3 xx = vec3_multiply(&world->camera.x_basis, sw);
+			t_vec3 yy = vec3_multiply(&world->camera.y_basis, sy);
 
 			t_vec3 ray_direction;
 			ray_direction = vec3_add(&xx, &yy);
@@ -113,7 +115,7 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 			ray_direction = vec3_normalize(&ray_direction);
 
 			t_ray	eye_ray;
-			eye_ray.start = vec3_init(0, 0, -20);//!
+			eye_ray.start = world->camera.position;
 			eye_ray.direction = ray_direction;
 			//! end Junnetwork
 
@@ -137,8 +139,8 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 int	main(int argc, char **argv)
 {
 	t_world	world;
-	t_list	*shapes;
-	t_list	*lights;
+	// t_list	*shapes;
+	// t_list	*lights;
 
 	//todo parse
 	//todo getnextline
