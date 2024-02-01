@@ -6,13 +6,14 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 08:22:03 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/20 16:49:59 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/31 10:16:18 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include "math_utils.h"
 #include "t_color.h"
+#include "libft.h"
 
 t_color	tcolor_clamp(t_color color)
 {
@@ -94,4 +95,17 @@ t_color	tcolor_convert_rgbcolor(double r, double g, double b)
 	new.green = g / 255;
 	new.blue = b / 255;
 	return (tcolor_clamp(new));
+}
+
+#include <stdlib.h>//! delete
+t_color	tcolor_str_set(char const *line)
+{
+	t_color		color;
+	char const	**lines = ft_split(line, ',');
+	char const	*r = lines[0];
+	char const	*g = lines[1];
+	char const	*b = lines[2];
+
+	color = tcolor_set(atof(r), atof(g), atof(b));//! FORBIDDEN ATOF
+	return (color);
 }

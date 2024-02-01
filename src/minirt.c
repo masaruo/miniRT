@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/30 16:20:14 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/01 13:36:18 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include "phong.h"
 #include "t_list.h"
 #include "t_matrix.h"
+#include "parse.h"
 
 #define window_width 512
 #define window_height 512
@@ -68,13 +69,8 @@ double	get_y_in_camera(double y_in_loop, double height, double fov)
 
 void	get_intersect_with_shape(t_world const *world, t_image const *image)
 {
-	// t_vec3			screen_coord;//スクリーン上の点
-	// t_vec3			cameraPos = vec3_init(0, 0, -5);
-	// t_vec3			worldUp = vec3_init(0, 1, 0);
-	// t_vec3			cameraTarget = vec3_init(0, 0, 1.0);
 	double			fov = 60;//!
 
-	// eye_ray.start = vec3_init(-50, 0, 20);
 	t_vec3 pw;
 	pw.z = 0;
 	// screen_coord.z = -1;
@@ -90,12 +86,13 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 			// eye_ray = t_ray_create_ray(&tmp, &screen_coord);
 			// t_vec3 pwTransformed = cameraTransform(&screen_coord, &cameraPos, &cameraTarget, &worldUp);
 			// eye_ray = t_ray_create_ray(&cameraPos, &pwTransformed);
+			
 			//! junnetwork
 			double sw = x - (world->screen_witdh - 1) / 2;
 			double sy = (world->screen_height - 1) / 2 - y;
 			double d = (world->screen_witdh / 2) / tan(convert_degree_to_radian(fov / 2));
 
-			t_vec3 camera_orientation = vec3_init(0, 0.2, 1);//! change
+			t_vec3 camera_orientation = vec3_init(0, 0, 1);//! change
 			
 			t_vec3 d_center = vec3_multiply(&camera_orientation, d);
 			t_vec3 x_basis;
@@ -116,9 +113,9 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 			ray_direction = vec3_normalize(&ray_direction);
 
 			t_ray	eye_ray;
-			eye_ray.start = vec3_init(10, 2, -5);//!
+			eye_ray.start = vec3_init(0, 0, -20);//!
 			eye_ray.direction = ray_direction;
-			
+			//! end Junnetwork
 
 			t_intersect intersection;
 			intersection.distance = __DBL_MAX__;
@@ -136,137 +133,118 @@ void	get_intersect_with_shape(t_world const *world, t_image const *image)
 	}
 }
 
-t_list	*ADHOC_create_shape_list(void)//todo delete
-{
-	t_list	*shapes;
+// t_list	*ADHOC_create_shape_list(void)//todo delete
+// {
+// 	t_list	*shapes;
 
-	shapes = ft_calloc(1, sizeof(t_list *));
-	t_shape			*sphere1;
-	sphere1 = ft_calloc(1, sizeof(t_shape));
-	sphere1->type = sphere_type;
-	sphere1->u_data.sphere.center = vec3_init(3, 0, 25);
-	sphere1->u_data.sphere.r = 1;
-	sphere1->material.color = tcolor_convert_rgbcolor(255, 0, 0);
-	sphere1->material.ambient = tcolor_set(0.01, 0.01, 0.01);
-	sphere1->material.diffuse = tcolor_set(0.69, 0, 0);
-	sphere1->material.specular = tcolor_set(0.30, 0.30, 0.30);
-	sphere1->material.shininess = 8;
+// 	shapes = ft_calloc(1, sizeof(t_list *));
+// 	t_shape			*sphere1;
+// 	sphere1 = ft_calloc(1, sizeof(t_shape));
+// 	sphere1->type = sphere_type;
+// 	sphere1->u_data.sphere.center = vec3_init(3, 0, 25);
+// 	sphere1->u_data.sphere.r = 1;
+// 	sphere1->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+// 	sphere1->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+// 	sphere1->material.diffuse = tcolor_set(0.69, 0, 0);
+// 	sphere1->material.specular = tcolor_set(0.30, 0.30, 0.30);
+// 	sphere1->material.shininess = 8;
 
-	t_shape			*sphere2;
-	sphere2 = ft_calloc(1, sizeof(t_shape));
-	sphere2->type = sphere_type;
-	sphere2->u_data.sphere.center = vec3_init(2, 0, 20);
-	sphere2->u_data.sphere.r = 1;
-	sphere2->material.color = tcolor_convert_rgbcolor(255, 0, 0);
-	sphere2->material.ambient = tcolor_set(0.01, 0.01, 0.01);
-	sphere2->material.diffuse = tcolor_set(0.00, 0.69, 0.00);
-	sphere2->material.specular = tcolor_set(0.30, 0.30, 0.30);
-	sphere2->material.shininess = 8;
+// 	t_shape			*sphere2;
+// 	sphere2 = ft_calloc(1, sizeof(t_shape));
+// 	sphere2->type = sphere_type;
+// 	sphere2->u_data.sphere.center = vec3_init(2, 0, 20);
+// 	sphere2->u_data.sphere.r = 1;
+// 	sphere2->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+// 	sphere2->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+// 	sphere2->material.diffuse = tcolor_set(0.00, 0.69, 0.00);
+// 	sphere2->material.specular = tcolor_set(0.30, 0.30, 0.30);
+// 	sphere2->material.shininess = 8;
 
-	t_shape			*sphere3;
-	sphere3 = ft_calloc(1, sizeof(t_shape));
-	sphere3->type = sphere_type;
-	sphere3->u_data.sphere.center = vec3_init(1, 0, 15);
-	sphere3->u_data.sphere.r = 1;
-	sphere3->material.color = tcolor_convert_rgbcolor(255, 0, 0);
-	sphere3->material.ambient = tcolor_set(0.01, 0.01, 0.01);
-	sphere3->material.diffuse = tcolor_set(0.00, 0.00, 0.69);
-	sphere3->material.specular = tcolor_set(0.30, 0.30, 0.30);
-	sphere3->material.shininess = 8;
+// 	t_shape			*sphere3;
+// 	sphere3 = ft_calloc(1, sizeof(t_shape));
+// 	sphere3->type = sphere_type;
+// 	sphere3->u_data.sphere.center = vec3_init(1, 0, 15);
+// 	sphere3->u_data.sphere.r = 1;
+// 	sphere3->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+// 	sphere3->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+// 	sphere3->material.diffuse = tcolor_set(0.00, 0.00, 0.69);
+// 	sphere3->material.specular = tcolor_set(0.30, 0.30, 0.30);
+// 	sphere3->material.shininess = 8;
 
-	t_shape			*sphere4;
-	sphere4 = ft_calloc(1, sizeof(t_shape));
-	sphere4->type = sphere_type;
-	sphere4->u_data.sphere.center = vec3_init(0, 0, 10);
-	sphere4->u_data.sphere.r = 1;
-	sphere4->material.color = tcolor_convert_rgbcolor(255, 0, 0);
-	sphere4->material.ambient = tcolor_set(0.01, 0.01, 0.01);
-	sphere4->material.diffuse = tcolor_set(0.00, 0.69, 0.69);
-	sphere4->material.specular = tcolor_set(0.30, 0.30, 0.30);
-	sphere4->material.shininess = 8;
+// 	t_shape			*sphere4;
+// 	sphere4 = ft_calloc(1, sizeof(t_shape));
+// 	sphere4->type = sphere_type;
+// 	sphere4->u_data.sphere.center = vec3_init(0, 0, 10);
+// 	sphere4->u_data.sphere.r = 1;
+// 	sphere4->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+// 	sphere4->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+// 	sphere4->material.diffuse = tcolor_set(0.00, 0.69, 0.69);
+// 	sphere4->material.specular = tcolor_set(0.30, 0.30, 0.30);
+// 	sphere4->material.shininess = 8;
 	
-	t_shape			*sphere5;
-	sphere5 = ft_calloc(1, sizeof(t_shape));
-	sphere5->type = sphere_type;
-	sphere5->u_data.sphere.center = vec3_init(3, 3, -3);
-	sphere5->u_data.sphere.r = 2;
-	sphere5->material.color = tcolor_convert_rgbcolor(0, 176, 176);
-	sphere5->material.ambient = tcolor_set(0.01, 0.01, 0.01);
-	sphere5->material.diffuse = tcolor_set(0.69, 0.00, 0.69);
-	sphere5->material.specular = tcolor_set(0.30, 0.30, 0.30);
-	sphere5->material.shininess = 8;
-
-	t_shape			*sphere6;
-	sphere6 = ft_calloc(1, sizeof(t_shape));
-	sphere6->type = sphere_type;
-	sphere6->u_data.sphere.center = vec3_init(0, 0, 0);
-	sphere6->u_data.sphere.r = 5;
-	sphere6->material.color = tcolor_convert_rgbcolor(0, 176, 176);
-	sphere6->material.ambient = tcolor_set(0.01, 0.01, 0.01);
-	sphere6->material.diffuse = tcolor_set(0.69, 0.00, 0.69);
-	sphere6->material.specular = tcolor_set(0.30, 0.30, 0.30);
-	sphere6->material.shininess = 8;
+// 	t_shape			*sphere5;
+// 	sphere5 = ft_calloc(1, sizeof(t_shape));
+// 	sphere5->type = sphere_type;
+// 	sphere5->u_data.sphere.center = vec3_init(3, 3, -3);
+// 	sphere5->u_data.sphere.r = 2;
+// 	sphere5->material.color = tcolor_convert_rgbcolor(0, 176, 176);
+// 	sphere5->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+// 	sphere5->material.diffuse = tcolor_set(0.69, 0.00, 0.69);
+// 	sphere5->material.specular = tcolor_set(0.30, 0.30, 0.30);
+// 	sphere5->material.shininess = 8;
 	
-	t_shape	*plane;
-	plane = ft_calloc(1, sizeof(t_shape));
-	plane->type = plane_type;
-	plane->u_data.plane.position = vec3_init(0, -1, 0);
-	plane->u_data.plane.normal = vec3_init(0, 1, 0);
-	plane->material.color = tcolor_convert_rgbcolor(255, 0, 0);
-	plane->material.ambient = tcolor_set(0.01, 0.01, 0.01);
-	plane->material.diffuse = tcolor_set(0.69, 0.69, 0.69);
-	plane->material.specular = tcolor_set(0.30, 0.30, 0.30);
-	plane->material.shininess = 8;
+// 	t_shape	*plane;
+// 	plane = ft_calloc(1, sizeof(t_shape));
+// 	plane->type = plane_type;
+// 	plane->u_data.plane.position = vec3_init(0, -1, 0);
+// 	plane->u_data.plane.normal = vec3_init(0, 1, 0);
+// 	plane->material.color = tcolor_convert_rgbcolor(255, 0, 0);
+// 	plane->material.ambient = tcolor_set(0.01, 0.01, 0.01);
+// 	plane->material.diffuse = tcolor_set(0.69, 0.69, 0.69);
+// 	plane->material.specular = tcolor_set(0.30, 0.30, 0.30);
+// 	plane->material.shininess = 8;
 
-	shapes = ft_lstnew(NULL);
-	ft_lstadd_back(&shapes, ft_lstnew(sphere1));
-	ft_lstadd_back(&shapes, ft_lstnew(sphere2));
-	ft_lstadd_back(&shapes, ft_lstnew(sphere3));
-	ft_lstadd_back(&shapes, ft_lstnew(sphere4));
-	// ft_lstadd_back(&shapes, ft_lstnew(sphere5));
-	// ft_lstadd_back(&shapes, ft_lstnew(sphere6));
-	ft_lstadd_back(&shapes, ft_lstnew(plane));
-	return (shapes);
-}
-t_list	*ADHOC_create_lights_list(void)
-{
-	t_list	*lights;
+// 	shapes = ft_lstnew(NULL);
+// 	ft_lstadd_back(&shapes, ft_lstnew(sphere1));
+// 	ft_lstadd_back(&shapes, ft_lstnew(sphere2));
+// 	ft_lstadd_back(&shapes, ft_lstnew(sphere3));
+// 	ft_lstadd_back(&shapes, ft_lstnew(sphere4));
+// 	// ft_lstadd_back(&shapes, ft_lstnew(sphere5));
+// 	ft_lstadd_back(&shapes, ft_lstnew(plane));
+// 	return (shapes);
+// }
+// t_list	*ADHOC_create_lights_list(void)
+// {
+// 	t_list	*lights;
 
-	lights = ft_calloc(1, sizeof(t_list *));
-	t_light	*light1;
-	light1 = ft_calloc(1, sizeof(t_light));
-	light1->type = e_directional;
-	light1->vector = vec3_init(-5, 5, -5);
-	light1->brightness = tcolor_set(0.5, 0.5, 0.5);
-	//todo color light1->color = 
+// 	lights = ft_calloc(1, sizeof(t_list *));
+// 	t_light	*light1;
+// 	light1 = ft_calloc(1, sizeof(t_light));
+// 	light1->type = e_directional;
+// 	light1->vector = vec3_init(-5, 5, -5);
+// 	light1->brightness = tcolor_set(0.5, 0.5, 0.5);
+// 	//todo color light1->color = 
 
-	t_light	*light2;
-	light2 = ft_calloc(1, sizeof(t_light));
-	light2->type = e_directional;
-	light2->vector = vec3_init(5, 0, -5);
-	light2->brightness = tcolor_set(0.5, 0.5, 0.5);
+// 	t_light	*light2;
+// 	light2 = ft_calloc(1, sizeof(t_light));
+// 	light2->type = e_directional;
+// 	light2->vector = vec3_init(5, 0, -5);
+// 	light2->brightness = tcolor_set(0.5, 0.5, 0.5);
 
-	t_light	*light3;
-	light3 = ft_calloc(1, sizeof(t_light));
-	light3->type = e_directional;
-	light3->vector = vec3_init(5, 20, -5);
-	light3->brightness = tcolor_set(0.5, 0.5, 0.5);
+// 	t_light	*light3;
+// 	light3 = ft_calloc(1, sizeof(t_light));
+// 	light3->type = e_directional;
+// 	light3->vector = vec3_init(5, 20, -5);
+// 	light3->brightness = tcolor_set(0.5, 0.5, 0.5);
 
-	t_light	*light4;
-	light4 = ft_calloc(1, sizeof(t_light));
-	light4->type = e_directional;
-	light4->vector = vec3_init(15, 15, -15);
-	light4->brightness = tcolor_set(0.5, 0.5, 0.5);
+// 	lights = ft_lstnew(NULL);
+// 	ft_lstadd_back(&lights, ft_lstnew(light1));
+// 	ft_lstadd_back(&lights, ft_lstnew(light2));
+// 	ft_lstadd_back(&lights, ft_lstnew(light3));
+// 	return (lights);
+// }
 
-	lights = ft_lstnew(NULL);
-	ft_lstadd_back(&lights, ft_lstnew(light1));
-	ft_lstadd_back(&lights, ft_lstnew(light2));
-	ft_lstadd_back(&lights, ft_lstnew(light3));
-	// ft_lstadd_back(&lights, ft_lstnew(light4));
-	return (lights);
-}
-
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_world	world;
 	t_list	*shapes;
@@ -279,9 +257,12 @@ int	main(void)
 	//todo validation
 	world = tworld_init(window_width, window_height);
 	world.img = timage_init(world.mlx_ptr, world.screen_witdh, world.screen_height);
-	shapes = ADHOC_create_shape_list();//todo refactor
+	// shapes = ADHOC_create_shape_list();//todo refactor
+	shapes = ft_lstnew(NULL);
+	lights = ft_lstnew(NULL);
+	parse_controller(argv[1], shapes, lights);
 	// print_tshape(shapes);
-	lights = ADHOC_create_lights_list();//todo refactor
+	// lights = ADHOC_create_lights_list();//todo refactor
 	world.shapes = shapes;
 	world.lights = lights;
 	get_intersect_with_shape(&world, &world.img);

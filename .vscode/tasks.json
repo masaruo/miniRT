@@ -1,29 +1,24 @@
 {
     "tasks": [
         {
-            "type": "cppbuild",
-            "label": "C/C++: clang アクティブなファイルのビルド",
-            "command": "/usr/bin/clang",
+            "type": "shell",
+            "label": "make_dev",
+            "command": "make",
             "args": [
-                "-fcolor-diagnostics",
-                "-fansi-escape-codes",
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "asan"
             ],
             "options": {
-                "cwd": "${fileDirname}"
+                "cwd": "${workspaceFolder}"
             },
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "detail": "デバッガーによって生成されたタスク。"
-        }
+            "group": 
+            {
+                "kind" : "build",
+                "isDefault": true,
+            }
+        },
     ],
     "version": "2.0.0"
 }
