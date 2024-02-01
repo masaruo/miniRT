@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:21:56 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/23 09:44:17 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/01 14:18:07 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_intersect
 	t_vec3		position;
 	t_vec3		normal;//標準化後
 	t_material	material;
+	// t_color		ambient;
 }	t_intersect;
 
 #endif

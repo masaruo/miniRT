@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 22:17:28 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/23 11:29:53 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/01 16:07:46 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,9 @@
 #include <math.h>
 #include "shadow.h"
 
-static t_color	_get_ambient_effect(t_intersect const *intersect)
-{
-	t_color	const	ambient = intersect->material.ambient;
-	t_color			ans;
-	t_color			temp_brightness = tcolor_set(0.5, 0.5, 0.5);
-
-	ans = tcolor_set(0, 0, 0);
-	ans = tcolor_multiply(ambient, temp_brightness);
-	return (ans);
-}
-
 static t_color	_get_diffuse_effect(t_light const *light, t_intersect const *intersect)
 {
-	t_color	const diffuse = intersect->material.diffuse;
+	// t_color	const diffuse = intersect->material.diffuse;
 	t_vec3	l;
 	double	n_dot_l;
 	t_color	tmp;
@@ -40,7 +29,8 @@ static t_color	_get_diffuse_effect(t_light const *light, t_intersect const *inte
 	if (n_dot_l > 0)
 	{
 		n_dot_l = double_clamp(n_dot_l, 0, 1);//!ここわかってない！
-		tmp = tcolor_scalar_multiply(diffuse, n_dot_l);
+		tmp = tcolor_multiply(intersect->material.color, light->color);//changed
+		tmp = tcolor_scalar_multiply(tmp, n_dot_l);//changed
 		tmp = tcolor_multiply(tmp, light->brightness);
 		ans = tcolor_add(tmp, ans);
 	}
@@ -49,8 +39,8 @@ static t_color	_get_diffuse_effect(t_light const *light, t_intersect const *inte
 
 static t_color	_get_specular_effect(t_light const *light, t_intersect const *intersect, t_ray const *eye)
 {
-	t_color			specular;
-	double const	alpha = intersect->material.shininess;
+	// t_color			specular;
+	// double const	alpha = intersect->material.shininess;
 	t_vec3			l;
 	t_vec3			r;
 	t_vec3			v;
@@ -60,7 +50,7 @@ static t_color	_get_specular_effect(t_light const *light, t_intersect const *int
 	t_color			tmp;
 
 	ans = tcolor_set(0, 0, 0);
-	specular = intersect->material.specular;
+	// specular = intersect->material.specular;
 	l = vec3_normalized_subtract(&light->vector, &intersect->position);
 	n_dot_l = vec3_dot(&intersect->normal, &l);
 	if (n_dot_l > 0)
@@ -72,7 +62,8 @@ static t_color	_get_specular_effect(t_light const *light, t_intersect const *int
 		v_dot_r = vec3_dot(&v, &r);
 		if (v_dot_r > 0)
 		{
-			tmp = tcolor_scalar_multiply(specular, pow(v_dot_r, alpha));
+			tmp = tcolor_multiply(intersect->material.color, light->color);//changed
+			tmp = tcolor_scalar_multiply(tmp, pow(v_dot_r, 0.5));//changed from alpha
 			tmp = tcolor_multiply(tmp, light->brightness);
 			ans = tcolor_add(tmp, ans);
 		}
@@ -105,14 +96,15 @@ static t_color	_calc_diffse_and_specular(t_list const *lights, t_intersect const
 	return (total_effect);
 }
 
-t_color	tcolor_calc_phong(t_list const * const lights, t_intersect const *intersect, t_ray const *ray, t_list const * const shapes)
+t_color	tcolor_calc_phong(t_world const * const world, t_intersect const *intersect, t_ray const *ray)
 {
+	t_color const	ambient = tcolor_scalar_multiply(world->ambient.color, world->ambient.ratio);
 	t_color			phong;
 	t_color			diffuse_and_specular;
 
 	phong = tcolor_set(0, 0, 0);
-	phong = tcolor_add(phong, _get_ambient_effect(intersect));
-	diffuse_and_specular = _calc_diffse_and_specular(lights, intersect, ray, shapes);
+	phong = tcolor_add(phong, ambient);
+	diffuse_and_specular = _calc_diffse_and_specular(world->lights, intersect, ray, world->shapes);
 	phong = tcolor_add(phong, diffuse_and_specular);
 	return (phong);
 }

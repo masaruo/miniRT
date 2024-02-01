@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:39:35 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/23 11:30:56 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/01 13:51:08 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef struct s_shape
 		t_sphere	sphere;
 	}	u_data;
 	t_material		material;
-	// t_color			color;
 }	t_shape;
 
 int		test_intersection(t_shape const *shape, t_ray const *ray, t_intersect *out_intersect);

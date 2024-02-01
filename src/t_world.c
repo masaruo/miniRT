@@ -6,19 +6,19 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:42:43 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/17 11:29:13 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/01 15:43:34 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mlx.h"
 #include "t_world.h"
 
-t_world	tworld_init(int in_witdh, int in_height)
+t_world	tworld_init(void)
 {
 	t_world	world;
 
-	world.screen_witdh = in_witdh;
-	world.screen_height = in_height;
+	world.screen_witdh = WIDTH;
+	world.screen_height = HEIGHT;
 	world.mlx_ptr = mlx_init();
 	//todo error
 	world.win_ptr = mlx_new_window(world.mlx_ptr, world.screen_witdh, world.screen_height, TITLE);
