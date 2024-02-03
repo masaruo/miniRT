@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:03:25 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/26 14:07:14 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/01 16:19:48 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ typedef struct s_camera
 	t_normalized_vec3	x_basis;
 	t_normalized_vec3	y_basis;
 	t_normalized_vec3	direction;
-	t_image				img;
 }	t_camera;
 
 #endif

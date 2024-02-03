@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 22:17:12 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/23 11:28:33 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/01 16:03:04 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 #include "t_intersect.h"
 #include "t_ray.h"
 #include "t_light.h"
+#include "t_world.h"
 
-t_color	tcolor_calc_phong(t_list const *lights, t_intersect const *intersect, t_ray const *eye, t_list const * const shapes);
+t_color	tcolor_calc_phong(t_world const * const world, t_intersect const *intersect, t_ray const *eye);
 
 #endif

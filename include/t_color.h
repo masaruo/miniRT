@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 15:38:30 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/20 16:50:14 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/01/31 10:17:14 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ t_color		tcolor_clamp(t_color color);
 // ! temporal
 t_color		tcolor_convert_rgbcolor(double red, double green, double blue);
 u_int32_t	get_hex_color(int r, int g, int b);
+t_color		tcolor_str_set(char const *line);
 
 #endif

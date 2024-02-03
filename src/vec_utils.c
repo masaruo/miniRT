@@ -6,13 +6,14 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:07:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/29 14:32:01 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/03 10:18:53 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_vec3.h"
 #include "math.h"
 #include <stdio.h>
+#include "libft.h"
 
 t_vec3	vec3_init(double in_x, double in_y, double in_z)
 {
@@ -95,4 +96,18 @@ t_vec3	vec3_normalized_subtract(t_vec3 const *a, t_vec3 const *b)
 	new = vec3_subtract(a, b);
 	new = vec3_normalize(&new);
 	return (new);
+}
+
+#include <stdlib.h>//! delete
+t_vec3	vec3_str_init(char const *line)
+{
+	t_vec3		vec;
+	char const	**lines = ft_split(line, ',');
+	char const	*x = lines[0];
+	char const	*y = lines[1];
+	char const	*z = lines[2];
+
+	// vec = vec3_init(atof(x), atof(y), atof(z));//! atof FORBIDDEN
+	vec = vec3_init(ft_atoi(x), ft_atoi(y), ft_atoi(z));
+	return (vec);
 }

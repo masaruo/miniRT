@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:59:21 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/26 11:02:49 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/01 09:46:05 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ void	vec3_print(t_vec3 const *a);
 t_vec3	vec3_copy(t_vec3 const *a);
 
 t_vec3	vec3_normalized_subtract(t_vec3 const *a, t_vec3 const *b);
+t_vec3	vec3_str_init(char const *line);
 
 #endif

@@ -6,13 +6,14 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 08:22:03 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/20 16:49:59 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/03 14:20:29 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include "math_utils.h"
 #include "t_color.h"
+#include "libft.h"
 
 t_color	tcolor_clamp(t_color color)
 {
@@ -81,17 +82,27 @@ t_color	tcolor_scalar_multiply(t_color a, double scalar)
 	return (tcolor_clamp(new));
 }
 
-int	tcolor_convert_strcolor(t_color *color, char *rgbstr)
-{
-	return 0;
-}
-
 t_color	tcolor_convert_rgbcolor(double r, double g, double b)
 {
 	t_color	new;
 
-	new.red = r / 255;
-	new.green = g / 255;
-	new.blue = b / 255;
+	new.red = r / 255.0f;
+	new.green = g / 255.0f;
+	new.blue = b / 255.0f;
 	return (tcolor_clamp(new));
+}
+
+#include <stdlib.h>//! delete
+t_color	tcolor_str_set(char const *line)
+{
+	t_color		color;
+	char const	**lines = ft_split(line, ',');//! handle leak
+	char const	*r = lines[0];
+	char const	*g = lines[1];
+	char const	*b = lines[2];
+
+	// color = tcolor_set(atof(r), atof(g), atof(b));//! FORBIDDEN ATOF
+	// color = tcolor_set(ft_atoi(r), ft_atoi(g), ft_atoi(b));
+	color = tcolor_convert_rgbcolor(ft_atoi(r), ft_atoi(g), ft_atoi(b));
+	return (color);
 }

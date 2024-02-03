@@ -1,6 +1,21 @@
 {
     "tasks": [
         {
+            "type": "shell",
+            "label": "make_dev",
+            "command": "make",
+            "args": [
+                "asan"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
             "type": "cppbuild",
             "label": "C/C++: clang アクティブなファイルのビルド",
             "command": "/usr/bin/clang",
