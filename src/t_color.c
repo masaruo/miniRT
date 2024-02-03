@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 08:22:03 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/31 10:16:18 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/03 10:21:33 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ t_color	tcolor_str_set(char const *line)
 	char const	*g = lines[1];
 	char const	*b = lines[2];
 
-	color = tcolor_set(atof(r), atof(g), atof(b));//! FORBIDDEN ATOF
+	// color = tcolor_set(atof(r), atof(g), atof(b));//! FORBIDDEN ATOF
+	color = tcolor_set(ft_atoi(r), ft_atoi(g), ft_atoi(b));
 	return (color);
 }

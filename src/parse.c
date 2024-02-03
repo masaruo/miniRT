@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/01 16:51:18 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/03 10:20:00 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ t_shape	*_get_a_sphere(char const **lines)
 	//todo malloc error
 	sphere->type = sphere_type;
 	sphere->u_data.sphere.center = vec3_str_init(lines[1]);
-	sphere->u_data.sphere.r = atof(lines[2]);//! FOBIDDEN ATOF
+	// sphere->u_data.sphere.r = atof(lines[2]);//! FOBIDDEN ATOF
+	sphere->u_data.sphere.r = ft_atoi(lines[2]);
 	sphere->material.color = tcolor_str_set(lines[3]);
 
 	//todo below parse?
@@ -142,6 +143,7 @@ int	parse_controller(char const *rt_file, t_world * const world)
 	char		**split_line;
 	int			fd;
 
+	//todo validation
 	fd = open(rt_file, O_RDONLY);
 	if (fd == -1)
 	{

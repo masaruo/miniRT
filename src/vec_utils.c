@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:07:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/31 21:13:55 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/03 10:18:53 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ t_vec3	vec3_str_init(char const *line)
 	char const	*y = lines[1];
 	char const	*z = lines[2];
 
-	vec = vec3_init(atof(x), atof(y), atof(z));//! atof FORBIDDEN
+	// vec = vec3_init(atof(x), atof(y), atof(z));//! atof FORBIDDEN
+	vec = vec3_init(ft_atoi(x), ft_atoi(y), ft_atoi(z));
 	return (vec);
 }
