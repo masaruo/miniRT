@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/03 10:20:00 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/03 15:12:04 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ t_light	*_get_a_light(char const **lines)
 		exit (1);
 	}
 	light->vector = vec3_str_init(lines[1]);
-	light->bright = atof(lines[2]);//! FORBIDDEN. max 1 min 0
+	light->brightness = atof(lines[2]);//!FORBIDDEEN max 1 min 0
 	light->color = tcolor_str_set(lines[3]);
 
 	//todo below delete
-	light->brightness = tcolor_set(atof(lines[2]), atof(lines[2]), atof(lines[2]));
+	// light->brightness = tcolor_set(atof(lines[2]), atof(lines[2]), atof(lines[2]));
 	return (light);
 }
 
@@ -96,7 +96,7 @@ t_camera	_get_a_camera(char const **lines)
 
 	camera.position = vec3_str_init(lines[1]);
 	camera.orientation = vec3_str_init(lines[2]);//! range from -1 to 1
-	camera.field_of_view = atof(lines[3]);//! forbidden
+	camera.field_of_view = ft_atoi(lines[3]);
 	camera.direction = vec3_init(0, 0, 0);
 	camera.x_basis = vec3_init(0, 0, 0);
 	camera.y_basis = vec3_init(0, 0, 0);
@@ -154,6 +154,7 @@ int	parse_controller(char const *rt_file, t_world * const world)
 	{
 		split_line = ft_split(read_line, ' ');
 		_parse_split_line(split_line, world);
+		//todo ft_split leak
 	}
 	return (EXIT_SUCCESS);
 }

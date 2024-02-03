@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 22:17:28 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/03 12:36:31 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/03 15:44:54 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ static t_color	_get_diffuse_effect(t_light const *light, t_intersect const *inte
 		tmp = tcolor_multiply(intersect->material.color, light->color);//changed
 		// tmp = intersect->material.color;
 		tmp = tcolor_scalar_multiply(tmp, n_dot_l);//changed
-		tmp = tcolor_multiply(tmp, light->brightness);
+		// tmp = tcolor_multiply(tmp, light->brightness);
+		tmp = tcolor_scalar_multiply(tmp, light->brightness);
 		// tmp = tcolor_clamp(tmp);//?
-		ans = tcolor_add(tmp, ans);
+		ans = tmp;
 	}
 	return (ans);
 }
@@ -66,10 +67,12 @@ static t_color	_get_specular_effect(t_light const *light, t_intersect const *int
 		{
 			tmp = tcolor_multiply(intersect->material.color, light->color);//changed
 			// tmp = intersect->material.color;
-			tmp = tcolor_scalar_multiply(tmp, pow(v_dot_r, 0.2));//changed from alpha
-			tmp = tcolor_multiply(tmp, light->brightness);
+			tmp = tcolor_scalar_multiply(tmp, pow(v_dot_r, 0.8));//changed from alpha
+			// tmp = tcolor_multiply(tmp, light->brightness);
+			tmp = tcolor_scalar_multiply(tmp, light->brightness);
 			// tmp = tcolor_clamp(tmp);
-			ans = tcolor_add(tmp, ans);
+			// ans = tcolor_add(tmp, ans);
+			ans = tmp;
 		}
 	}
 	return (ans);
@@ -102,12 +105,11 @@ static t_color	_calc_diffse_and_specular(t_list const *lights, t_intersect const
 
 t_color	tcolor_calc_phong(t_world const * const world, t_intersect const *intersect, t_ray const *ray)
 {
-	t_color const	ambient = tcolor_scalar_multiply(world->ambient.color, world->ambient.ratio);
 	t_color			phong;
+	t_color const	ambient = tcolor_scalar_multiply(world->ambient.color, world->ambient.ratio);
 	t_color			diffuse_and_specular;
 
-	phong = tcolor_set(0, 0, 0);
-	phong = tcolor_add(phong, ambient);
+	phong = ambient;
 	diffuse_and_specular = _calc_diffse_and_specular(world->lights, intersect, ray, world->shapes);
 	phong = tcolor_add(phong, diffuse_and_specular);
 	return (phong);

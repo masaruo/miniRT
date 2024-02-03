@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/01/31 12:02:00 by mogawa           ###   ########.fr        #
+#    Updated: 2024/02/03 14:28:19 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,6 +75,9 @@ clean:
 fclean:	clean
 	$(RM) $(NAME)
 	$(MAKE) fclean -C $(LIBFTDIR)
+
+dev: all
+	./miniRT test_rt
 
 re:	fclean all
 
