@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/03 15:12:04 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/04 01:40:29 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ t_camera	_get_a_camera(char const **lines)
 
 	camera.position = vec3_str_init(lines[1]);
 	camera.orientation = vec3_str_init(lines[2]);//! range from -1 to 1
+	camera.orientation = vec3_normalize(&camera.orientation);
 	camera.field_of_view = ft_atoi(lines[3]);
 	camera.direction = vec3_init(0, 0, 0);
 	camera.x_basis = vec3_init(0, 0, 0);

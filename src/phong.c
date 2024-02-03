@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 22:17:28 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/03 15:44:54 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/04 02:10:23 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static t_color	_get_diffuse_effect(t_light const *light, t_intersect const *inte
 		tmp = tcolor_scalar_multiply(tmp, n_dot_l);//changed
 		// tmp = tcolor_multiply(tmp, light->brightness);
 		tmp = tcolor_scalar_multiply(tmp, light->brightness);
-		// tmp = tcolor_clamp(tmp);//?
+		// tmp = tcolor_clamp(tmp);//? 必要？
 		ans = tmp;
 	}
 	return (ans);
@@ -70,7 +70,7 @@ static t_color	_get_specular_effect(t_light const *light, t_intersect const *int
 			tmp = tcolor_scalar_multiply(tmp, pow(v_dot_r, 0.8));//changed from alpha
 			// tmp = tcolor_multiply(tmp, light->brightness);
 			tmp = tcolor_scalar_multiply(tmp, light->brightness);
-			// tmp = tcolor_clamp(tmp);
+			tmp = tcolor_clamp(tmp);//???　必要？
 			// ans = tcolor_add(tmp, ans);
 			ans = tmp;
 		}
