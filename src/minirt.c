@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/04 01:44:51 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/11 12:15:19 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ double	get_x_in_camera(double x_in_loop, double width, double height, double fov
 	double const	screen_x = (2 * ndc_x) - 1;
 	double const	camera_x = screen_x * aspect_ratio;
 	double const	fov_adj_camera_x = camera_x * tan(convert_degree_to_radian(fov / 2));
+	//! how to convert to world index?
 
 	return (fov_adj_camera_x);
 };
@@ -70,23 +71,30 @@ double	get_y_in_camera(double y_in_loop, double height, double fov)
 void	get_intersect_with_shape(t_world *world, t_image const *image)
 {
 	t_vec3 pw;
+	t_vec3	screen_coord;
+	t_ray	eye_ray;
 
+	
 	pw.z = 0;
-	// screen_coord.z = -1;
+	screen_coord.z = -1;//!-1? 0? 1?
 	for (double y = 0; y < world->screen_height; y++)
 	{
 		// pw.y = -2 * y / (world->screen_height - 1) + 1;
-		// screen_coord.y = get_y_in_camera(y, window_height, fov);
+		screen_coord.y = get_y_in_camera(y, world->screen_height, world->camera.field_of_view);
 		for (double x = 0; x < world->screen_witdh; x++)
 		{
 			// pw.x = 2 * x / (world->screen_witdh - 1) - 1;
-			// screen_coord.x = get_x_in_camera(x, window_width, window_height, fov);
-			// t_vec3	tmp = vec3_init(0, 0, -5);
-			// eye_ray = t_ray_create_ray(&tmp, &screen_coord);
+			screen_coord.x = get_x_in_camera(x, world->screen_witdh, world->screen_height, world->camera.field_of_view);
+			t_vec3	tmp_cam_pos = vec3_init(-2, 0, -5);
+			// eye_ray = t_ray_create_ray(&tmp_cam_pos, &screen_coord);
 			// t_vec3 pwTransformed = cameraTransform(&screen_coord, &cameraPos, &cameraTarget, &worldUp);
 			// eye_ray = t_ray_create_ray(&cameraPos, &pwTransformed);
 			
-			//! junnetwork
+			//! get right, up, forward vec
+			
+
+
+		// 	//! junnetwork
 			double sw = x - (world->screen_witdh - 1) / 2;
 			double sy = (world->screen_height - 1) / 2 - y;
 			double d = (world->screen_witdh / 2) / tan(convert_degree_to_radian(world->camera.field_of_view / 2));
@@ -135,7 +143,7 @@ void	get_intersect_with_shape(t_world *world, t_image const *image)
 			eye_ray.start = world->camera.position;
 			eye_ray.direction = ray_direction;
 
-			//! end Junnetwork
+		// 	//! end Junnetwork
 
 			t_intersect intersection;
 			intersection.distance = __DBL_MAX__;
