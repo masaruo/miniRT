@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:31:04 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/01 20:48:14 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/12 17:41:19 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static int	get_distance_to_sphere(t_sphere const *sphere, t_ray const *ray, t_in
 	out_intersect->position = t_ray_get_point(ray, distance);
 	center_to_intersect = vec3_subtract(&out_intersect->position, &sphere->center);
 	out_intersect->normal = vec3_normalize(&center_to_intersect);
+	out_intersect->color = sphere->color;
 	return (HAS_INTERSECTION);
 }
 
@@ -85,6 +86,70 @@ static int	get_distance_to_plane(t_plane const *plane, t_ray const *ray, t_inter
 	out_intersect->distance = distance;
 	out_intersect->position = t_ray_get_point(ray, distance);
 	out_intersect->normal = plane->normal;
+	out_intersect->color = plane->color;
+	return (HAS_INTERSECTION);
+}
+
+static int	get_distance_to_cylinder(t_cylinder const *cylinder, t_ray const *ray, t_intersect *out_intersetct)
+{
+	t_vector_vec3 const	cylinder_to_camera = vec3_subtract(&ray->start, &cylinder->position);
+	t_vec3	tmp;
+	tmp = vec3_cross(&ray->direction, &cylinder->normal);
+	double	a = vec3_length(&tmp);
+	a = a * a;
+
+	t_vec3	tmp2 = vec3_subtract(&ray->start, &cylinder->position);
+	t_vec3	tmp3 = vec3_cross(&tmp2, &cylinder->normal);
+	double	b = 2 * vec3_dot(&tmp, &tmp3);
+	t_vec3	tmp4 = vec3_cross(&cylinder_to_camera, &cylinder->normal);
+	double	c = vec3_length(&tmp4);
+	c = c * c - cylinder->r * cylinder->r;
+
+	double d = b * b - 4 * a * c;
+
+	if (d < 0 || 2 * a == 0)
+	{
+		return (NO_INTERSECTION);
+	}
+	double t_outer = (-b - sqrt(d)) / (2 * a);
+	double	t_inter = (-b + sqrt(d)) / (2 * a);
+
+	
+	tmp = vec3_multiply(&ray->direction, t_outer);
+	t_vec3	p_outer = vec3_add(&ray->start, &tmp);
+	tmp = vec3_multiply(&ray->direction, t_inter);
+	t_vec3	p_inter = vec3_add(&ray->start, &tmp);
+
+	t_vec3	center2p_outer = vec3_subtract(&p_outer, &cylinder->position);
+	t_vec3	cneter2p_inter = vec3_subtract(&p_inter, &cylinder->normal);
+
+	double height_outer = vec3_dot(&center2p_outer, &cylinder->normal);
+	double height_inner = vec3_dot(&cneter2p_inter, &cylinder->normal);
+
+	if (height_outer >= 0 && height_outer <= cylinder->height)
+	{
+		out_intersetct->distance = t_outer;
+		out_intersetct->position = p_outer;
+		out_intersetct->color = cylinder->color;
+		t_vec3	outer_tmp;
+		outer_tmp = vec3_multiply(&cylinder->normal, height_outer);
+		outer_tmp = vec3_normalized_subtract(&center2p_outer, &outer_tmp);
+		out_intersetct->normal = outer_tmp;
+	}
+	else if (height_inner >= 0 && height_inner <= cylinder->height)
+	{
+		out_intersetct->distance = t_inter;
+		out_intersetct->position = p_inter;
+		out_intersetct->color = cylinder->color;
+		t_vec3	outer_tmp;
+		outer_tmp = vec3_multiply(&cylinder->normal, height_inner);
+		outer_tmp = vec3_normalized_subtract(&center2p_outer, &outer_tmp);
+		out_intersetct->normal = outer_tmp;
+	}
+	else
+	{
+		return (NO_INTERSECTION);
+	}
 	return (HAS_INTERSECTION);
 }
 
@@ -97,6 +162,10 @@ int	test_intersection(t_shape const *shape, t_ray const *ray, t_intersect *out_i
 	else if (shape->type == plane_type)
 	{
 		return (get_distance_to_plane(&shape->u_data.plane, ray, out_intersect));
+	}
+	else if (shape->type == cylinder_type)
+	{
+		return (get_distance_to_cylinder(&shape->u_data.cylinder, ray, out_intersect));
 	}
 	else
 	{
@@ -123,9 +192,12 @@ int	test_all_intersection(t_list const * const shapes, t_ray const *ray, t_inter
 				out_intersect->distance = crnt_intersect.distance;
 				out_intersect->normal = crnt_intersect.normal;
 				out_intersect->position = crnt_intersect.position;
-				out_intersect->color = shape->material.color;
-				// out_intersect->has_intersection = true;
-				out_intersect->material = shape->material;
+				if (shape->type == sphere_type)
+					out_intersect->color = shape->u_data.sphere.color;
+				else if (shape->type == plane_type)
+					out_intersect->color = shape->u_data.plane.color;
+				else
+					out_intersect->color = shape->u_data.cylinder.color;
 				has_intersection = true;
 			}
 		}
