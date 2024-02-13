@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:59:21 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/01 09:46:05 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/13 15:40:50 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,14 @@ t_vec3	vec3_copy(t_vec3 const *a);
 t_vec3	vec3_normalized_subtract(t_vec3 const *a, t_vec3 const *b);
 t_vec3	vec3_str_init(char const *line);
 
+//! new type of vecs
+t_vec3	vec3_addx(t_vec3 a, t_vec3 b);
+t_vec3	vec3_subtractx(t_vec3 a, t_vec3 b);
+t_vec3	vec3_multiplyx(t_vec3 a, double scalar);
+double	vec3_dotx(t_vec3 a, t_vec3 b);
+t_vec3	vec3_crossx(t_vec3 a, t_vec3 b);
+double	vec3_squarex(t_vec3 a);
+double	vec3_lengthx(t_vec3 a);
+t_vec3	vec3_normalizex(t_vec3 a);
+t_vec3	vec3_normalized_subtractx(t_vec3 a, t_vec3 b);
 #endif
