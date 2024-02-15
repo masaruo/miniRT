@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:07:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/13 15:38:22 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/14 13:30:41 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ double	vec3_squarex(t_vec3 a)
 double	vec3_lengthx(t_vec3 a)
 {
 	return (sqrt(vec3_squarex(a)));
-}:
+}
 
 t_vec3	vec3_normalizex(t_vec3 a)
 {

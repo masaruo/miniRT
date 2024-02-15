@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/12 18:03:44 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/15 16:06:39 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_shape	*_get_a_plain(char const **lines)
 	//todo malloc error
 	plane->type = plane_type;
 	plane->u_data.plane.position = vec3_str_init(lines[1]);
-	plane->u_data.plane.normal = vec3_str_init(lines[2]);// 0.0 to 1.0 normalized
+	plane->u_data.plane.normal = vec3_normalizex(vec3_str_init(lines[2]));// 0.0 to 1.0 normalized
 	plane->u_data.plane.color = tcolor_str_set(lines[3]);
 	// plane->material.color = tcolor_str_set(lines[3]);
 
@@ -99,10 +99,11 @@ t_shape	*_get_a_cylinder(char const **lines)
 	//todo malloc error
 	cylinder->type = cylinder_type;
 	cylinder->u_data.cylinder.position = vec3_str_init(lines[1]);
-	cylinder->u_data.cylinder.normal = vec3_str_init(lines[2]);
+	cylinder->u_data.cylinder.normal = vec3_normalizex(vec3_str_init(lines[2]));
 	cylinder->u_data.cylinder.r = atof(lines[3]);//! forbidden
 	cylinder->u_data.cylinder.height = atof(lines[4]);//! forbidden
 	cylinder->u_data.cylinder.color = tcolor_str_set(lines[5]);
+	return (cylinder);
 }
 
 t_camera	_get_a_camera(char const **lines)
