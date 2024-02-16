@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:31:04 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/15 17:43:00 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/16 14:18:06 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,18 @@ int	get_distance_to_cylinder(t_cylinder const *cylinder, t_ray const *ray, t_int
 	t_vec3	d = ray->direction;
 	t_vec3	cylinder_to_ray = vec3_subtractx(ray->start, cylinder->position);
 	// t_vec3	c = cylinder->position;//!シリンダーのポジションを c - sで相対的に表示
-	t_vec3	c = cylinder_to_ray;
-	// t_vec3	v = vec3_normalizex(cylinder->normal);
+	t_vec3	c = cylinder->position;
+	cylinder_to_ray = c;
 	t_vec3	v = cylinder->normal;
 	t_normalized_vec3	intersect_normal1;
 	t_position_vec3		P1, P2, K1, K2;
 
 	double	A = _cylinder_get_a(d, v);
-	double	B = _cylinder_get_b(d, v, c);
-	double	C = _cylinder_get_c(v, c, r);
+	double	B = _cylinder_get_b(d, v, cylinder_to_ray);
+	double	C = _cylinder_get_c(v, cylinder_to_ray, r);
 	double	D = B * B - 4 * A * C;
 	
-	if (2 * A == 0 || D < 0)
+	if (A == 0 || D < 0)
 	{
 		return (NO_INTERSECTION);
 	}
@@ -89,7 +89,7 @@ int	get_distance_to_cylinder(t_cylinder const *cylinder, t_ray const *ray, t_int
 		return (NO_INTERSECTION);
 	}
 	double m;
-	if (t == t1)
+	if (t - t1 < 0.00001)
 	{
 		m = t1 * vec3_dotx(d, v) / vec3_dotx(v, v) - vec3_dotx(c, v) / vec3_dotx(v, v);
 	}
