@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:31:04 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/15 17:43:00 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/17 14:58:41 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,71 @@ static double	_cylinder_get_c(t_normalized_vec3 v, t_position_vec3 c, double r)
 	return (c_quadratic);
 }
 
-// static t_position_vec3	_cylinger_get_normal()
-// {
-	
-// }
+double	get_length_of_projection(t_ray *ray, t_cylinder *cylinder, t_vec3 point)
+{
+	t_vec3	cylinder_center_to_point = vec3_subtractx(point, cylinder->position);
+	double	len_projection = vec3_dotx(cylinder_center_to_point, cylinder->normal);
+	return (len_projection);
+}
+
+t_vec3	get_normal(double t, t_ray *ray, t_cylinder *cylinder, t_vec3 point, bool is_inside)
+{
+	t_vec3	normal;
+	t_vec3	cylinder_center_to_point = vec3_subtractx(point, cylinder->position);
+	double	len_projection = vec3_dotx(cylinder_center_to_point, cylinder->normal);
+	t_vec3	projection = vec3_addx(cylinder->position, vec3_multiplyx(cylinder->normal, len_projection));
+
+	// if (is_inside)
+	// {
+	// 	normal = vec3_normalized_subtractx(projection, point);
+	// }
+	// else
+	// {
+		normal = vec3_normalized_subtractx(point, projection);
+	// }
+	return (normal);
+}
+
+double	calculate_cylinder_distance(double A, double B, double C, t_vec3 *point, t_vec3 *normal, t_ray *ray, t_cylinder *cylinder)
+{
+	double	t;
+	double	d = B * B - 4 * A * C;
+	double	t_plus;
+	double	t_minus;
+	t_vec3	cylinder_to_point;
+
+	t = -1;
+	t_plus = (-B + sqrt(d)) / (2 * A);
+	t_minus = (-B - sqrt(d)) / (2 * A);
+	if (t_plus > 0 && t_minus > 0)
+	{
+		if (t_plus < t_minus)
+		{
+			t = t_plus;
+		}
+		else
+		{
+			t = t_minus;
+		}
+		*point = vec3_addx(ray->start, vec3_multiplyx(ray->direction, t));
+		*normal = get_normal(t, ray, cylinder, *point, false);
+		return (t);
+	}
+	else if (t_plus > 0 || t_minus > 0)
+	{
+		if (t_plus > 0)
+		{
+			t = t_plus;
+		}
+		else
+		{
+			t = t_minus;
+		}
+		*point = vec3_addx(ray->start, vec3_multiplyx(ray->direction, t));
+		*normal = get_normal(t, ray, cylinder, *point, true);
+	}
+	return (t);
+}
 
 int	get_distance_to_cylinder(t_cylinder const *cylinder, t_ray const *ray, t_intersect *out_intersect)
 {
@@ -65,55 +126,37 @@ int	get_distance_to_cylinder(t_cylinder const *cylinder, t_ray const *ray, t_int
 	t_vec3	s = ray->start;
 	t_vec3	d = ray->direction;
 	t_vec3	cylinder_to_ray = vec3_subtractx(ray->start, cylinder->position);
-	// t_vec3	c = cylinder->position;//!シリンダーのポジションを c - sで相対的に表示
-	t_vec3	c = cylinder_to_ray;
-	// t_vec3	v = vec3_normalizex(cylinder->normal);
+	cylinder_to_ray = cylinder->position;
+	t_vec3	c = cylinder->position;
 	t_vec3	v = cylinder->normal;
 	t_normalized_vec3	intersect_normal1;
-	t_position_vec3		P1, P2, K1, K2;
 
 	double	A = _cylinder_get_a(d, v);
-	double	B = _cylinder_get_b(d, v, c);
-	double	C = _cylinder_get_c(v, c, r);
+	double	B = _cylinder_get_b(d, v, cylinder_to_ray);
+	double	C = _cylinder_get_c(v, cylinder_to_ray, r);
 	double	D = B * B - 4 * A * C;
 	
-	if (2 * A == 0 || D < 0)
+	if (A == 0 || D < 0)
 	{
 		return (NO_INTERSECTION);
 	}
-	double t = calculate_t_distance(D, B, A);
-	t1 = -B - sqrt(D) / 2 * A;
-	t2 = -B + sqrt(D) / 2 * A;
+	// double	m = -1;
+	t_vec3	point;
+	t_vec3	normal;
+	double t = calculate_cylinder_distance(A, B, C, &point, &normal, ray, cylinder);
 	if (t < 0)
 	{
 		return (NO_INTERSECTION);
 	}
-	double m;
-	if (t == t1)
-	{
-		m = t1 * vec3_dotx(d, v) / vec3_dotx(v, v) - vec3_dotx(c, v) / vec3_dotx(v, v);
-	}
-	else
-	{
-		m = (t2 * vec3_dotx(d, v) / vec3_dotx(v, v)) - vec3_dotx(c, v) / vec3_dotx(v, v);
-	}
+	double	m = get_length_of_projection(ray, cylinder, point);
 	if (m > cylinder->height || m < 0)
 	{
 		return (NO_INTERSECTION);
 	}
-	
-	P1 = vec3_addx(s, vec3_multiplyx(d, t));
-	// P2 = vec3_addx(s, vec3_multiplyx(d, t2));
-
-	K1 = vec3_addx(c, vec3_multiplyx(v, m));
-	// K2 = vec3_addx(c, vec3_multiplyx(v, m2));
-
-	intersect_normal1 = vec3_normalized_subtractx(P1, K1);
-	// intersect_normal2 = vec3_normalized_subtractx(P2, K2);
 
 	out_intersect->distance = t;
 	out_intersect->position = t_ray_get_point(ray, t);
-	out_intersect->normal = intersect_normal1;
+	out_intersect->normal = normal;
 	out_intersect->color = cylinder->color;
 	return (HAS_INTERSECTION);
 }
