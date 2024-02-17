@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:31:04 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/17 15:07:15 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/17 17:49:06 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static double	_cylinder_get_a(t_normalized_vec3 d, t_normalized_vec3 v)
 {
 	double const	dv = vec3_dotx(d, v);
 	double const	dv_pow2 = dv * dv;
-	double const	a = 1 - dv_pow2;
+	double const	a = vec3_dotx(d, d) - dv_pow2;
 
 	return (a);
 }
@@ -69,11 +69,14 @@ t_vec3	get_normal(double t, t_ray *ray, t_cylinder *cylinder, t_vec3 point, bool
 	if (is_inside)
 	{
 		normal = vec3_normalized_subtractx(projection, point);
+		// normal = vec3_normalized_subtractx(point, projection);
 	}
 	else
 	{
 		normal = vec3_normalized_subtractx(point, projection);
+		// normal = vec3_normalized_subtractx(projection, point);
 	}
+	normal = vec3_normalized_subtractx(point, projection);
 	return (normal);
 }
 
@@ -86,6 +89,8 @@ double	calculate_cylinder_distance(double A, double B, double C, t_vec3 *point, 
 	t_vec3	cylinder_to_point;
 
 	t = -1;
+	if (d < 0)
+		return (t);
 	t_plus = (-B + sqrt(d)) / (2 * A);
 	t_minus = (-B - sqrt(d)) / (2 * A);
 	if (t_plus > 0 && t_minus > 0)
@@ -124,8 +129,10 @@ int	get_distance_to_cylinder(t_cylinder const *cylinder, t_ray const *ray, t_int
 	double	r = cylinder->r;
 	t_vec3	s = ray->start;
 	t_vec3	d = ray->direction;
-	t_vec3	cylinder_to_ray = vec3_subtractx(ray->start, cylinder->position);
-	cylinder_to_ray = cylinder->position;
+	t_vec3	cylinder_to_ray;
+	// t_vec3	cylinder_to_ray = vec3_subtractx(ray->start, cylinder->position);
+	cylinder_to_ray = vec3_subtractx(cylinder->position, ray->start);
+	// cylinder_to_ray= cylinder->position;
 	t_vec3	c = cylinder->position;
 	t_vec3	v = cylinder->normal;
 	t_normalized_vec3	intersect_normal1;
