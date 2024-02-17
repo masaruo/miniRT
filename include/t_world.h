@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 15:40:05 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/17 10:42:21 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/17 18:08:51 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "t_camera.h"
 
 # define TITLE ("miniRT")
-# define WIDTH (1200)
+# define WIDTH (1000)
 # define HEIGHT (800)
 
 typedef struct s_ambient

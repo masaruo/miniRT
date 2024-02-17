@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/17 10:44:15 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/17 18:08:21 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_shape	*_get_a_sphere(char const **lines)
 	//todo malloc error
 	sphere->type = sphere_type;
 	sphere->u_data.sphere.center = vec3_str_init(lines[1]);
-	sphere->u_data.sphere.r = ft_atoi(lines[2]);
+	sphere->u_data.sphere.r = ft_atoi(lines[2]) / 2.0;
 	sphere->u_data.sphere.color = tcolor_str_set(lines[3]);
 	// sphere->material.color = tcolor_str_set(lines[3]);
 
@@ -100,6 +100,7 @@ t_shape	*_get_a_cylinder(char const **lines)
 	cylinder->type = cylinder_type;
 	cylinder->u_data.cylinder.position = vec3_str_init(lines[1]);
 	cylinder->u_data.cylinder.normal = vec3_normalizex(vec3_str_init(lines[2]));
+	// cylinder->u_data.cylinder.r = atof(lines[3]);//! forbidden
 	cylinder->u_data.cylinder.r = atof(lines[3]) / 2.0;//! forbidden
 	cylinder->u_data.cylinder.height = atof(lines[4]);//! forbidden
 	cylinder->u_data.cylinder.color = tcolor_str_set(lines[5]);
