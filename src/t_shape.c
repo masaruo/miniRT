@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:31:04 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/17 14:58:41 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/17 15:07:15 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ static double	_cylinder_get_b(t_normalized_vec3 d, t_normalized_vec3 v, t_positi
 	double dc = vec3_dotx(d, c);
 	double cv = vec3_dotx(c, v);
 
-	// double b = -2 * dc + 2 * cv * dv / vv;
-	// double	b = 2 * (dc - dv * dv);
-	double b = -2 * (dc - (cv * dv));
+	double b = 2 * (cv * dv - dc);
+	// double b = -2 * (dc - (cv * dv));
 	return (b);
 }
 
@@ -49,7 +48,7 @@ static double	_cylinder_get_c(t_normalized_vec3 v, t_position_vec3 c, double r)
 	double cv_pow2 = cv * cv;
 	double vv = vec3_dotx(v, v);
 
-	c_quadratic = cc - cv_pow2 / vv - r * r;
+	c_quadratic = cc - cv_pow2 - r * r;
 	return (c_quadratic);
 }
 
@@ -67,14 +66,14 @@ t_vec3	get_normal(double t, t_ray *ray, t_cylinder *cylinder, t_vec3 point, bool
 	double	len_projection = vec3_dotx(cylinder_center_to_point, cylinder->normal);
 	t_vec3	projection = vec3_addx(cylinder->position, vec3_multiplyx(cylinder->normal, len_projection));
 
-	// if (is_inside)
-	// {
-	// 	normal = vec3_normalized_subtractx(projection, point);
-	// }
-	// else
-	// {
+	if (is_inside)
+	{
+		normal = vec3_normalized_subtractx(projection, point);
+	}
+	else
+	{
 		normal = vec3_normalized_subtractx(point, projection);
-	// }
+	}
 	return (normal);
 }
 
