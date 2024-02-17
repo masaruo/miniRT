@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_material.h                                       :+:      :+:    :+:   */
+/*   cylinder.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 09:42:59 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/12 18:00:06 by mogawa           ###   ########.fr       */
+/*   Created: 2024/02/13 12:56:38 by mogawa            #+#    #+#             */
+/*   Updated: 2024/02/13 14:57:00 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #ifndef T_MATERIAL_H
-// #define T_MATERIAL_H
+#ifndef CYLINDER_H
+#define CYLINDER_H
 
-// #include "t_color.h"
+#include "t_vec3.h"
 
-// // マテリアル構造体
-// typedef struct s_material
+// typedef struct s_cylinder
 // {
-// 	t_color	color;
-// 	// t_color	ambient;//! 定数になるはずだから、いらないかも
-// 	// t_color	diffuse;
-// 	// t_color	specular;
-// 	// double	shininess;
-// }	t_material;
+// 	t_position_vec3		center;
+// 	t_normalized_vec3	normal;
+// 	double				radius;
+// 	double				height;
+// 	t_color				color;
+// }	t_cylinder;
 
-// #endif
+#endif

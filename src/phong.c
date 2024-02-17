@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 22:17:28 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/11 12:31:34 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/15 14:37:17 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ static t_color	_get_diffuse_effect(t_light const *light, t_intersect const *inte
 	{
 		n_dot_l = double_clamp(n_dot_l, 0, 1);//!ここわかってない！
 		tmp = tcolor_scalar_multiply(light->color, light->brightness);
-		tmp = tcolor_multiply(intersect->material.color, tmp);//changed
-		tmp = tcolor_clamp(tmp);
+		// tmp = tcolor_multiply(intersect->material.color, tmp);//changed
+		tmp = tcolor_multiply(intersect->color, tmp);
 		tmp = tcolor_scalar_multiply(tmp, n_dot_l);//changed
+		tmp = tcolor_clamp(tmp);
 		// tmp = tcolor_multiply(tmp, light->brightness);
 		// tmp = tcolor_scalar_multiply(tmp, light->brightness);
 		// tmp = tcolor_clamp(tmp);//? 必要？
@@ -67,8 +68,9 @@ static t_color	_get_specular_effect(t_light const *light, t_intersect const *int
 		if (v_dot_r > 0)
 		{
 			tmp = tcolor_scalar_multiply(light->color, light->brightness);
-			tmp = tcolor_multiply(intersect->material.color, tmp);//changed
-			tmp = tcolor_scalar_multiply(tmp, pow(v_dot_r, 1));//changed from alpha
+			// tmp = tcolor_multiply(intersect->material.color, tmp);//changed
+			tmp = tcolor_multiply(intersect->color, tmp);
+			tmp = tcolor_scalar_multiply(tmp, pow(v_dot_r, 0.8));//changed from alpha
 			tmp = tcolor_clamp(tmp);//???　必要？
 			ans = tmp;
 		}
@@ -94,7 +96,7 @@ static t_color	_calc_diffse_and_specular(t_list const *lights, t_intersect const
 			diffuse = _get_diffuse_effect(light, intersect);
 			total_effect = tcolor_add(total_effect, diffuse);
 			specular = _get_specular_effect(light, intersect, ray);
-			// total_effect = tcolor_add(total_effect, specular);
+			total_effect = tcolor_add(total_effect, specular);
 		}
 		crnt = crnt->next;
 	}

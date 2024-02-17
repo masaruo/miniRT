@@ -1,28 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_material.h                                       :+:      :+:    :+:   */
+/*   t_cylinder.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/23 09:42:59 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/12 18:00:06 by mogawa           ###   ########.fr       */
+/*   Created: 2024/02/13 12:56:27 by mogawa            #+#    #+#             */
+/*   Updated: 2024/02/14 11:33:30 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #ifndef T_MATERIAL_H
-// #define T_MATERIAL_H
-
-// #include "t_color.h"
-
-// // マテリアル構造体
-// typedef struct s_material
-// {
-// 	t_color	color;
-// 	// t_color	ambient;//! 定数になるはずだから、いらないかも
-// 	// t_color	diffuse;
-// 	// t_color	specular;
-// 	// double	shininess;
-// }	t_material;
-
-// #endif
+#include "cylinder.h"
+#include "t_shape.h"

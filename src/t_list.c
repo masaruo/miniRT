@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:20:26 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/22 15:23:42 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/12 17:38:24 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ void	print_tshape(t_list *head)
 {
 	t_list	*crnt;
 	t_shape	*shape;
-	t_material material;
+	// t_material material;
 
 	crnt = head->next;
 	while (crnt)
 	{
 		shape = crnt->content;
-		material = shape->material;
+		// material = shape->material;
 		if (shape->type == sphere_type)
 		{
 			t_sphere sphere;

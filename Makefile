@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/02/03 14:28:19 by mogawa           ###   ########.fr        #
+#    Updated: 2024/02/13 15:41:16 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRCS		:=	\
 			t_matrix.c \
 			t_ray.c \
 			t_shape.c \
+			t_vec3.c \
 			t_world.c \
 			vec_utils.c \
 			minirt.c

@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/04 01:40:29 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/17 18:08:21 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ t_shape	*_get_a_sphere(char const **lines)
 	//todo malloc error
 	sphere->type = sphere_type;
 	sphere->u_data.sphere.center = vec3_str_init(lines[1]);
-	// sphere->u_data.sphere.r = atof(lines[2]);//! FOBIDDEN ATOF
-	sphere->u_data.sphere.r = ft_atoi(lines[2]);
-	sphere->material.color = tcolor_str_set(lines[3]);
+	sphere->u_data.sphere.r = ft_atoi(lines[2]) / 2.0;
+	sphere->u_data.sphere.color = tcolor_str_set(lines[3]);
+	// sphere->material.color = tcolor_str_set(lines[3]);
 
 	//todo below parse?
 	// sphere->material.ambient = tcolor_set(0.01, 0.01, 0.01);
@@ -78,8 +78,9 @@ t_shape	*_get_a_plain(char const **lines)
 	//todo malloc error
 	plane->type = plane_type;
 	plane->u_data.plane.position = vec3_str_init(lines[1]);
-	plane->u_data.plane.normal = vec3_str_init(lines[2]);// 0.0 to 1.0 normalized
-	plane->material.color = tcolor_str_set(lines[3]);
+	plane->u_data.plane.normal = vec3_normalizex(vec3_str_init(lines[2]));// 0.0 to 1.0 normalized
+	plane->u_data.plane.color = tcolor_str_set(lines[3]);
+	// plane->material.color = tcolor_str_set(lines[3]);
 
 	//todo below parse - extra
 	// plane->material.ambient = tcolor_set(0.01, 0.01, 0.01);
@@ -88,6 +89,22 @@ t_shape	*_get_a_plain(char const **lines)
 	// plane->material.shininess = 8;
 
 	return (plane);
+}
+
+t_shape	*_get_a_cylinder(char const **lines)
+{
+	t_shape	*cylinder;
+
+	cylinder = ft_calloc(1, sizeof(t_shape));
+	//todo malloc error
+	cylinder->type = cylinder_type;
+	cylinder->u_data.cylinder.position = vec3_str_init(lines[1]);
+	cylinder->u_data.cylinder.normal = vec3_normalizex(vec3_str_init(lines[2]));
+	// cylinder->u_data.cylinder.r = atof(lines[3]);//! forbidden
+	cylinder->u_data.cylinder.r = atof(lines[3]) / 2.0;//! forbidden
+	cylinder->u_data.cylinder.height = atof(lines[4]);//! forbidden
+	cylinder->u_data.cylinder.color = tcolor_str_set(lines[5]);
+	return (cylinder);
 }
 
 t_camera	_get_a_camera(char const **lines)
@@ -123,9 +140,9 @@ int _parse_split_line(char const **lines, t_world * const world)
 	{
 		ft_lstadd_back(&world->lights, ft_lstnew(_get_a_light(lines)));
 	}
-	else if (!ft_strcmp(lines[FIRST_CHAR], "cy"))//!
+	else if (!ft_strcmp(lines[FIRST_CHAR], "cy"))
 	{
-		;
+		ft_lstadd_back(&world->shapes, ft_lstnew(_get_a_cylinder(lines)));
 	}
 	else if (!ft_strcmp(lines[FIRST_CHAR], "C"))
 	{

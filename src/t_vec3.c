@@ -1,0 +1,108 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   t_vec3.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/05 14:07:29 by mogawa            #+#    #+#             */
+/*   Updated: 2024/02/14 13:30:41 by mogawa           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "t_vec3.h"
+#include "math.h"
+#include <stdio.h>
+#include "libft.h"
+
+// t_vec3	vec3_init(double in_x, double in_y, double in_z)
+// {
+// 	t_vec3	vec;
+
+// 	vec.x = in_x;
+// 	vec.y = in_y;
+// 	vec.z = in_z;
+// 	return (vec);
+// }
+
+t_vec3	vec3_addx(t_vec3 a, t_vec3 b)
+{
+	return (vec3_init(a.x + b.x, a.y + b.y, a.z + b.z));
+}
+
+t_vec3	vec3_subtractx(t_vec3 a, t_vec3 b)
+{
+	return (vec3_init(a.x - b.x, a.y - b.y, a.z - b.z));
+}
+
+t_vec3	vec3_multiplyx(t_vec3 a, double scalar)
+{
+	return (vec3_init(a.x * scalar, a.y * scalar, a.z * scalar));
+}
+
+double	vec3_dotx(t_vec3 a, t_vec3 b)
+{
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
+}
+
+t_vec3	vec3_crossx(t_vec3 a, t_vec3 b)
+{
+	t_vec3	vector;
+
+	vector.x = a.y * b.z - a.z * b.y;
+	vector.y = a.z * b.x - a.x * b.z;
+	vector.z = a.x * b.y - a.y * b.x;
+	return (vector);
+}
+
+double	vec3_squarex(t_vec3 a)
+{
+	return (a.x * a.x + a.y * a.y + a.z * a.z);
+}
+
+double	vec3_lengthx(t_vec3 a)
+{
+	return (sqrt(vec3_squarex(a)));
+}
+
+t_vec3	vec3_normalizex(t_vec3 a)
+{
+	double const	length = vec3_lengthx(a);
+
+	if (length <= 0)
+		return (vec3_init(0, 0, 0));//! error handle
+	return (vec3_init(a.x / length, a.y / length, a.z / length));
+}
+
+// t_vec3	vec3_copy(t_vec3 const *a)
+// {
+// 	t_vec3	new;
+
+// 	new.x = a.x;
+// 	new.y = a.y;
+// 	new.z = a.z;
+// 	return (new);
+// }
+
+t_vec3	vec3_normalized_subtractx(t_vec3 a, t_vec3 b)
+{
+	t_vec3	new;
+
+	new = vec3_subtractx(a, b);
+	new = vec3_normalizex(new);
+	return (new);
+}
+
+// #include <stdlib.h>//! delete
+// t_vec3	vec3_str_init(char const *line)
+// {
+// 	t_vec3		vec;
+// 	char const	**lines = ft_split(line, ',');
+// 	char const	*x = lines[0];
+// 	char const	*y = lines[1];
+// 	char const	*z = lines[2];
+
+// 	// vec = vec3_init(atof(x), atof(y), atof(z));//! atof FORBIDDEN
+// 	vec = vec3_init(ft_atoi(x), ft_atoi(y), ft_atoi(z));
+// 	return (vec);
+// }
