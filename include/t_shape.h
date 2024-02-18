@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:39:35 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/12 17:59:51 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 08:21:30 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
 #include "t_vec3.h"
 #include "t_intersect.h"
 #include "t_ray.h"
-#include "t_material.h"
+// #include "t_material.h"
 #include "t_light.h"
+#include "t_cylinder.h"
 
 #define NO_INTERSECTION (0)
 #define HAS_INTERSECTION (1)
@@ -37,14 +38,14 @@ typedef struct s_plane
 	t_color	color;//!added need to chagne parser
 }	t_plane;
 
-typedef struct s_cylinder
-{
-	t_position_vec3		position;
-	t_normalized_vec3	normal;
-	double				r;
-	double				height;
-	t_color				color;
-}	t_cylinder;
+// typedef struct s_cylinder
+// {
+// 	t_position_vec3		position;
+// 	t_normalized_vec3	normal;
+// 	double				r;
+// 	double				height;
+// 	t_color				color;
+// }	t_cylinder;
 
 typedef enum t_shape_type
 {
