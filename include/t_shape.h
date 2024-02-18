@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:39:35 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 08:21:30 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 08:36:37 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,17 @@
 // #include "t_material.h"
 #include "t_light.h"
 #include "t_cylinder.h"
+#include "t_sphere.h"
 
 #define NO_INTERSECTION (0)
 #define HAS_INTERSECTION (1)
 
-typedef struct s_sphere
-{
-	t_vec3	center;
-	double	r;
-	t_color	color;//!added need to change parser
-}	t_sphere;
+// typedef struct s_sphere
+// {
+// 	t_vec3	center;
+// 	double	r;
+// 	t_color	color;//!added need to change parser
+// }	t_sphere;
 
 typedef struct s_plane
 {
