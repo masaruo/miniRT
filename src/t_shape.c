@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:31:04 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/17 18:08:32 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 08:11:41 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,13 +181,6 @@ int	get_distance_to_cylinder(t_cylinder const *cylinder, t_ray const *ray, t_int
 	double	r = cylinder->r;
 	t_vec3	s = ray->start;
 	t_vec3	d = ray->direction;
-<<<<<<< HEAD
-	t_vec3	cylinder_to_ray = vec3_subtractx(ray->start, cylinder->position);
-	t_vec3	c = cylinder->position;
-	// t_vec3	c = cylinder->position;//!シリンダーのポジションを c - sで相対的に表示
-	t_vec3	v = cylinder->normal;
-	t_position_vec3		P1, P2, K1, K2;
-=======
 	t_vec3	cylinder_to_ray;
 	// t_vec3	cylinder_to_ray = vec3_subtractx(ray->start, cylinder->position);
 	cylinder_to_ray = vec3_subtractx(cylinder->position, ray->start);
@@ -195,7 +188,6 @@ int	get_distance_to_cylinder(t_cylinder const *cylinder, t_ray const *ray, t_int
 	t_vec3	c = cylinder->position;
 	t_vec3	v = cylinder->normal;
 	t_normalized_vec3	intersect_normal1;
->>>>>>> mogawa/cylinder
 
 	double	A = _cylinder_get_a(d, v);
 	double	B = _cylinder_get_b(d, v, cylinder_to_ray);
