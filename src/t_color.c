@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 08:22:03 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/03 14:20:29 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 09:34:45 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ t_color	tcolor_clamp(t_color color)
 {
 	t_color	new;
 
-	new.red = double_clamp(color.red, 0, 1);
-	new.green = double_clamp(color.green, 0, 1);
-	new.blue = double_clamp(color.blue, 0, 1);
+	new.red = d_clamp(color.red, 0, 1);
+	new.green = d_clamp(color.green, 0, 1);
+	new.blue = d_clamp(color.blue, 0, 1);
 	return (new);
 }
 

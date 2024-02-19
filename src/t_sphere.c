@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 08:37:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 08:46:54 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 09:34:53 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static	double	calculate_t_distance(double d, double b, double a)
 		t_minus = (-b - sqrt(d)) / (2 * a);
 		if (t_plus > 0 && t_minus > 0)
 		{
-			t_distance = double_min(t_plus, t_minus);
+			t_distance = d_min(t_plus, t_minus);
 		}
 		else if (t_plus > 0 || t_minus > 0)
 		{
