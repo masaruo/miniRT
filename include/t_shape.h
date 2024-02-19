@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:39:35 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 09:46:48 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 09:48:41 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 #define NO_INTERSECTION (0)
 #define HAS_INTERSECTION (1)
 
-typedef enum t_shape_type
+typedef enum e_shape_type
 {
 	sphere_type,
 	plane_type,
@@ -40,7 +40,7 @@ typedef struct s_shape
 		t_plane		plane;
 		t_sphere	sphere;
 		t_cylinder	cylinder;
-	}	u_data;
+	}	u_obj;
 }	t_shape;
 
 #endif

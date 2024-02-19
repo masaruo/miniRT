@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:20:26 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/12 17:38:24 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 09:48:40 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ void	print_tshape(t_list *head)
 		if (shape->type == sphere_type)
 		{
 			t_sphere sphere;
-			sphere = shape->u_data.sphere;
+			sphere = shape->u_obj.sphere;
 			printf("sphere's r [%lf]\n", sphere.r);
 		}
 		else if (shape->type == plane_type)
 		{
 			t_plane plane;
-			plane = shape->u_data.plane;
+			plane = shape->u_obj.plane;
 			vec3_print(&plane.position);
 			printf(" <= position / normal =>\n");
 			vec3_print(&plane.normal);

@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 08:47:17 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 09:48:40 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ t_shape	*_get_a_sphere(char const **lines)
 	sphere = ft_calloc(1, sizeof(t_shape));
 	//todo malloc error
 	sphere->type = sphere_type;
-	sphere->u_data.sphere.center = vec3_str_init(lines[1]);
-	sphere->u_data.sphere.r = ft_atoi(lines[2]) / 2.0;//! ft_atof?
-	sphere->u_data.sphere.color = tcolor_str_set(lines[3]);
+	sphere->u_obj.sphere.center = vec3_str_init(lines[1]);
+	sphere->u_obj.sphere.r = ft_atoi(lines[2]) / 2.0;//! ft_atof?
+	sphere->u_obj.sphere.color = tcolor_str_set(lines[3]);
 	return (sphere);
 }
 
@@ -69,9 +69,9 @@ t_shape	*_get_a_plain(char const **lines)
 	plane = ft_calloc(1, sizeof(t_shape));
 	//todo malloc error
 	plane->type = plane_type;
-	plane->u_data.plane.position = vec3_str_init(lines[1]);
-	plane->u_data.plane.normal = vec3_normalizex(vec3_str_init(lines[2]));// 0.0 to 1.0 normalized
-	plane->u_data.plane.color = tcolor_str_set(lines[3]);
+	plane->u_obj.plane.position = vec3_str_init(lines[1]);
+	plane->u_obj.plane.normal = vec3_normalizex(vec3_str_init(lines[2]));// 0.0 to 1.0 normalized
+	plane->u_obj.plane.color = tcolor_str_set(lines[3]);
 	return (plane);
 }
 
@@ -82,12 +82,12 @@ t_shape	*_get_a_cylinder(char const **lines)
 	cylinder = ft_calloc(1, sizeof(t_shape));
 	//todo malloc error
 	cylinder->type = cylinder_type;
-	cylinder->u_data.cylinder.position = vec3_str_init(lines[1]);
-	cylinder->u_data.cylinder.normal = vec3_normalizex(vec3_str_init(lines[2]));
+	cylinder->u_obj.cylinder.position = vec3_str_init(lines[1]);
+	cylinder->u_obj.cylinder.normal = vec3_normalizex(vec3_str_init(lines[2]));
 	// cylinder->u_data.cylinder.r = atof(lines[3]);//! forbidden
-	cylinder->u_data.cylinder.r = atof(lines[3]) / 2.0;//! forbidden
-	cylinder->u_data.cylinder.height = atof(lines[4]);//! forbidden
-	cylinder->u_data.cylinder.color = tcolor_str_set(lines[5]);
+	cylinder->u_obj.cylinder.r = atof(lines[3]) / 2.0;//! forbidden
+	cylinder->u_obj.cylinder.height = atof(lines[4]);//! forbidden
+	cylinder->u_obj.cylinder.color = tcolor_str_set(lines[5]);
 	return (cylinder);
 }
 

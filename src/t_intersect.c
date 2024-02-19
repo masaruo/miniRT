@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:28:11 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 09:44:57 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 09:48:40 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@ static int	test_intersection(t_shape const *shape, t_ray const *ray, t_intersect
 {
 	if (shape->type == sphere_type)
 	{
-		return (get_distance_to_sphere(&shape->u_data.sphere, ray, out_intersect));
+		return (get_distance_to_sphere(&shape->u_obj.sphere, ray, out_intersect));
 	}
 	else if (shape->type == plane_type)
 	{
-		return (get_distance_to_plane(&shape->u_data.plane, ray, out_intersect));
+		return (get_distance_to_plane(&shape->u_obj.plane, ray, out_intersect));
 	}
 	else if (shape->type == cylinder_type)
 	{
-		return (get_distance_to_cylinder(&shape->u_data.cylinder, ray, out_intersect));
+		return (get_distance_to_cylinder(&shape->u_obj.cylinder, ray, out_intersect));
 	}
 	else
 	{
@@ -53,11 +53,11 @@ int	test_all_intersection(t_list const * const shapes, t_ray const *ray, t_inter
 				out_intersect->normal = crnt_intersect.normal;
 				out_intersect->position = crnt_intersect.position;
 				if (shape->type == sphere_type)
-					out_intersect->color = shape->u_data.sphere.color;
+					out_intersect->color = shape->u_obj.sphere.color;
 				else if (shape->type == plane_type)
-					out_intersect->color = shape->u_data.plane.color;
+					out_intersect->color = shape->u_obj.plane.color;
 				else
-					out_intersect->color = shape->u_data.cylinder.color;
+					out_intersect->color = shape->u_obj.cylinder.color;
 				has_intersection = true;
 			}
 		}
