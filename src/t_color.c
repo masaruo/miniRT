@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 08:22:03 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 14:13:38 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 21:27:30 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "math_utils.h"
 #include "t_color.h"
 #include "libft.h"
+#include "wrapper.h"
 
 t_color	tcolor_clamp(t_color color)
 {
@@ -100,15 +101,15 @@ t_color	tcolor_str_set(char const *line)
 	char	*g;
 	char	*b;
 
-	rgb = ft_split(line, ',');
+	rgb = ft_xsplit(line, ',', 3);
 	if (!rgb)
 	{
-		//todo split malloc error;
+		ft_perror_exit(EXIT_FAILURE, "tcolor_str_set failed.");
 	}
 	r = rgb[0];
 	g = rgb[1];
 	b = rgb[2];
-	color = tcolor_convert_rgbcolor(ft_atoi(r), ft_atoi(g), ft_atoi(b));
+	color = tcolor_convert_rgbcolor(ft_ranged_xatod(r, 0, 255), ft_ranged_xatod(g, 0, 255), ft_ranged_xatod(b, 0, 255));
 	ft_free_all(rgb);
 	return (color);
 }

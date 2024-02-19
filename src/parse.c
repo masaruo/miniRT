@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 17:35:55 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 21:45:34 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_ambient _get_ambient_light(char const **lines)
 {
 	t_ambient	ambient;
 
-	ambient.ratio = ft_atod(lines[1]);
+	ambient.ratio = ft_ranged_xatod(lines[1], 0.0, 1.0);
 	ambient.color = tcolor_str_set(lines[2]);
 	return (ambient);
 }
@@ -43,11 +43,10 @@ t_light	*_get_a_light(char const **lines)
 	light = ft_calloc(1, sizeof(t_light));
 	if (light == NULL)
 	{
-		//todo error handle
-		exit (1);
+		ft_perror_exit(EXIT_FAILURE, "ft_calloc failed.");
 	}
 	light->vector = vec3_str_init(lines[1]);
-	light->brightness = ft_atod(lines[2]);
+	light->brightness = ft_ranged_xatod(lines[2], 0.0, 1.0);
 	light->color = tcolor_str_set(lines[3]);
 	return (light);
 }
@@ -57,10 +56,11 @@ t_shape	*_get_a_sphere(char const **lines)
 	t_shape	*sphere;
 
 	sphere = ft_calloc(1, sizeof(t_shape));
-	//todo malloc error
+	if (sphere == NULL)
+		ft_perror_exit(EXIT_FAILURE, "ft_calloc failed.");
 	sphere->type = sphere_type;
 	sphere->u_obj.sphere.center = vec3_str_init(lines[1]);
-	sphere->u_obj.sphere.r = ft_atod(lines[2]) / 2.0;
+	sphere->u_obj.sphere.r = ft_ranged_xatod(lines[2], 0.0, 100) / 2.0;
 	sphere->u_obj.sphere.color = tcolor_str_set(lines[3]);
 	return (sphere);
 }
@@ -70,10 +70,11 @@ t_shape	*_get_a_plain(char const **lines)
 	t_shape	*plane;
 
 	plane = ft_calloc(1, sizeof(t_shape));
-	//todo malloc error
+	if (plane == NULL)
+		ft_perror_exit(EXIT_FAILURE, "ft_calloc failed.");
 	plane->type = plane_type;
 	plane->u_obj.plane.position = vec3_str_init(lines[1]);
-	plane->u_obj.plane.normal = vec3_normalize(vec3_str_init(lines[2]));
+	plane->u_obj.plane.normal = vec3_normalize(vec3_ranged_str_init(lines[2], -1.0, 1.0));
 	plane->u_obj.plane.color = tcolor_str_set(lines[3]);
 	return (plane);
 }
@@ -83,12 +84,13 @@ t_shape	*_get_a_cylinder(char const **lines)
 	t_shape	*cylinder;
 
 	cylinder = ft_calloc(1, sizeof(t_shape));
-	//todo malloc error
+	if (cylinder == NULL)
+		ft_perror_exit(EXIT_FAILURE, "ft_calloc failed");
 	cylinder->type = cylinder_type;
 	cylinder->u_obj.cylinder.position = vec3_str_init(lines[1]);
-	cylinder->u_obj.cylinder.normal = vec3_normalize(vec3_str_init(lines[2]));
-	cylinder->u_obj.cylinder.r = ft_atod(lines[3]) / 2.0;
-	cylinder->u_obj.cylinder.height = ft_atod(lines[4]);
+	cylinder->u_obj.cylinder.normal = vec3_normalize(vec3_ranged_str_init(lines[2], -1.0, 1.0));
+	cylinder->u_obj.cylinder.r = ft_ranged_xatod(lines[3], 0.0, 100.0) / 2.0;
+	cylinder->u_obj.cylinder.height = ft_ranged_xatod(lines[4], 0.0, 100.0);
 	cylinder->u_obj.cylinder.color = tcolor_str_set(lines[5]);
 	return (cylinder);
 }
@@ -98,14 +100,13 @@ t_camera	_get_a_camera(char const **lines)
 	t_camera	camera;
 
 	camera.position = vec3_str_init(lines[1]);
-	camera.orientation = vec3_normalize(vec3_str_init(lines[2]));
-	camera.field_of_view = ft_atoi(lines[3]);
+	camera.orientation = vec3_normalize(vec3_ranged_str_init(lines[2], -100.0, 100.0));
+	camera.field_of_view = ft_ranged_xatod(lines[3], 0.0, 180.0);
 	camera.x_basis = vec3_init(0, 0, 0);//?
 	camera.y_basis = vec3_init(0, 0, 0);//?
 	return (camera);
 }
 
-//todo 大文字のときの処理の停止
 int _parse_split_line(char const **lines, t_world * const world, uint8_t *flag)
 {
 	if (!ft_strcmp(lines[FIRST_CHAR], "A"))
@@ -134,7 +135,7 @@ int _parse_split_line(char const **lines, t_world * const world, uint8_t *flag)
 	}
 	else
 	{
-		return (EXIT_FAILURE);
+		ft_perror_exit(EXIT_FAILURE, "unrecognizable element sign detected.");
 	}
 	return (EXIT_SUCCESS);
 }
