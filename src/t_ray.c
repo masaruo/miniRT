@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:32:22 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 10:02:07 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 10:12:20 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 t_ray	t_ray_create_ray(t_vec3 const *start, t_vec3 const *end)
 {
 	t_ray	new;
-	t_vec3 const	start_to_screen = vec3_subtract(end, start);
+	t_vec3 const	start_to_screen = vec3_subtract(*end, *start);
 
 	new.start = *start;
-	new.direction = vec3_normalize(&start_to_screen);
+	new.direction = vec3_normalize(start_to_screen);
 	return (new);
 }
 
@@ -79,7 +79,7 @@ t_vec3	t_ray_screen_to_world(t_vec3 const *camera_pos, double screen_width, doub
 
 	// todo get_screen_base_on_world
 	t = (screen_width / 2) * (1 / tan(1 / 2 * fov));
-	d = vec3_normalized_subtract(&target, &s);
+	d = vec3_normalized_subtract(target, s);
 	td = vec3_multiply(&d, t);
 	base = vec3_add(s, td);
 

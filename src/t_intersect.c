@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:28:11 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 10:01:17 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 10:11:18 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ int	test_shadow_intersection(t_list const * const shapes, t_light const *light, 
 	t_shape	*shape;
 	t_intersect shadow_intersect;
 
-	vector_light = vec3_subtract(&light->vector, &intersect->position);
-	double	light_distance = vec3_length(&vector_light);
+	vector_light = vec3_subtract(light->vector, intersect->position);
+	double	light_distance = vec3_length(vector_light);
 	double	light_distance_minus_epsilon = light_distance - EPSILON;
 
-	shadow_ray.direction = vec3_normalize(&vector_light);
+	shadow_ray.direction = vec3_normalize(vector_light);
 	shadow_ray.start = vec3_add(intersect->position, vec3_multiply(&shadow_ray.direction, EPSILON));
 
 	crnt = shapes->next;

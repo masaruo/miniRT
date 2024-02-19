@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:07:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 09:59:18 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 10:13:32 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,18 @@ t_vec3	vec3_init(double in_x, double in_y, double in_z)
 	return (vec);
 }
 
-// t_vec3	vec3_add(t_vec3 const *a, t_vec3 const *b)
-// {
-// 	return (vec3_init(a->x + b->x, a->y + b->y, a->z + b->z));
-// }
-
 t_vec3	vec3_add(t_vec3 a, t_vec3 b)
 {
 	return (vec3_init(a.x + b.x, a.y + b.y, a.z + b.z));
 }
 
-t_vec3	vec3_subtract(t_vec3 const *a, t_vec3 const *b)
+// t_vec3	vec3_subtract(t_vec3 const *a, t_vec3 const *b)
+// {
+// 	return (vec3_init(a->x - b->x, a->y - b->y, a->z - b->z));
+// }
+t_vec3	vec3_subtract(t_vec3 a, t_vec3 b)
 {
-	return (vec3_init(a->x - b->x, a->y - b->y, a->z - b->z));
+	return (vec3_init(a.x - b.x, a.y - b.y, a.z - b.z));
 }
 
 t_vec3	vec3_multiply(t_vec3 const *a, double scalar)
@@ -60,23 +59,23 @@ t_vec3	vec3_cross(t_vec3 const *a, t_vec3 const *b)
 	return (vector);
 }
 
-double	vec3_square(t_vec3 const *a)
+double	vec3_square(t_vec3 a)
 {
-	return (a->x * a->x + a->y * a->y + a->z * a->z);
+	return (a.x * a.x + a.y * a.y + a.z * a.z);
 }
 
-double	vec3_length(t_vec3 const *a)
+double	vec3_length(t_vec3 a)
 {
 	return (sqrt(vec3_square(a)));
 }
 
-t_vec3	vec3_normalize(t_vec3 const *a)
+t_vec3	vec3_normalize(t_vec3 a)
 {
 	double const	length = vec3_length(a);
 
 	if (length <= 0)
 		return (vec3_init(0, 0, 0));//! error handle
-	return (vec3_init(a->x / length, a->y / length, a->z / length));
+	return (vec3_init(a.x / length, a.y / length, a.z / length));
 }
 
 void	vec3_print(t_vec3 const *a)
@@ -94,12 +93,12 @@ t_vec3	vec3_copy(t_vec3 const *a)
 	return (new);
 }
 
-t_vec3	vec3_normalized_subtract(t_vec3 const *a, t_vec3 const *b)
+t_vec3	vec3_normalized_subtract(t_vec3 a, t_vec3 b)
 {
 	t_vec3	new;
 
 	new = vec3_subtract(a, b);
-	new = vec3_normalize(&new);
+	new = vec3_normalize(new);
 	return (new);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 22:17:28 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 09:34:45 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 10:10:03 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_color	_get_diffuse_effect(t_light const *light, t_intersect const *inte
 	t_color ans;
 
 	ans = tcolor_set(0, 0, 0);
-	l = vec3_normalized_subtract(&light->vector, &intersect->position);
+	l = vec3_normalized_subtract(light->vector, intersect->position);
 	n_dot_l = vec3_dot(&intersect->normal, &l);
 	if (n_dot_l > 0)
 	{
@@ -56,13 +56,13 @@ static t_color	_get_specular_effect(t_light const *light, t_intersect const *int
 
 	ans = tcolor_set(0, 0, 0);
 	// specular = intersect->material.specular;
-	l = vec3_normalized_subtract(&light->vector, &intersect->position);
+	l = vec3_normalized_subtract(light->vector, intersect->position);
 	n_dot_l = vec3_dot(&intersect->normal, &l);
 	if (n_dot_l > 0)
 	{
 		n_dot_l = d_clamp(n_dot_l, 0, 1);
 		r = vec3_multiply(&intersect->normal, 2 * n_dot_l);
-		r = vec3_subtract(&r, &l);
+		r = vec3_subtract(r, l);
 		v = vec3_multiply(&eye->direction, -1);
 		v_dot_r = vec3_dot(&v, &r);
 		if (v_dot_r > 0)
