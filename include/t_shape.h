@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:39:35 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 08:57:17 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 09:46:48 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,5 @@ typedef struct s_shape
 		t_cylinder	cylinder;
 	}	u_data;
 }	t_shape;
-
-int		test_intersection(t_shape const *shape, t_ray const *ray, t_intersect *out_intersect);
-#include "libft.h"
-int	test_all_intersection(t_list const * const shapes, t_ray const *ray, t_intersect *out_intersect);
-int	test_shadow_intersection(t_list const * const shapes, t_light const *light, t_intersect const *intersect);
 
 #endif

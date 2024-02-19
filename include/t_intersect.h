@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:21:56 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 08:55:50 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 09:46:24 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 #include "t_vec3.h"
 #include "t_color.h"
+#include "libft.h"
+#include "t_ray.h"
+#include "t_light.h"
 
 #define NO_INTERSECTION (0)
 #define HAS_INTERSECTION (1)
@@ -27,5 +30,8 @@ typedef struct s_intersect
 	t_vec3_unit	normal;
 	t_color		color;
 }	t_intersect;
+
+int	test_all_intersection(t_list const * const shapes, t_ray const *ray, t_intersect *out_intersect);
+int	test_shadow_intersection(t_list const * const shapes, t_light const *light, t_intersect const *intersect);
 
 #endif
