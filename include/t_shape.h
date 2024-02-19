@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:39:35 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/12 17:59:51 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 09:48:41 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,36 +17,15 @@
 #include "t_vec3.h"
 #include "t_intersect.h"
 #include "t_ray.h"
-#include "t_material.h"
 #include "t_light.h"
+#include "t_cylinder.h"
+#include "t_sphere.h"
+#include "t_plane.h"
 
 #define NO_INTERSECTION (0)
 #define HAS_INTERSECTION (1)
 
-typedef struct s_sphere
-{
-	t_vec3	center;
-	double	r;
-	t_color	color;//!added need to change parser
-}	t_sphere;
-
-typedef struct s_plane
-{
-	t_vec3	position;
-	t_vec3	normal;
-	t_color	color;//!added need to chagne parser
-}	t_plane;
-
-typedef struct s_cylinder
-{
-	t_position_vec3		position;
-	t_normalized_vec3	normal;
-	double				r;
-	double				height;
-	t_color				color;
-}	t_cylinder;
-
-typedef enum t_shape_type
+typedef enum e_shape_type
 {
 	sphere_type,
 	plane_type,
@@ -61,13 +40,7 @@ typedef struct s_shape
 		t_plane		plane;
 		t_sphere	sphere;
 		t_cylinder	cylinder;
-	}	u_data;
-	// t_material		material;
+	}	u_obj;
 }	t_shape;
-
-int		test_intersection(t_shape const *shape, t_ray const *ray, t_intersect *out_intersect);
-#include "libft.h"
-int	test_all_intersection(t_list const * const shapes, t_ray const *ray, t_intersect *out_intersect);
-int	test_shadow_intersection(t_list const * const shapes, t_light const *light, t_intersect const *intersect);
 
 #endif

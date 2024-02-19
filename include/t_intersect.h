@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:21:56 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/12 18:02:27 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 09:46:24 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,10 @@
 #define T_INTERSECT_H
 
 #include "t_vec3.h"
-// #include "t_color.h"
-#include <stdbool.h>
-// #include "t_ray.h"
-// #include "t_world.h"
-#include "t_material.h"
 #include "t_color.h"
+#include "libft.h"
+#include "t_ray.h"
+#include "t_light.h"
 
 #define NO_INTERSECTION (0)
 #define HAS_INTERSECTION (1)
@@ -27,13 +25,13 @@
 
 typedef struct s_intersect
 {
-	// bool		has_intersection;
 	double		distance;
-	t_vec3		position;
-	t_vec3		normal;//標準化後
-	// t_material	material;
+	t_vec3_pos	position;
+	t_vec3_unit	normal;
 	t_color		color;
-	// t_color		ambient;
 }	t_intersect;
+
+int	test_all_intersection(t_list const * const shapes, t_ray const *ray, t_intersect *out_intersect);
+int	test_shadow_intersection(t_list const * const shapes, t_light const *light, t_intersect const *intersect);
 
 #endif

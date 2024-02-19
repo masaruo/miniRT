@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 22:17:28 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/15 14:37:17 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 09:34:45 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_color	_get_diffuse_effect(t_light const *light, t_intersect const *inte
 	n_dot_l = vec3_dot(&intersect->normal, &l);
 	if (n_dot_l > 0)
 	{
-		n_dot_l = double_clamp(n_dot_l, 0, 1);//!ここわかってない！
+		n_dot_l = d_clamp(n_dot_l, 0, 1);//!ここわかってない！
 		tmp = tcolor_scalar_multiply(light->color, light->brightness);
 		// tmp = tcolor_multiply(intersect->material.color, tmp);//changed
 		tmp = tcolor_multiply(intersect->color, tmp);
@@ -60,7 +60,7 @@ static t_color	_get_specular_effect(t_light const *light, t_intersect const *int
 	n_dot_l = vec3_dot(&intersect->normal, &l);
 	if (n_dot_l > 0)
 	{
-		n_dot_l = double_clamp(n_dot_l, 0, 1);
+		n_dot_l = d_clamp(n_dot_l, 0, 1);
 		r = vec3_multiply(&intersect->normal, 2 * n_dot_l);
 		r = vec3_subtract(&r, &l);
 		v = vec3_multiply(&eye->direction, -1);
