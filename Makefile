@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/02/19 10:36:37 by mogawa           ###   ########.fr        #
+#    Updated: 2024/02/19 10:48:25 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,6 @@ SRCS		:=	\
 			t_cylinder.c \
 			t_image.c \
 			t_intersect.c \
-			t_list.c \
 			t_plane.c \
 			t_ray.c \
 			t_sphere.c \

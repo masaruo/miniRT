@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 10:22:52 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 10:48:40 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@
 #include "libft.h"
 #include <limits.h>
 #include "phong.h"
-#include "t_list.h"
-#include "t_matrix.h"
 #include "parse.h"
 
 // #define window_width 512

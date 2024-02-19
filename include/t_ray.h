@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:57:18 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/13 15:08:06 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 10:50:40 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@
 
 typedef struct s_ray
 {
-	t_vec3	start;//視点の位置ベクトル
-	t_vec3	direction;//方向ベクトル（ノーマライズ）
-	double	light_distance;// only used for shadow
-	double	t;
+	t_vec3_pos	start;//視点の位置ベクトル
+	t_vec3_unit	direction;//方向ベクトル（ノーマライズ）
+	double		light_distance;// only used for shadow
 }	t_ray;
 
 t_ray	t_ray_create_ray(t_vec3 const *start, t_vec3 const *end);

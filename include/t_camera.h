@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:03:25 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 10:27:22 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 10:45:22 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #define T_CAMERA_H
 
 #include "t_vec3.h"
-#include "t_image.h"
 
 typedef struct s_camera
 {
