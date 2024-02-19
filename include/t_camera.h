@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:03:25 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/01 16:19:48 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 10:27:22 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 
 typedef struct s_camera
 {
-	t_position_vec3		position;
-	t_vector_vec3		orientation;
-	double				field_of_view;
-	t_normalized_vec3	x_basis;
-	t_normalized_vec3	y_basis;
-	t_normalized_vec3	direction;
+	t_vec3_pos	position;
+	t_vec3_unit	orientation;
+	double		field_of_view;
+	t_vec3_unit	x_basis;
+	t_vec3_unit	y_basis;
+	// t_vec3_unit	direction;
 }	t_camera;
 
 #endif
