@@ -6,14 +6,14 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 16:18:48 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/31 12:22:42 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 13:57:57 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 // free all childs strs first then free parent arr.
-static void	ft_free_all(char **arr)
+void	ft_free_all(char **arr)
 {
 	char	**tmp;
 

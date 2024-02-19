@@ -6,14 +6,14 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:07:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 10:39:57 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 14:03:18 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_vec3.h"
 #include "math.h"
-#include <stdio.h>
 #include "libft.h"
+#include "ft_atod.h"
 
 t_vec3	vec3_init(double in_x, double in_y, double in_z)
 {
@@ -70,7 +70,7 @@ t_vec3	vec3_normalize(t_vec3 a)
 	double const	length = vec3_length(a);
 
 	if (length <= 0)
-		return (vec3_init(0, 0, 0));//! error handle
+		return (vec3_init(0, 0, 0));
 	return (vec3_init(a.x / length, a.y / length, a.z / length));
 }
 
@@ -98,16 +98,23 @@ t_vec3	vec3_normalized_subtract(t_vec3 a, t_vec3 b)
 	return (new);
 }
 
-#include <stdlib.h>//! delete
 t_vec3	vec3_str_init(char const *line)
 {
-	t_vec3		vec;
-	char const	**lines = ft_split(line, ',');
-	char const	*x = lines[0];
-	char const	*y = lines[1];
-	char const	*z = lines[2];
+	t_vec3	vec;
+	char	**xyz;
+	char	*x;
+	char	*y;
+	char	*z;
 
-	// vec = vec3_init(atof(x), atof(y), atof(z));//! atof FORBIDDEN
-	vec = vec3_init(ft_atoi(x), ft_atoi(y), ft_atoi(z));
+	xyz = ft_split(line, ',');
+	if (!xyz)
+	{
+		//todo split mallco error;
+	}
+	x = xyz[0];
+	y = xyz[1];
+	z = xyz[2];
+	vec = vec3_init(ft_atod(x), ft_atod(y), ft_atod(z));
+	ft_free_all(xyz);
 	return (vec);
 }

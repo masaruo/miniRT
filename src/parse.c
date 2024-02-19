@@ -6,12 +6,12 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 10:28:57 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 13:51:17 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
-// #include "libft.h"
+#include "ft_atod.h"
 #include "get_next_line.h"
 #include "t_light.h"
 #include "t_color.h"
@@ -25,7 +25,7 @@ t_ambient _get_ambient_light(char const **lines)
 {
 	t_ambient	ambient;
 
-	ambient.ratio = atof(lines[1]);//!forbidden function
+	ambient.ratio = ft_atod(lines[1]);
 	ambient.color = tcolor_str_set(lines[2]);
 	return (ambient);
 }
@@ -41,11 +41,8 @@ t_light	*_get_a_light(char const **lines)
 		exit (1);
 	}
 	light->vector = vec3_str_init(lines[1]);
-	light->brightness = atof(lines[2]);//!FORBIDDEEN max 1 min 0
+	light->brightness = ft_atod(lines[2]);
 	light->color = tcolor_str_set(lines[3]);
-
-	//todo below delete
-	// light->brightness = tcolor_set(atof(lines[2]), atof(lines[2]), atof(lines[2]));
 	return (light);
 }
 
@@ -57,7 +54,7 @@ t_shape	*_get_a_sphere(char const **lines)
 	//todo malloc error
 	sphere->type = sphere_type;
 	sphere->u_obj.sphere.center = vec3_str_init(lines[1]);
-	sphere->u_obj.sphere.r = ft_atoi(lines[2]) / 2.0;//! ft_atof?
+	sphere->u_obj.sphere.r = ft_atod(lines[2]) / 2.0;
 	sphere->u_obj.sphere.color = tcolor_str_set(lines[3]);
 	return (sphere);
 }
@@ -70,7 +67,7 @@ t_shape	*_get_a_plain(char const **lines)
 	//todo malloc error
 	plane->type = plane_type;
 	plane->u_obj.plane.position = vec3_str_init(lines[1]);
-	plane->u_obj.plane.normal = vec3_normalize(vec3_str_init(lines[2]));// 0.0 to 1.0 normalized
+	plane->u_obj.plane.normal = vec3_normalize(vec3_str_init(lines[2]));
 	plane->u_obj.plane.color = tcolor_str_set(lines[3]);
 	return (plane);
 }
@@ -84,9 +81,8 @@ t_shape	*_get_a_cylinder(char const **lines)
 	cylinder->type = cylinder_type;
 	cylinder->u_obj.cylinder.position = vec3_str_init(lines[1]);
 	cylinder->u_obj.cylinder.normal = vec3_normalize(vec3_str_init(lines[2]));
-	// cylinder->u_data.cylinder.r = atof(lines[3]);//! forbidden
-	cylinder->u_obj.cylinder.r = atof(lines[3]) / 2.0;//! forbidden
-	cylinder->u_obj.cylinder.height = atof(lines[4]);//! forbidden
+	cylinder->u_obj.cylinder.r = ft_atod(lines[3]) / 2.0;
+	cylinder->u_obj.cylinder.height = ft_atod(lines[4]);
 	cylinder->u_obj.cylinder.color = tcolor_str_set(lines[5]);
 	return (cylinder);
 }
@@ -96,12 +92,10 @@ t_camera	_get_a_camera(char const **lines)
 	t_camera	camera;
 
 	camera.position = vec3_str_init(lines[1]);
-	camera.orientation = vec3_str_init(lines[2]);//! range from -1 to 1
-	camera.orientation = vec3_normalize(camera.orientation);
+	camera.orientation = vec3_normalize(vec3_str_init(lines[2]));
 	camera.field_of_view = ft_atoi(lines[3]);
-	// camera.direction = vec3_init(0, 0, 0);
-	camera.x_basis = vec3_init(0, 0, 0);
-	camera.y_basis = vec3_init(0, 0, 0);
+	camera.x_basis = vec3_init(0, 0, 0);//?
+	camera.y_basis = vec3_init(0, 0, 0);//?
 	return (camera);
 }
 
