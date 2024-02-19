@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:07:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 10:13:32 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 10:17:42 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,32 +30,28 @@ t_vec3	vec3_add(t_vec3 a, t_vec3 b)
 	return (vec3_init(a.x + b.x, a.y + b.y, a.z + b.z));
 }
 
-// t_vec3	vec3_subtract(t_vec3 const *a, t_vec3 const *b)
-// {
-// 	return (vec3_init(a->x - b->x, a->y - b->y, a->z - b->z));
-// }
 t_vec3	vec3_subtract(t_vec3 a, t_vec3 b)
 {
 	return (vec3_init(a.x - b.x, a.y - b.y, a.z - b.z));
 }
 
-t_vec3	vec3_multiply(t_vec3 const *a, double scalar)
+t_vec3	vec3_multiply(t_vec3 a, double scalar)
 {
-	return (vec3_init(a->x * scalar, a->y * scalar, a->z * scalar));
+	return (vec3_init(a.x * scalar, a.y * scalar, a.z * scalar));
 }
 
-double	vec3_dot(t_vec3 const *a, t_vec3 const *b)
+double	vec3_dot(t_vec3 a, t_vec3 b)
 {
-	return (a->x * b->x + a->y * b->y + a->z * b->z);
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 
-t_vec3	vec3_cross(t_vec3 const *a, t_vec3 const *b)
+t_vec3	vec3_cross(t_vec3 a, t_vec3 b)
 {
 	t_vec3	vector;
 
-	vector.x = a->y * b->z - a->z * b->y;
-	vector.y = a->z * b->x - a->x * b->z;
-	vector.z = a->x * b->y - a->y * b->x;
+	vector.x = a.y * b.z - a.z * b.y;
+	vector.y = a.z * b.x - a.x * b.z;
+	vector.z = a.x * b.y - a.y * b.x;
 	return (vector);
 }
 

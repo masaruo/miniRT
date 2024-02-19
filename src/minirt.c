@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 10:13:58 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 10:22:52 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	get_intersect_with_shape(t_world *world, t_image const *image)
 
 			// t_vec3 camera_orientation = vec3_init(0, 0, 1);//! change
 			
-			t_vec3 d_center = vec3_multiply(&world->camera.orientation, d);
+			t_vec3 d_center = vec3_multiply(world->camera.orientation, d);
 
 		// カメラが真上と真下を向いている時はエッジケース
 			
@@ -112,8 +112,8 @@ void	get_intersect_with_shape(t_world *world, t_image const *image)
 			world->camera.x_basis = x_basis;
 
 			t_vec3 y_basis;
-			t_vec3 tmp = vec3_multiply(&d_center, -1);
-			y_basis = vec3_cross(&x_basis, &tmp);
+			t_vec3 tmp = vec3_multiply(d_center, -1);
+			y_basis = vec3_cross(x_basis, tmp);
 			y_basis = vec3_normalize(y_basis);
 			world->camera.y_basis = y_basis;
 			
@@ -131,8 +131,8 @@ void	get_intersect_with_shape(t_world *world, t_image const *image)
 					}
 				}
 
-			t_vec3 xx = vec3_multiply(&world->camera.x_basis, sw);
-			t_vec3 yy = vec3_multiply(&world->camera.y_basis, sy);
+			t_vec3 xx = vec3_multiply(world->camera.x_basis, sw);
+			t_vec3 yy = vec3_multiply(world->camera.y_basis, sy);
 
 			t_vec3 ray_direction;
 			ray_direction = vec3_add(xx, yy);

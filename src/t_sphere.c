@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 08:37:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 10:13:10 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 10:22:06 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static	double	calculate_sphere_distance(t_sphere const *sphere, t_ray const *ray
 {
 	t_vec3 const	sphere_to_ray = vec3_subtract(ray->start, sphere->center);
 	double const	a = vec3_square(ray->direction);
-	double const	b = 2 * vec3_dot(&sphere_to_ray, &ray->direction);
+	double const	b = 2 * vec3_dot(sphere_to_ray, ray->direction);
 	double const	c = vec3_square(sphere_to_ray) -  pow(sphere->r, 2);
 	double const	d = (b * b) - (4 * a * c);
 
