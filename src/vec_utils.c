@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:07:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/13 15:32:26 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 09:59:18 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,14 @@ t_vec3	vec3_init(double in_x, double in_y, double in_z)
 	return (vec);
 }
 
-t_vec3	vec3_add(t_vec3 const *a, t_vec3 const *b)
+// t_vec3	vec3_add(t_vec3 const *a, t_vec3 const *b)
+// {
+// 	return (vec3_init(a->x + b->x, a->y + b->y, a->z + b->z));
+// }
+
+t_vec3	vec3_add(t_vec3 a, t_vec3 b)
 {
-	return (vec3_init(a->x + b->x, a->y + b->y, a->z + b->z));
+	return (vec3_init(a.x + b.x, a.y + b.y, a.z + b.z));
 }
 
 t_vec3	vec3_subtract(t_vec3 const *a, t_vec3 const *b)

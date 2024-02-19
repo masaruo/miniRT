@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/13 14:52:38 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 10:02:35 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,8 @@ void	get_intersect_with_shape(t_world *world, t_image const *image)
 			t_vec3 yy = vec3_multiply(&world->camera.y_basis, sy);
 
 			t_vec3 ray_direction;
-			ray_direction = vec3_add(&xx, &yy);
-			ray_direction = vec3_add(&d_center, &ray_direction);
+			ray_direction = vec3_add(xx, yy);
+			ray_direction = vec3_add(d_center, ray_direction);
 			ray_direction = vec3_normalize(&ray_direction);
 
 			t_ray	eye_ray;

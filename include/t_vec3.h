@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:59:21 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 09:50:15 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 09:59:35 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ typedef t_vec3 t_vec3_pos;
 typedef t_vec3 t_vec3_unit;
 
 t_vec3	vec3_init(double in_x, double in_y, double in_z);
+t_vec3	vec3_add(t_vec3 a, t_vec3 b);
 
-t_vec3	vec3_add(t_vec3 const *a, t_vec3 const *b);
+// t_vec3	vec3_add(t_vec3 const *a, t_vec3 const *b);
 t_vec3	vec3_subtract(t_vec3 const *a, t_vec3 const *b);
 t_vec3	vec3_multiply(t_vec3 const *a, double scalar);
 

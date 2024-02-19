@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:32:22 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/25 16:17:04 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 10:02:07 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_vec3	t_ray_get_point(t_ray const *this, double distance)
 	t_vec3	td;
 
 	td = vec3_multiply(&this->direction, distance);
-	point = vec3_add(&this->start, &td);
+	point = vec3_add(this->start, td);
 	return (point);
 }
 
@@ -81,7 +81,7 @@ t_vec3	t_ray_screen_to_world(t_vec3 const *camera_pos, double screen_width, doub
 	t = (screen_width / 2) * (1 / tan(1 / 2 * fov));
 	d = vec3_normalized_subtract(&target, &s);
 	td = vec3_multiply(&d, t);
-	base = vec3_add(&s, &td);
+	base = vec3_add(s, td);
 
 	//sin cos
 	double sin_a = d.x / sqrt(d.x * d.x + d.z * d.z);
@@ -100,6 +100,6 @@ t_vec3	t_ray_screen_to_world(t_vec3 const *camera_pos, double screen_width, doub
 	// camera_on_world.x = camera_pos->x * (cos_a * cos_g + sin_a * sin_b * sin_g) + camera_pos->y * (cos_a * sin_g - sin_a * sin_b * cos_g) + camera_pos->z * (sin_a * cos_b) + base.x;
 	// camera_on_world.y = -camera_pos->x * (cos_b * sin_g) + camera_pos->y * cos_b * cos_g + camera_pos->z * sin_b + base.y;
 	// camera_on_world.z = -camera_pos->x * (sin_a * cos_g - cos_a * sin_b * sin_g) - camera_pos->y * (sin_a * sin_g + cos_a + sin_b * cos_g) + camera_pos->z * cos_a * cos_b + base.z;
-	camera_on_world = vec3_add(&camera_on_world, &base);
+	camera_on_world = vec3_add(camera_on_world, base);
 	return (camera_on_world);
 }
