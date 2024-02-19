@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/02/19 13:19:58 by mogawa           ###   ########.fr        #
+#    Updated: 2024/02/19 14:03:00 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ $(NAME) : $(OBJS)
 	$(MAKE) -C $(MLXDIR)
 	$(CC) $(CFLAGS) $(LIBFT) $(MLX) $(LDFLAGS) $^ -o $@
 
-debug: 
+leak: 
 	$(RM) -r $(OBJDIR)
 	$(MAKE) WITH_DEBUG=1 all
 
