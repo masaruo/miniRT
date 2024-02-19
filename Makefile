@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/02/19 09:49:29 by mogawa           ###   ########.fr        #
+#    Updated: 2024/02/19 10:36:37 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,6 @@ SRCS		:=	\
 			t_sphere.c \
 			t_vec3.c \
 			t_world.c \
-			vec_utils.c \
 			minirt.c
 OBJS	:=	$(SRCS:%.c=$(OBJDIR)/%.o)
 DEPS	:=	$(OBJS:%.o=%.d)
