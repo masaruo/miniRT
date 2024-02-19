@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 13:50:59 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 17:05:25 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,7 @@ int	main(int argc, char **argv)
 	world.img = timage_init(world.mlx_ptr, world.screen_witdh, world.screen_height);
 	world.shapes = ft_lstnew(NULL);
 	world.lights = ft_lstnew(NULL);
-	parse_controller(argv[1], &world);
+	parse_main(argv[1], &world);
 	get_intersect_with_shape(&world, &world.img);
 	mlx_put_image_to_window(world.mlx_ptr, world.win_ptr, world.img.img_ptr, 0, 0);
 	mlx_loop(world.mlx_ptr);

@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 13:51:17 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 17:35:55 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,16 @@
 #include "t_light.h"
 #include "t_color.h"
 #include "t_shape.h"
-#include <fcntl.h>
+// #include <fcntl.h>
+#include <stdint.h>
+#include "wrapper.h"
 
 #define SPACE (' ')
 #define FIRST_CHAR (0)
+#define AMBIENT (1)
+#define CAMERA (2)
+#define LIGHT (3)
+#define OBJECTS (4)
 
 t_ambient _get_ambient_light(char const **lines)
 {
@@ -100,11 +106,19 @@ t_camera	_get_a_camera(char const **lines)
 }
 
 //todo 大文字のときの処理の停止
-int _parse_split_line(char const **lines, t_world * const world)
+int _parse_split_line(char const **lines, t_world * const world, uint8_t *flag)
 {
 	if (!ft_strcmp(lines[FIRST_CHAR], "A"))
 	{
 		world->ambient = _get_ambient_light(lines);
+	}
+	else if (!ft_strcmp(lines[FIRST_CHAR], "C"))
+	{
+		world->camera = _get_a_camera(lines);
+	}
+	else if (!ft_strcmp(lines[FIRST_CHAR], "L"))
+	{
+		ft_lstadd_back(&world->lights, ft_lstnew(_get_a_light(lines)));
 	}
 	else if (!ft_strcmp(lines[FIRST_CHAR], "sp"))
 	{
@@ -114,17 +128,9 @@ int _parse_split_line(char const **lines, t_world * const world)
 	{
 		ft_lstadd_back(&world->shapes, ft_lstnew(_get_a_plain(lines)));
 	}
-	else if (!ft_strcmp(lines[FIRST_CHAR], "L"))
-	{
-		ft_lstadd_back(&world->lights, ft_lstnew(_get_a_light(lines)));
-	}
 	else if (!ft_strcmp(lines[FIRST_CHAR], "cy"))
 	{
 		ft_lstadd_back(&world->shapes, ft_lstnew(_get_a_cylinder(lines)));
-	}
-	else if (!ft_strcmp(lines[FIRST_CHAR], "C"))
-	{
-		world->camera = _get_a_camera(lines);
 	}
 	else
 	{
@@ -133,24 +139,30 @@ int _parse_split_line(char const **lines, t_world * const world)
 	return (EXIT_SUCCESS);
 }
 
-int	parse_controller(char const *rt_file, t_world * const world)
+uint8_t	parse_lines(int fd, t_world * const world)
 {
-	char		*read_line;
-	char		**split_line;
-	int			fd;
+	char	*line;
+	char	**line_splitted;
+	uint8_t	flag;
 
-	//todo validation
-	fd = open(rt_file, O_RDONLY);
-	if (fd == -1)
+	while (gnl_wrapper(fd, &line))
 	{
-		//todo open fail
-		return (EXIT_FAILURE);
+		line_splitted = ft_split(line, SPACE);
+		free(line);
+		if (!line_splitted || line_splitted[FIRST_CHAR] == NULL)
+			ft_perror_exit(EXIT_FAILURE, "failed to create splitted line");
+		_parse_splitted_line(line_splitted, world, &flag);
 	}
-	while(gnl_wrapper(fd, &read_line))
-	{
-		split_line = ft_split(read_line, ' ');
-		_parse_split_line(split_line, world);
-		//todo ft_split leak
-	}
+}
+
+int	parse_main(char const *file, t_world * const world)
+{
+	int		fd;
+	char	*line;
+	char	**split_by_space;
+	uint8_t	flag;
+
+	fd = get_validated_fd(file);
+	flag = parse_lines(fd, world);
 	return (EXIT_SUCCESS);
 }

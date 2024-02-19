@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 08:22:03 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 14:12:22 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 14:13:38 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ t_color	tcolor_convert_rgbcolor(double r, double g, double b)
 	return (tcolor_clamp(new));
 }
 
-#include <stdlib.h>//! delete
 t_color	tcolor_str_set(char const *line)
 {
 	t_color	color;

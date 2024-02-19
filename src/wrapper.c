@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.h                                            :+:      :+:    :+:   */
+/*   wrapper.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/31 12:06:04 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 17:05:25 by mogawa           ###   ########.fr       */
+/*   Created: 2024/02/19 15:58:13 by mogawa            #+#    #+#             */
+/*   Updated: 2024/02/19 16:03:18 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	PARSE_H
-#define PARSE_H
-
+#include "wrapper.h"
 #include "libft.h"
-#include "t_world.h"
 
-int	parse_main(char const *rt_file, t_world * const world);
-
-#endif
+void	ft_perror_exit(int status, char const *msg)
+{
+	ft_putstr_fd(msg, STDERR_FILENO);
+	exit(status);
+}
