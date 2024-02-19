@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 10:48:40 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 13:33:37 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "t_color.h"
 #include "math_utils.h"
 #include <stdlib.h>
-#include <stdio.h>
+// #include <stdio.h>
 #include <math.h>
 #include "t_ray.h"
 #include "t_shape.h"
@@ -26,6 +26,7 @@
 #include <limits.h>
 #include "phong.h"
 #include "parse.h"
+#include "ft_atod.h"
 
 // #define window_width 512
 // #define window_height 512
@@ -160,12 +161,19 @@ void	get_intersect_with_shape(t_world *world, t_image const *image)
 	}
 }
 
+
+#include <stdio.h>
 int	main(int argc, char **argv)
 {
 	t_world	world;
 	// t_list	*shapes;
 	// t_list	*lights;
 
+	// char *input = "123456789.123456789";
+
+	// double ans = ft_atod(input);
+	// printf("ans=[%f], pc=[%f]\n", ans, atof(input));
+	// return (0);
 	//todo parse
 	//todo getnextline
 	//todo ft_spolit

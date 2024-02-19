@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/02/19 10:48:25 by mogawa           ###   ########.fr        #
+#    Updated: 2024/02/19 13:19:58 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ MLXDIR	:=	./mlx
 MLX		:=	$(MLXDIR)/libmlx_Darwin.a
 INCLUDE	:=	-I./include -I$(LIBFTDIR)/include -I$(MLXDIR)
 SRCS		:=	\
+			ft_atod.c \
 			get_next_line.c get_next_line_utils.c \
 			math_utils.c \
 			parse.c \
