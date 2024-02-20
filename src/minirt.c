@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/20 14:08:41 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/20 14:26:13 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,7 @@ void	get_intersect_with_shape(t_world *world, t_image const *image)
 		for (double x = 0; x < world->screen_witdh; x++)
 		{
 			pw.x = 2 * x / (world->screen_witdh - 1) - 1;
-			// eye_ray = t_ray_create_ray(&tmp_cam_pos, &screen_coord);
-			// t_vec3 pwTransformed = cameraTransform(&screen_coord, &cameraPos, &cameraTarget, &worldUp);
-			// eye_ray = t_ray_create_ray(&cameraPos, &pwTransformed);
+
 			
 
 			
@@ -56,8 +54,6 @@ void	get_intersect_with_shape(t_world *world, t_image const *image)
 			double sw = x - (world->screen_witdh - 1) / 2;
 			double sy = (world->screen_height - 1) / 2 - y;
 			double d = (world->screen_witdh / 2) / tan(convert_degree_to_radian(world->camera.field_of_view / 2));
-
-			// t_vec3 camera_orientation = vec3_init(0, 0, 1);//! change
 			
 			t_vec3 d_center = vec3_multiply(world->camera.orientation, d);
 
@@ -107,7 +103,7 @@ void	get_intersect_with_shape(t_world *world, t_image const *image)
 			t_ray	masaru_ray;
 			masaru_ray.start = world->camera.position;
 			masaru_ray.direction = get_world_ray_direction(masaru_x, masaru_y, world->camera.position, world->camera.orientation, world->screen_witdh, world->camera.field_of_view);
-			eye_ray = masaru_ray;
+			// eye_ray = masaru_ray;
 			//
 
 			t_intersect intersection;
