@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/20 10:41:21 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/20 14:08:41 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,71 +28,29 @@
 #include "parse.h"
 #include "ft_atod.h"
 #include "destructor.h"
-
-// #define window_width 512
-// #define window_height 512
-
-// t_vec3	cameraTransform(t_vec3 *point, t_vec3 *cameraPos, t_vec3 *cameraTarget, t_vec3 *worldUp)
-// {
-// 	// t_vec3	cameraDirection = vec3_normalized_subtract(cameraTarget, cameraPos);
-// 	t_vec3	cameraRight = vec3_cross(worldUp, cameraTarget);
-// 	cameraRight = vec3_normalize(&cameraRight);
-// 	t_vec3	cameraUp = vec3_cross(cameraTarget, &cameraRight);
-
-// 	t_vec3 pointInCameraCoord;
-// 	t_vec3 cameraToPoint = vec3_subtract(point, cameraPos);
-// 	pointInCameraCoord.x = vec3_dot(&cameraToPoint, &cameraRight);
-// 	pointInCameraCoord.y = vec3_dot(&cameraToPoint, &cameraUp);
-// 	pointInCameraCoord.z = vec3_dot(&cameraToPoint, &cameraTarget);
-// 	return (pointInCameraCoord);
-// }
-
-double	get_x_in_camera(double x_in_loop, double width, double height, double fov)
-{
-	double const	aspect_ratio = (width / height);
-	double const	ndc_x = (x_in_loop + 0.5) / width;//todo define 0.5
-	double const	screen_x = (2 * ndc_x) - 1;
-	double const	camera_x = screen_x * aspect_ratio;
-	double const	fov_adj_camera_x = camera_x * tan(convert_degree_to_radian(fov / 2));
-	//! how to convert to world index?
-
-	return (fov_adj_camera_x);
-};
-
-double	get_y_in_camera(double y_in_loop, double height, double fov)
-{
-	double const	ndc_y = (y_in_loop + 0.5) / height;//todo define 0.5
-	double const	screen_y = 1 - (2 * ndc_y);
-	double const	fov_adj_camera_y = screen_y * tan(convert_degree_to_radian(fov / 2));
-
-	return (fov_adj_camera_y);
-}
+#include "t_camera.h"
 
 void	get_intersect_with_shape(t_world *world, t_image const *image)
 {
 	t_vec3 pw;
-	t_vec3	screen_coord;
 	t_ray	eye_ray;
 
 	
 	pw.z = 0;
-	screen_coord.z = -1;//!-1? 0? 1?
 	for (double y = 0; y < world->screen_height; y++)
 	{
-		// pw.y = -2 * y / (world->screen_height - 1) + 1;
-		screen_coord.y = get_y_in_camera(y, world->screen_height, world->camera.field_of_view);
+		pw.y = -2 * y / (world->screen_height - 1) + 1;
 		for (double x = 0; x < world->screen_witdh; x++)
 		{
-			// pw.x = 2 * x / (world->screen_witdh - 1) - 1;
-			screen_coord.x = get_x_in_camera(x, world->screen_witdh, world->screen_height, world->camera.field_of_view);
-			t_vec3	tmp_cam_pos = vec3_init(-2, 0, -5);
+			pw.x = 2 * x / (world->screen_witdh - 1) - 1;
 			// eye_ray = t_ray_create_ray(&tmp_cam_pos, &screen_coord);
 			// t_vec3 pwTransformed = cameraTransform(&screen_coord, &cameraPos, &cameraTarget, &worldUp);
 			// eye_ray = t_ray_create_ray(&cameraPos, &pwTransformed);
 			
-			//! get right, up, forward vec
-			
 
+			
+			double masaru_x = x - (world->screen_witdh - 1) / 2;
+			double masaru_y = (world->screen_height - 1) / 2 - y;
 
 		// 	//! junnetwork
 			double sw = x - (world->screen_witdh - 1) / 2;
@@ -145,6 +103,13 @@ void	get_intersect_with_shape(t_world *world, t_image const *image)
 
 		// 	//! end Junnetwork
 
+			//! mo camera trial
+			t_ray	masaru_ray;
+			masaru_ray.start = world->camera.position;
+			masaru_ray.direction = get_world_ray_direction(masaru_x, masaru_y, world->camera.position, world->camera.orientation, world->screen_witdh, world->camera.field_of_view);
+			eye_ray = masaru_ray;
+			//
+
 			t_intersect intersection;
 			intersection.distance = __DBL_MAX__;
 			if (test_all_intersection(world->shapes, &eye_ray, &intersection) == true)
@@ -156,32 +121,10 @@ void	get_intersect_with_shape(t_world *world, t_image const *image)
 			else
 			{
 				// my_mlx_pixcel_put(image, x, y, get_hex_color(100, 149, 237));//空色	
-				my_mlx_pixcel_put(image, x, y, get_hex_color(0, 0, 0));
+				my_mlx_pixcel_put(image, x, y, get_hex_color(100, 149, 237));
 			}
 		}
 	}
-}
-
-//! mlx key hook
-#define ESC (65307)
-
-#include <stdio.h>
-
-int	deal_key(int key, t_world *world)
-{
-	if (key == ESC)
-	{
-		printf("esc clicked\n");
-		destructor(world);
-	}
-	return (0);//?
-}
-
-int	click_close_button(t_world *world)
-{
-		destructor(world);
-		printf("close button clicked\n");
-		return (0);//?
 }
 
 //! mlx key till here

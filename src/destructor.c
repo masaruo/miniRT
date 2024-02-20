@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:51:48 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/20 10:44:01 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/20 11:13:51 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,23 @@
 #include "libft.h"
 #include "mlx.h"
 
-//! minilibx close
+#define ESC (65307)
+
+int	deal_key(int key, t_world *world)
+{
+	if (key == ESC)
+	{
+		destructor(world);
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	click_close_button(t_world *world)
+{
+		destructor(world);
+		printf("close button clicked\n");
+		return (EXIT_SUCCESS);
+}
 
 //! t_list close
 static void	tlist_free_content(void *content)

@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_utils.c                                        :+:      :+:    :+:   */
+/*   t_ambient.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 10:10:00 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/20 10:20:36 by mogawa           ###   ########.fr       */
+/*   Created: 2024/02/20 11:16:06 by mogawa            #+#    #+#             */
+/*   Updated: 2024/02/20 11:18:07 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "mlx_utils.h"
+#ifndef T_AMBIENT_H
+#define T_AMBIENT_H
 
-// static int	deal_key(int key, t_world )
+#include "t_color.h"
 
-// int	mlx_controller(t_world const *world)
-// {
-	
-// }
+typedef struct s_ambient
+{
+	double	ratio;
+	t_color	color;
+}	t_ambient;
+
+#endif
