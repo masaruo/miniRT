@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/20 14:26:13 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/20 14:42:54 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	get_intersect_with_shape(t_world *world, t_image const *image)
 			t_ray	masaru_ray;
 			masaru_ray.start = world->camera.position;
 			masaru_ray.direction = get_world_ray_direction(masaru_x, masaru_y, world->camera.position, world->camera.orientation, world->screen_witdh, world->camera.field_of_view);
-			// eye_ray = masaru_ray;
+			eye_ray = masaru_ray;
 			//
 
 			t_intersect intersection;
