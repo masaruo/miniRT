@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_world.c                                          :+:      :+:    :+:   */
+/*   mlx_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/05 17:42:43 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/20 10:14:11 by mogawa           ###   ########.fr       */
+/*   Created: 2024/02/20 10:10:00 by mogawa            #+#    #+#             */
+/*   Updated: 2024/02/20 10:20:36 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
-#include "t_world.h"
+// #include "mlx_utils.h"
 
-t_world	tworld_init(void)
-{
-	t_world	world;
+// static int	deal_key(int key, t_world )
 
-	world.screen_witdh = WIDTH;
-	world.screen_height = HEIGHT;
-	world.mlx_ptr = mlx_init();
-	//todo error
-	world.win_ptr = mlx_new_window(world.mlx_ptr, world.screen_witdh, world.screen_height, TITLE);
-	//todo error
-	// world.img = timage_init(world.mlx_ptr, WITDH, HEIGHT);
-	return (world);
-}
+// int	mlx_controller(t_world const *world)
+// {
+	
+// }

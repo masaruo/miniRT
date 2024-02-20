@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 17:05:25 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/20 10:41:21 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include "phong.h"
 #include "parse.h"
 #include "ft_atod.h"
+#include "destructor.h"
 
 // #define window_width 512
 // #define window_height 512
@@ -161,6 +162,30 @@ void	get_intersect_with_shape(t_world *world, t_image const *image)
 	}
 }
 
+//! mlx key hook
+#define ESC (65307)
+
+#include <stdio.h>
+
+int	deal_key(int key, t_world *world)
+{
+	if (key == ESC)
+	{
+		printf("esc clicked\n");
+		destructor(world);
+	}
+	return (0);//?
+}
+
+int	click_close_button(t_world *world)
+{
+		destructor(world);
+		printf("close button clicked\n");
+		return (0);//?
+}
+
+//! mlx key till here
+
 
 #include <stdio.h>
 int	main(int argc, char **argv)
@@ -185,16 +210,22 @@ int	main(int argc, char **argv)
 	parse_main(argv[1], &world);
 	get_intersect_with_shape(&world, &world.img);
 	mlx_put_image_to_window(world.mlx_ptr, world.win_ptr, world.img.img_ptr, 0, 0);
+
+	//
+	mlx_key_hook(world.win_ptr, deal_key, &world);
+	mlx_hook(world.win_ptr, 17, 1L << 3, click_close_button, &world);
+	//
 	mlx_loop(world.mlx_ptr);
+	destructor(&world);
 	return (EXIT_SUCCESS);
 }
 
-#ifdef LEAK
-#include <stdlib.h>
-__attribute__((destructor))
-void	destructor(void)
-{
-	int	status;
-	status = system("leaks -q miniRT");
-}
-#endif
+// #ifdef LEAK
+// #include <stdlib.h>
+// __attribute__((destructor))
+// void	destructor(void)
+// {
+// 	int	status;
+// 	status = system("leaks -q miniRT");
+// }
+// #endif
