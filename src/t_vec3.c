@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:07:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 14:03:18 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/20 09:29:18 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "math.h"
 #include "libft.h"
 #include "ft_atod.h"
+#include "wrapper.h"
 
 t_vec3	vec3_init(double in_x, double in_y, double in_z)
 {
@@ -101,20 +102,28 @@ t_vec3	vec3_normalized_subtract(t_vec3 a, t_vec3 b)
 t_vec3	vec3_str_init(char const *line)
 {
 	t_vec3	vec;
+
+	vec = vec3_ranged_str_init(line, -100, 100);
+	return (vec);
+}
+
+t_vec3	vec3_ranged_str_init(char const *line, int min, int max)
+{
+	t_vec3	vec;
 	char	**xyz;
 	char	*x;
 	char	*y;
 	char	*z;
 
-	xyz = ft_split(line, ',');
+	xyz = ft_xsplit(line, ',', 3);
 	if (!xyz)
 	{
-		//todo split mallco error;
+		ft_perror_exit(EXIT_FAILURE, "vec3_str_init failed.");
 	}
 	x = xyz[0];
 	y = xyz[1];
 	z = xyz[2];
-	vec = vec3_init(ft_atod(x), ft_atod(y), ft_atod(z));
+	vec = vec3_init(ft_ranged_xatod(x, min, max), ft_ranged_xatod(y, min, max), ft_ranged_xatod(z, min, max));
 	ft_free_all(xyz);
 	return (vec);
 }

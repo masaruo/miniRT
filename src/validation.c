@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:18:26 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 17:04:59 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/20 09:03:30 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ static void	_validate_file_name(char const *filename)
 	char const *dot_loc_front = ft_strchr(filename, '.');
 	char const *dot_loc_back = ft_strrchr(filename, '.');
 
-	if (dot_loc_front == dot_loc_back)
+	if (dot_loc_front != dot_loc_back)
 	{
-		ft_perror_exit("more than one dot in the name.");
+		ft_perror_exit(EXIT_FAILURE, "more than one dot in the name.");
 	}
 	else if (filename[FIRST_CHAR] == '.')
 	{
-		ft_perror_exit("filename cannot start with dot.");
+		ft_perror_exit(EXIT_FAILURE, "filename cannot start with dot.");
 	}
 	else if (ft_strcmp(dot_loc_front, ".rt") != 0)
 	{
-		ft_perror_exit("filename cannot end except '.rt'.");
+		ft_perror_exit(EXIT_FAILURE, "filename cannot end except '.rt'.");
 	}
 }
 
