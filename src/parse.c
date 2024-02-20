@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 21:45:34 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/20 09:31:16 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,10 @@ t_camera	_get_a_camera(char const **lines)
 	return (camera);
 }
 
-int _parse_split_line(char const **lines, t_world * const world, uint8_t *flag)
+int _parse_splitted_line(char const **lines, t_world * const world, uint8_t *flag)
 {
+	char const	*first_str = lines[FIRST_CHAR];
+
 	if (!ft_strcmp(lines[FIRST_CHAR], "A"))
 	{
 		world->ambient = _get_ambient_light(lines);
@@ -132,6 +134,10 @@ int _parse_split_line(char const **lines, t_world * const world, uint8_t *flag)
 	else if (!ft_strcmp(lines[FIRST_CHAR], "cy"))
 	{
 		ft_lstadd_back(&world->shapes, ft_lstnew(_get_a_cylinder(lines)));
+	}
+	else if (!ft_strcmp(lines[FIRST_CHAR], "#") || !ft_strcmp(first_str, "\n"))
+	{
+		return (EXIT_SUCCESS);
 	}
 	else
 	{

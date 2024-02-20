@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:07:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 21:36:47 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/20 09:29:18 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ t_vec3	vec3_str_init(char const *line)
 	return (vec);
 }
 
-t_vec3	vec3_ranged_str_init(char const *line, size_t min, size_t max)
+t_vec3	vec3_ranged_str_init(char const *line, int min, int max)
 {
 	t_vec3	vec;
 	char	**xyz;
@@ -118,7 +118,7 @@ t_vec3	vec3_ranged_str_init(char const *line, size_t min, size_t max)
 	xyz = ft_xsplit(line, ',', 3);
 	if (!xyz)
 	{
-		ft_perror_exit(EXIT_FAILURE, "vec3_str_init failed.")
+		ft_perror_exit(EXIT_FAILURE, "vec3_str_init failed.");
 	}
 	x = xyz[0];
 	y = xyz[1];
