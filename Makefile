@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/02/19 16:00:36 by mogawa           ###   ########.fr        #
+#    Updated: 2024/02/20 13:29:08 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,12 +21,14 @@ MLXDIR	:=	./mlx
 MLX		:=	$(MLXDIR)/libmlx_Darwin.a
 INCLUDE	:=	-I./include -I$(LIBFTDIR)/include -I$(MLXDIR)
 SRCS		:=	\
+			destructor.c \
 			ft_atod.c \
 			get_next_line.c get_next_line_utils.c \
 			math_utils.c \
 			parse.c \
 			phong.c \
 			shadow.c \
+			t_camera.c \
 			t_color.c \
 			t_cylinder.c \
 			t_image.c \

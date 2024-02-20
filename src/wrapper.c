@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:58:13 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/20 09:36:07 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/20 11:07:26 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,16 @@
 #include "libft.h"
 #include "ft_atod.h"
 
+// decided not to include destructor() as it will exit at the end of the day.
 void	ft_perror_exit(int status, char const *msg)
 {
 	ft_putstr_fd("Error\n", STDERR_FILENO);
 	ft_putstr_fd(msg, STDERR_FILENO);
 	ft_putchar_fd('\n', STDERR_FILENO);
+#ifdef LEAK
+#include <stdlib.h>
+system("leaks -q miniRT");
+#endif
 	exit(status);
 }
 

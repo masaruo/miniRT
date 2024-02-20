@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/20 09:31:16 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/20 11:20:42 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,12 +137,13 @@ int _parse_splitted_line(char const **lines, t_world * const world, uint8_t *fla
 	}
 	else if (!ft_strcmp(lines[FIRST_CHAR], "#") || !ft_strcmp(first_str, "\n"))
 	{
-		return (EXIT_SUCCESS);
+		;
 	}
 	else
 	{
 		ft_perror_exit(EXIT_FAILURE, "unrecognizable element sign detected.");
 	}
+	ft_free_all(lines);
 	return (EXIT_SUCCESS);
 }
 
@@ -171,5 +172,6 @@ int	parse_main(char const *file, t_world * const world)
 
 	fd = get_validated_fd(file);
 	flag = parse_lines(fd, world);
+	// system("leaks -q miniRT");//!
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:04:13 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 13:33:24 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/20 11:01:49 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static double	_get_decimal_part(char const * const str_num)
 	decimal_in_str = ft_substr(dot_location, ONE_AFTER_DOT, how_many_digits);
 	decimal_in_long = ft_strtol(decimal_in_str, NULL, BASE10);
 	double_in_decimal += (double)(decimal_in_long / pow(BASE10, how_many_digits));
+	free(decimal_in_str);
 	return (double_in_decimal);
 }
 
