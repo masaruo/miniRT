@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:56:27 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 10:34:35 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/21 12:53:57 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,27 @@ static double	_cylinder_get_c(t_vec3_unit v, t_vec3_unit c, double r)
 	return (c_quadratic);
 }
 
-double	get_length_of_projection(t_ray *ray, t_cylinder *cylinder, t_vec3 point)
+static double	_get_length_of_projection(t_ray const *ray, t_cylinder const *cylinder, double distance)
+{
+	t_vec3_pos const	point = vec3_add(ray->start, vec3_multiply(ray->direction, distance));
+	t_vec3 const		cylinder_pos_to_point = vec3_subtract(point, cylinder->position);
+	double const		len_of_projection = vec3_dot(cylinder_pos_to_point, cylinder->normal);
+	// t_vec3 const		projection = vec3_add(cylinder->position, vec3_multiply(cylinder->normal, len_of_projection));
+
+	return (len_of_projection);
+}
+
+static bool	_is_contact_distance_valid(double distance, t_ray const *ray, t_cylinder const *cylinder)
+{
+	double const	len_of_projection = _get_length_of_projection(ray, cylinder, distance);
+
+	if (distance >= 0 && len_of_projection >= 0 && len_of_projection <= cylinder->height)
+		return (true);
+	else
+		return (false);
+}
+
+double	get_length_of_projection(t_cylinder *cylinder, t_vec3 point)
 {
 	t_vec3	cylinder_center_to_point = vec3_subtract(point, cylinder->position);
 	double	len_projection = vec3_dot(cylinder_center_to_point, cylinder->normal);
@@ -81,14 +101,24 @@ double	calculate_cylinder_distance(double A, double B, double C, t_vec3 *point, 
 	double	d = B * B - 4 * A * C;
 	double	t_plus;
 	double	t_minus;
+	double	t_plus_len;
+	double	t_minus_len;
+	bool	is_tplus_valid;
+	bool	is_tminus_valid;
 	t_vec3	cylinder_to_point;
 
 	t = -1;
 	if (d < 0)
 		return (t);
 	t_plus = (-B + sqrt(d)) / (2 * A);
+	t_plus_len = _get_length_of_projection(ray, cylinder, t_plus);
 	t_minus = (-B - sqrt(d)) / (2 * A);
-	if (t_plus > 0 && t_minus > 0)
+	t_minus_len = _get_length_of_projection(ray, cylinder, t_minus);
+
+	is_tplus_valid = _is_contact_distance_valid(t_plus, ray, cylinder);
+	is_tminus_valid = _is_contact_distance_valid(t_minus, ray, cylinder);
+
+	if (is_tplus_valid && is_tminus_valid)
 	{
 		if (t_plus < t_minus)
 		{
@@ -102,73 +132,18 @@ double	calculate_cylinder_distance(double A, double B, double C, t_vec3 *point, 
 		*normal = get_normal(t, ray, cylinder, *point, false);
 		return (t);
 	}
-	else if (t_plus > 0 || t_minus > 0)
+	if (is_tplus_valid)
 	{
-		if (t_plus > 0)
-		{
-			t = t_plus;
-		}
-		else
-		{
-			t = t_minus;
-		}
-		*point = vec3_add(ray->start, vec3_multiply(ray->direction, t));
-		*normal = get_normal(t, ray, cylinder, *point, true);
+		t = t_plus;
 	}
+	else if (is_tminus_valid)
+	{
+		t = t_minus;
+	}
+	*point = vec3_add(ray->start, vec3_multiply(ray->direction, t));
+	*normal = get_normal(t, ray, cylinder, *point, true);
+	// *normal = vec3_multiply(*normal, -1);
 	return (t);
-}
-
-double	_cylinder_get_params(double A, double B, double D, double *m, t_vec3 *normal, t_vec3 s, t_vec3 v, t_vec3 c, t_vec3 d, double height)
-{
-	double	t_distance;
-	double	t_plus;
-	double	t_minus;
-	t_vec3	P;
-
-	t_distance = -1;
-	//todo if D==0 check
-	t_plus = -B + sqrt(D) / (2 * A);
-	t_minus = -B - sqrt(D) / (2 * A);
-	if (t_plus > 0 && t_minus > 0)
-	{
-		if (t_plus < t_minus)
-		{
-			t_distance = t_plus;
-		}
-		else
-		{
-			t_distance = t_minus;
-		}
-		// *m = t_distance * vec3_dot(d, v) + 2 * vec3_dot(s, v) - vec3_dot(c, c);
-		P = vec3_add(s, vec3_multiply(d, t_distance));
-		t_vec3	p_to_c = vec3_subtract(c, P);
-		double _m = vec3_dot(p_to_c, v);
-		*m = _m;
-		t_vec3	projection = vec3_multiply(v, _m);
-		t_vec3	N = vec3_normalized_subtract(P, projection);
-		*normal = N;
-	}
-	else if (t_plus > 0 || t_plus > 0)
-	{
-		if (t_plus > 0)
-		{
-			t_distance = t_plus;
-		}
-		else
-		{
-			t_distance = t_minus;
-		}
-		// *m = t_distance * vec3_dot(d, v) + 2 * vec3_dot(s, v) - vec3_dot(c, c);
-		P = vec3_add(s, vec3_multiply(d, t_distance));
-		t_vec3	p_to_c = vec3_subtract(c, P);
-		double _m = vec3_dot(p_to_c, v);
-		*m = _m;
-		t_vec3	projection = vec3_multiply(v, _m);
-		t_vec3	N = vec3_normalized_subtract(P, projection);
-		N = vec3_multiply(N, -1);
-		*normal = N;
-	}
-	return (t_distance);
 }
 
 int	get_distance_to_cylinder(t_cylinder const *cylinder, t_ray const *ray, t_intersect *out_intersect)
@@ -202,7 +177,7 @@ int	get_distance_to_cylinder(t_cylinder const *cylinder, t_ray const *ray, t_int
 	{
 		return (NO_INTERSECTION);
 	}
-	double	m = get_length_of_projection(ray, cylinder, point);
+	double	m = get_length_of_projection(cylinder, point);
 	if (m > cylinder->height || m < 0)
 	{
 		return (NO_INTERSECTION);
