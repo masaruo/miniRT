@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/20 11:20:42 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/21 14:00:21 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,30 @@ t_camera	_get_a_camera(char const **lines)
 	return (camera);
 }
 
+static void	_check_flag_error(int flag_type, uint8_t *flag)
+{
+	if (flag_type == F_CAMERA && (*flag & F_CAMERA) == 0)
+	{
+		*flag |= F_CAMERA;
+	}
+	else if (flag_type == F_LIGHT && (*flag & F_LIGHT) == 0)
+	{
+		*flag |= F_LIGHT;
+	}
+	else if (flag_type == F_AMBIENT && (*flag & F_AMBIENT) == 0)
+	{
+		*flag |= F_AMBIENT;
+	}
+	else if (flag_type == F_SHAPE)
+	{
+		*flag |= F_SHAPE;
+	}
+	else
+	{
+		*flag |= F_ERROR;
+	}
+}
+
 int _parse_splitted_line(char const **lines, t_world * const world, uint8_t *flag)
 {
 	char const	*first_str = lines[FIRST_CHAR];
@@ -114,26 +138,32 @@ int _parse_splitted_line(char const **lines, t_world * const world, uint8_t *fla
 	if (!ft_strcmp(lines[FIRST_CHAR], "A"))
 	{
 		world->ambient = _get_ambient_light(lines);
+		_check_flag_error(F_AMBIENT, flag);
 	}
 	else if (!ft_strcmp(lines[FIRST_CHAR], "C"))
 	{
 		world->camera = _get_a_camera(lines);
+		_check_flag_error(F_CAMERA, flag);
 	}
 	else if (!ft_strcmp(lines[FIRST_CHAR], "L"))
 	{
 		ft_lstadd_back(&world->lights, ft_lstnew(_get_a_light(lines)));
+		_check_flag_error(F_LIGHT, flag);
 	}
 	else if (!ft_strcmp(lines[FIRST_CHAR], "sp"))
 	{
 		ft_lstadd_back(&world->shapes, ft_lstnew(_get_a_sphere(lines)));
+		_check_flag_error(F_SHAPE, flag);
 	}
 	else if (!ft_strcmp(lines[FIRST_CHAR], "pl"))
 	{
 		ft_lstadd_back(&world->shapes, ft_lstnew(_get_a_plain(lines)));
+		_check_flag_error(F_SHAPE, flag);
 	}
 	else if (!ft_strcmp(lines[FIRST_CHAR], "cy"))
 	{
 		ft_lstadd_back(&world->shapes, ft_lstnew(_get_a_cylinder(lines)));
+		_check_flag_error(F_SHAPE, flag);
 	}
 	else if (!ft_strcmp(lines[FIRST_CHAR], "#") || !ft_strcmp(first_str, "\n"))
 	{
@@ -153,6 +183,7 @@ uint8_t	parse_lines(int fd, t_world * const world)
 	char	**line_splitted;
 	uint8_t	flag;
 
+	flag = 0;
 	while (gnl_wrapper(fd, &line))
 	{
 		line_splitted = ft_split(line, SPACE);
@@ -160,6 +191,10 @@ uint8_t	parse_lines(int fd, t_world * const world)
 		if (!line_splitted || line_splitted[FIRST_CHAR] == NULL)
 			ft_perror_exit(EXIT_FAILURE, "failed to create splitted line");
 		_parse_splitted_line(line_splitted, world, &flag);
+	}
+	if (flag != 15)
+	{
+		ft_perror_exit(EXIT_FAILURE, "number of object in rt files is invalid.");
 	}
 }
 

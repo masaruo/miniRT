@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"*.c": "c",
-		"t_shape.h": "c"
+		"t_shape.h": "c",
+		"t_world.h": "c"
 	}
 }
