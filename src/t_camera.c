@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:03:56 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/21 11:36:39 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/21 11:55:13 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,24 @@ static double	_get_distance_to_screen(double width, double fov)
 	return (t);
 }
 
+static t_vec3_unit	_get_vetted_forward(t_vec3_unit d)
+{
+	t_vec3_unit	vetted_forward;
+
+	vetted_forward = d;
+	if (d.x == 0 && d.z == 0)
+	{
+		if (0.9 < d.y)
+			vetted_forward.y = 0.9;
+		else if (d.y < -0.9)
+			vetted_forward.y = -0.9;
+	}
+	return (vetted_forward);
+}
+
 t_vec3_pos	convert_xy_to_world_coord(t_vec3_unit d, double screen_x, double screen_y, double distance)
 {
-	t_vec3_unit	const	forward = d;
+	t_vec3_unit	const	forward = _get_vetted_forward(d);
 	t_vec3_unit const	right = vec3_normalize(vec3_cross(vec3_init(0, 1, 0), forward));
 	t_vec3_unit const	up = vec3_normalize(vec3_cross(forward, right));
 	double const		screen_z = distance;
