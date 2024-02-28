@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:51:48 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/20 11:13:51 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/21 14:08:41 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	click_close_button(t_world *world)
 		return (EXIT_SUCCESS);
 }
 
-//! t_list close
 static void	tlist_free_content(void *content)
 {
 	free (content);
