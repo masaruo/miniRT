@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 15:38:30 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/31 10:17:14 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 17:23:24 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_color
 
 uint32_t	tcolor_to_hex(t_color color);
 t_color		tcolor_normalize(t_color color);
-t_color		tcolor_set(double red, double green, double blue);
+t_color		tcolor_init(double red, double green, double blue);
 t_color		tcolor_add(t_color a, t_color b);
 t_color		tcolor_multiply(t_color a, t_color b);
 t_color		tcolor_scalar_multiply(t_color a, double scalar);

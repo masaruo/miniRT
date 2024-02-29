@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 08:22:03 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 21:27:30 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 17:23:41 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ uint32_t	tcolor_to_hex(t_color color)
 }
 
 //rgb data is already clamped
-t_color	tcolor_set(double r, double g, double b)
+t_color	tcolor_init(double r, double g, double b)
 {
 	t_color	new;
 

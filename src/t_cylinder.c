@@ -6,46 +6,13 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:56:27 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/21 12:53:57 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 16:50:13 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_cylinder.h"
 #include <stdbool.h>
 
-static double	_cylinder_get_a(t_vec3_unit d, t_vec3_unit v)
-{
-	double const	dv = vec3_dot(d, v);
-	double const	dv_pow2 = dv * dv;
-	double const	a = vec3_dot(d, d) - dv_pow2;
-
-	return (a);
-}
-
-static double	_cylinder_get_b(t_vec3_unit d, t_vec3_unit v, t_vec3_unit c)
-{
-	double dv = vec3_dot(d, v);
-	double vv = vec3_dot(v, v);
-	double dc = vec3_dot(d, c);
-	double cv = vec3_dot(c, v);
-
-	double b = 2 * (cv * dv - dc);
-	// double b = -2 * (dc - (cv * dv));
-	return (b);
-}
-
-static double	_cylinder_get_c(t_vec3_unit v, t_vec3_unit c, double r)
-{
-	double	c_quadratic;
-
-	double cc = vec3_dot(c, c);
-	double cv = vec3_dot(c, v);
-	double cv_pow2 = cv * cv;
-	double vv = vec3_dot(v, v);
-
-	c_quadratic = cc - cv_pow2 - r * r;
-	return (c_quadratic);
-}
 
 static double	_get_length_of_projection(t_ray const *ray, t_cylinder const *cylinder, double distance)
 {
@@ -153,9 +120,7 @@ int	get_distance_to_cylinder(t_cylinder const *cylinder, t_ray const *ray, t_int
 	t_vec3	s = ray->start;
 	t_vec3	d = ray->direction;
 	t_vec3	cylinder_to_ray;
-	// t_vec3	cylinder_to_ray = vec3_subtractx(ray->start, cylinder->position);
 	cylinder_to_ray = vec3_subtract(cylinder->position, ray->start);
-	// cylinder_to_ray= cylinder->position;
 	t_vec3	c = cylinder->position;
 	t_vec3	v = cylinder->normal;
 	t_vec3_unit	intersect_normal1;
@@ -169,7 +134,6 @@ int	get_distance_to_cylinder(t_cylinder const *cylinder, t_ray const *ray, t_int
 	{
 		return (NO_INTERSECTION);
 	}
-	// double	m = -1;
 	t_vec3	point;
 	t_vec3	normal;
 	double t = calculate_cylinder_distance(A, B, C, &point, &normal, ray, cylinder);

@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/02/29 15:46:24 by mogawa           ###   ########.fr        #
+#    Updated: 2024/02/29 17:11:18 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,9 @@ SRCS		:=	\
 			shadow.c \
 			t_camera.c \
 			t_color.c \
+			t_color2.c \
 			t_cylinder.c \
+			t_cylinder2.c \
 			t_image.c \
 			t_intersect.c \
 			t_plane.c \
