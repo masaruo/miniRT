@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/02/20 13:29:08 by mogawa           ###   ########.fr        #
+#    Updated: 2024/02/29 10:47:26 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS		:=	\
 			ft_atod.c \
 			get_next_line.c get_next_line_utils.c \
 			math_utils.c \
+			minirt.c \
 			parse.c \
 			phong.c \
 			shadow.c \
@@ -40,7 +41,7 @@ SRCS		:=	\
 			t_world.c \
 			validation.c \
 			wrapper.c \
-			minirt.c
+			main.c
 OBJS	:=	$(SRCS:%.c=$(OBJDIR)/%.o)
 DEPS	:=	$(OBJS:%.o=%.d)
 LDFLAGS	:=	-L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -lm

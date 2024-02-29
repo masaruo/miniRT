@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 08:29:01 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 11:48:02 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "t_color.h"
 #include "math_utils.h"
 #include <stdlib.h>
-// #include <stdio.h>
 #include <math.h>
 #include "t_ray.h"
 #include "t_shape.h"
@@ -59,48 +58,17 @@ void	get_intersect_with_shape(t_world *world, t_image const *image)
 	}
 }
 
-//! mlx key till here
-
-
-#include <stdio.h>
-int	main(int argc, char **argv)
+int	minirt_main(char const *file_name)
 {
 	t_world	world;
-	// t_list	*shapes;
-	// t_list	*lights;
 
-	// char *input = "123456789.123456789";
-
-	// double ans = ft_atod(input);
-	// printf("ans=[%f], pc=[%f]\n", ans, atof(input));
-	// return (0);
-	//todo parse
-	//todo getnextline
-	//todo ft_spolit
-	//todo validation
 	world = tworld_init();
-	world.img = timage_init(world.mlx_ptr, world.screen_witdh, world.screen_height);
-	world.shapes = ft_lstnew(NULL);
-	world.lights = ft_lstnew(NULL);
-	parse_main(argv[1], &world);
+	parse_main(file_name, &world);
 	get_intersect_with_shape(&world, &world.img);
-	mlx_put_image_to_window(world.mlx_ptr, world.win_ptr, world.img.img_ptr, 0, 0);
-
-	//
+	mlx_put_image_to_window(world.mlx_ptr, world.win_ptr, world.img.ptr, 0, 0);
 	mlx_key_hook(world.win_ptr, deal_key, &world);
 	mlx_hook(world.win_ptr, 17, 1L << 3, click_close_button, &world);
-	//
 	mlx_loop(world.mlx_ptr);
 	destructor(&world);
 	return (EXIT_SUCCESS);
 }
-
-// #ifdef LEAK
-// #include <stdlib.h>
-// __attribute__((destructor))
-// void	destructor(void)
-// {
-// 	int	status;
-// 	status = system("leaks -q miniRT");
-// }
-// #endif

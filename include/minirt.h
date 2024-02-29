@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix.h                                           :+:      :+:    :+:   */
+/*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/29 08:10:52 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 08:12:14 by mogawa           ###   ########.fr       */
+/*   Created: 2024/02/29 10:21:33 by mogawa            #+#    #+#             */
+/*   Updated: 2024/02/29 11:48:16 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MATRIX_H
-#define MATRIX_H
+#ifndef MINIRT_H
+#define MINIRT_H
 
-typedef struct s_matrix
-{
-
-}	t_matrix;
+int	minirt_main(char const *file_name);
 
 #endif

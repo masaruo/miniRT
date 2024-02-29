@@ -6,19 +6,21 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/21 14:00:21 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 13:08:59 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
+#include "validation.h"
 #include "ft_atod.h"
 #include "get_next_line.h"
 #include "t_light.h"
 #include "t_color.h"
 #include "t_shape.h"
-// #include <fcntl.h>
-#include <stdint.h>
 #include "wrapper.h"
+#include <stdint.h>
+
+#include "t_plane.h"
 
 #define SPACE (' ')
 #define FIRST_CHAR (0)
@@ -27,10 +29,11 @@
 #define LIGHT (3)
 #define OBJECTS (4)
 
-t_ambient _get_ambient_light(char const **lines)
+t_ambient	_get_ambient_light(char const **lines, uint8_t *flag)
 {
 	t_ambient	ambient;
 
+	check_flag_error(F_AMBIENT, flag);
 	ambient.ratio = ft_ranged_xatod(lines[1], 0.0, 1.0);
 	ambient.color = tcolor_str_set(lines[2]);
 	return (ambient);
@@ -95,10 +98,11 @@ t_shape	*_get_a_cylinder(char const **lines)
 	return (cylinder);
 }
 
-t_camera	_get_a_camera(char const **lines)
+t_camera	_get_a_camera(char const **lines, uint8_t *flag)
 {
 	t_camera	camera;
 
+	check_flag_error(F_CAMERA, flag);
 	camera.position = vec3_str_init(lines[1]);
 	camera.orientation = vec3_normalize(vec3_ranged_str_init(lines[2], -100.0, 100.0));
 	camera.field_of_view = ft_ranged_xatod(lines[3], 0.0, 180.0);
@@ -107,77 +111,36 @@ t_camera	_get_a_camera(char const **lines)
 	return (camera);
 }
 
-static void	_check_flag_error(int flag_type, uint8_t *flag)
+void	_parse_splitted(char const **ln, t_world *const wd, uint8_t *flg)
 {
-	if (flag_type == F_CAMERA && (*flag & F_CAMERA) == 0)
+	char const	*sign = ln[FIRST_CHAR];
+
+	if (!ft_strcmp(sign, "A"))
+		wd->ambient = _get_ambient_light(ln, flg);
+	else if (!ft_strcmp(sign, "C"))
+		wd->camera = _get_a_camera(ln, flg);
+	else if (!ft_strcmp(sign, "L"))
 	{
-		*flag |= F_CAMERA;
-	}
-	else if (flag_type == F_LIGHT && (*flag & F_LIGHT) == 0)
-	{
-		*flag |= F_LIGHT;
-	}
-	else if (flag_type == F_AMBIENT && (*flag & F_AMBIENT) == 0)
-	{
-		*flag |= F_AMBIENT;
-	}
-	else if (flag_type == F_SHAPE)
-	{
-		*flag |= F_SHAPE;
+		ft_lstadd_back(&wd->lights, ft_lstnew(_get_a_light(ln)));
+		check_flag_error(F_LIGHT, flg);
 	}
 	else
 	{
-		*flag |= F_ERROR;
+		if (!ft_strcmp(sign, "sp"))
+			ft_lstadd_back(&wd->shapes, ft_lstnew(_get_a_sphere(ln)));
+		else if (!ft_strcmp(sign, "pl"))
+			ft_lstadd_back(&wd->shapes, ft_lstnew(_get_a_plain(ln)));
+		else if (!ft_strcmp(sign, "cy"))
+			ft_lstadd_back(&wd->shapes, ft_lstnew(_get_a_cylinder(ln)));
+		else if (!ft_strcmp(sign, "#") || !ft_strcmp(sign, "\n"))
+			return ;
+		else
+			ft_perror_exit(EXIT_FAILURE, "unrecognizable sign detected.");
+		check_flag_error(F_SHAPE, flg);
 	}
 }
 
-int _parse_splitted_line(char const **lines, t_world * const world, uint8_t *flag)
-{
-	char const	*first_str = lines[FIRST_CHAR];
-
-	if (!ft_strcmp(lines[FIRST_CHAR], "A"))
-	{
-		world->ambient = _get_ambient_light(lines);
-		_check_flag_error(F_AMBIENT, flag);
-	}
-	else if (!ft_strcmp(lines[FIRST_CHAR], "C"))
-	{
-		world->camera = _get_a_camera(lines);
-		_check_flag_error(F_CAMERA, flag);
-	}
-	else if (!ft_strcmp(lines[FIRST_CHAR], "L"))
-	{
-		ft_lstadd_back(&world->lights, ft_lstnew(_get_a_light(lines)));
-		_check_flag_error(F_LIGHT, flag);
-	}
-	else if (!ft_strcmp(lines[FIRST_CHAR], "sp"))
-	{
-		ft_lstadd_back(&world->shapes, ft_lstnew(_get_a_sphere(lines)));
-		_check_flag_error(F_SHAPE, flag);
-	}
-	else if (!ft_strcmp(lines[FIRST_CHAR], "pl"))
-	{
-		ft_lstadd_back(&world->shapes, ft_lstnew(_get_a_plain(lines)));
-		_check_flag_error(F_SHAPE, flag);
-	}
-	else if (!ft_strcmp(lines[FIRST_CHAR], "cy"))
-	{
-		ft_lstadd_back(&world->shapes, ft_lstnew(_get_a_cylinder(lines)));
-		_check_flag_error(F_SHAPE, flag);
-	}
-	else if (!ft_strcmp(lines[FIRST_CHAR], "#") || !ft_strcmp(first_str, "\n"))
-	{
-		;
-	}
-	else
-	{
-		ft_perror_exit(EXIT_FAILURE, "unrecognizable element sign detected.");
-	}
-	ft_free_all(lines);
-	return (EXIT_SUCCESS);
-}
-
-uint8_t	parse_lines(int fd, t_world * const world)
+static uint8_t	parse_each_lines(int fd, t_world *const world)
 {
 	char	*line;
 	char	**line_splitted;
@@ -189,24 +152,24 @@ uint8_t	parse_lines(int fd, t_world * const world)
 		line_splitted = ft_split(line, SPACE);
 		free(line);
 		if (!line_splitted || line_splitted[FIRST_CHAR] == NULL)
+		{
 			ft_perror_exit(EXIT_FAILURE, "failed to create splitted line");
-		_parse_splitted_line(line_splitted, world, &flag);
+		}
+		_parse_splitted(line_splitted, world, &flag);
+		ft_free_all(line_splitted);
 	}
-	if (flag != 15)
-	{
-		ft_perror_exit(EXIT_FAILURE, "number of object in rt files is invalid.");
-	}
+	return (flag);
 }
 
-int	parse_main(char const *file, t_world * const world)
+void	parse_main(char const *file, t_world * const world)
 {
 	int		fd;
 	char	*line;
 	char	**split_by_space;
 	uint8_t	flag;
+	int		status;
 
 	fd = get_validated_fd(file);
-	flag = parse_lines(fd, world);
-	// system("leaks -q miniRT");//!
-	return (EXIT_SUCCESS);
+	flag = parse_each_lines(fd, world);
+	flag_check(flag);
 }

@@ -6,16 +6,17 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 14:26:33 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/06 16:27:00 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 11:43:15 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_IMAGE_H
 #define T_IMAGE_H
+# define EXIT_FAILURE (1)
 
 typedef struct s_image
 {
-	void	*img_ptr;
+	void	*ptr;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
