@@ -6,13 +6,12 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 14:26:33 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 11:43:15 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 14:10:08 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_IMAGE_H
 #define T_IMAGE_H
-# define EXIT_FAILURE (1)
 
 typedef struct s_image
 {

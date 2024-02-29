@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:58:13 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 11:06:57 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 13:42:24 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ double	ft_xatod(char const * const str_num)
 	return (ft_atod(str_num));
 }
 
-double	ft_ranged_xatod(char const * const str_num, int min, int max)
+double	ft_ranged_xatod(char const * const str_num, double min, double max)
 {
 	double	num;
 

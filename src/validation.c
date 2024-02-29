@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:18:26 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 12:45:56 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 13:17:41 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include "get_next_line.h"
-
-#define FIRST_CHAR (0)
-// #define UPPER_LIMIT (100.0)
-// #define LOWER_LIMIT (-100.0)
-#define	VALID_PARSE_BITFLG (15)
+#define VALID_PARSE_BITFLG (15)
 
 static void	_validate_file_name(char const *filename)
 {
@@ -33,7 +29,7 @@ static void	_validate_file_name(char const *filename)
 	{
 		ft_perror_exit(EXIT_FAILURE, "more than one dot in the name.");
 	}
-	else if (filename[FIRST_CHAR] == '.')
+	else if (filename[FIRST_STR] == '.')
 	{
 		ft_perror_exit(EXIT_FAILURE, "filename cannot start with dot.");
 	}

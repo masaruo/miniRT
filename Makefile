@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/02/29 10:47:26 by mogawa           ###   ########.fr        #
+#    Updated: 2024/02/29 13:27:11 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS		:=	\
 			math_utils.c \
 			minirt.c \
 			parse.c \
+			parse2.c \
 			phong.c \
 			shadow.c \
 			t_camera.c \
