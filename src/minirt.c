@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 14:20:40 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 15:30:52 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ int	minirt_main(char const *file_name)
 	mlx_key_hook(world.win_ptr, deal_key, &world);
 	mlx_hook(world.win_ptr, 17, 1L << 3, click_close_button, &world);
 	mlx_loop(world.mlx_ptr);
-	status = destructor(&world);
+	status = ft_destructor(&world);
 	return (status);
 }

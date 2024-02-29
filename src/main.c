@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:20:54 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 15:15:09 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 15:38:28 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,5 @@ int	main(int argc, char **argv)
 	status = minirt_main(argv[1]);
 	return (status);
 }
-
-#ifdef LEAK
-#include <stdlib.h>
-__attribute__((leakcheck))
-void	leakcheck(void)
-{
-	int	status;
-	status = system("leaks -q miniRT");
-}
-#endif
 
 //! 座標の入力値は「−１００〜＋１００」の仕様

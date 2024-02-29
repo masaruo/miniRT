@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:58:13 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 13:42:24 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 15:43:13 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,27 @@
 #include "libft.h"
 #include "ft_atod.h"
 
-// decided not to include destructor() to clean up as it is exit.
-#ifdef LEAK
-# include <stdlib.h>
+// // decided not to include destructor() to clean up as it is exit.
+// #ifdef LEAK
 
-void	ft_perror_exit(int status, char const *msg)
-{
-	ft_putstr_fd("Error\n", STDERR_FILENO);
-	ft_putstr_fd(msg, STDERR_FILENO);
-	ft_putchar_fd('\n', STDERR_FILENO);
-	exit(status);
-	system("leaks -q miniRT");
-}
-#else
+// void	ft_perror_exit(int status, char const *msg)
+// {
+// 	ft_putstr_fd("Error\n", STDERR_FILENO);
+// 	ft_putstr_fd(msg, STDERR_FILENO);
+// 	ft_putchar_fd('\n', STDERR_FILENO);
+// 	exit(status);
+// 	system("leaks -q miniRT");
+// }
+// #else
 
-void	ft_perror_exit(int status, char const *msg)
-{
-	ft_putstr_fd("Error\n", STDERR_FILENO);
-	ft_putstr_fd(msg, STDERR_FILENO);
-	ft_putchar_fd('\n', STDERR_FILENO);
-	exit(status);
-}
-#endif
+// void	ft_perror_exit(int status, char const *msg)
+// {
+// 	ft_putstr_fd("Error\n", STDERR_FILENO);
+// 	ft_putstr_fd(msg, STDERR_FILENO);
+// 	ft_putchar_fd('\n', STDERR_FILENO);
+// 	exit(status);
+// }
+// #endif
 
 static int	ft_isaccepted_char(int c)
 {
@@ -54,7 +53,8 @@ double	ft_xatod(char const * const str_num)
 	{
 		if (!ft_isdigit(str_num[i]) && !ft_isaccepted_char(str_num[i]))
 		{
-			ft_perror_exit(EXIT_FAILURE, "ft_xatod: no digit nor dot detected.");
+			ft_perror_exit(EXIT_FAILURE, \
+						"ft_xatod: no digit nor dot detected.");
 		}
 		i++;
 	}
@@ -68,10 +68,10 @@ double	ft_ranged_xatod(char const * const str_num, double min, double max)
 	num = ft_xatod(str_num);
 	if (num < min || max < num)
 	{
-		ft_perror_exit(EXIT_FAILURE, "ft_ranged_xatod: input is out of the acceptable range.");
+		ft_perror_exit(EXIT_FAILURE, \
+					"ft_ranged_xatod: input is out of the acceptable range.");
 	}
-	else
-		return (num);
+	return (num);
 }
 
 char** ft_xsplit(char const *s, char c, size_t num_childs)
@@ -87,8 +87,8 @@ char** ft_xsplit(char const *s, char c, size_t num_childs)
 	}
 	if (i < num_childs)
 	{
-		ft_perror_exit(EXIT_FAILURE, "ft_xsplit: number of inputs to split is not correct.");
+		ft_perror_exit(EXIT_FAILURE, \
+					"ft_xsplit: number of inputs to split is not correct.");
 	}
-	else
-		return (splitted);
+	return (splitted);
 }
