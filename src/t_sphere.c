@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 08:37:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 10:22:06 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 14:59:16 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ static	double	calculate_t_distance(double d, double b, double a)
 	double			t_minus;
 
 	t_distance = -1;
+	if (a == 0)
+		return (t_distance);
 	if (d >= 0)
 	{
 		t_plus = (-b + sqrt(d)) / (2 * a);
@@ -42,20 +44,23 @@ static	double	calculate_t_distance(double d, double b, double a)
 }
 
 // ２次関数a b cから判定式dを計算。aは正規化されたRayの方向ベクトルなので常に１。
-static	double	calculate_sphere_distance(t_sphere const *sphere, t_ray const *ray)
+static	double	cal_sphere_distance(t_sphere const *sphere, t_ray const *ray)
 {
 	t_vec3 const	sphere_to_ray = vec3_subtract(ray->start, sphere->center);
 	double const	a = vec3_square(ray->direction);
 	double const	b = 2 * vec3_dot(sphere_to_ray, ray->direction);
-	double const	c = vec3_square(sphere_to_ray) -  pow(sphere->r, 2);
+	double const	c = vec3_square(sphere_to_ray) - pow(sphere->r, 2);
 	double const	d = (b * b) - (4 * a * c);
 
 	return (calculate_t_distance(d, b, a));
 }
 
-int	get_distance_to_sphere(t_sphere const *sphere, t_ray const *ray, t_intersect *out_intersect)
+int	get_distance_to_sphere(\
+		t_sphere const *sphere, \
+		t_ray const *ray, \
+		t_intersect *out_intersect)
 {
-	double const	distance = calculate_sphere_distance(sphere, ray);
+	double const	distance = cal_sphere_distance(sphere, ray);
 	t_vec3			center_to_intersect;
 
 	if (distance < 0)
@@ -64,8 +69,8 @@ int	get_distance_to_sphere(t_sphere const *sphere, t_ray const *ray, t_intersect
 	}
 	out_intersect->distance = distance;
 	out_intersect->position = t_ray_get_point(ray, distance);
-	center_to_intersect = vec3_subtract(out_intersect->position, sphere->center);
-	out_intersect->normal = vec3_normalize(center_to_intersect);
+	out_intersect->normal = \
+		vec3_normalized_subtract(out_intersect->position, sphere->center);
 	out_intersect->color = sphere->color;
 	return (HAS_INTERSECTION);
 }
