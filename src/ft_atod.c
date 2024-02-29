@@ -6,15 +6,15 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:04:13 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/20 11:01:49 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 14:22:16 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_atod.h"
 #include "libft.h"
 #include <math.h>
-# define BASE10 (10)
-# define ONE_AFTER_DOT (1)
+#define BASE10 (10)
+#define ONE_AFTER_DOT (1)
 
 static size_t	_cnt_digits(char const * const dot_location)
 {

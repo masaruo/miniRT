@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 11:48:02 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 14:20:40 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	get_intersect_with_shape(t_world *world, t_image const *image)
 int	minirt_main(char const *file_name)
 {
 	t_world	world;
+	int		status;
 
 	world = tworld_init();
 	parse_main(file_name, &world);
@@ -69,6 +70,6 @@ int	minirt_main(char const *file_name)
 	mlx_key_hook(world.win_ptr, deal_key, &world);
 	mlx_hook(world.win_ptr, 17, 1L << 3, click_close_button, &world);
 	mlx_loop(world.mlx_ptr);
-	destructor(&world);
-	return (EXIT_SUCCESS);
+	status = destructor(&world);
+	return (status);
 }
