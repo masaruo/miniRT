@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 08:37:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 14:59:16 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 15:20:03 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	get_distance_to_sphere(\
 		t_intersect *out_intersect)
 {
 	double const	distance = cal_sphere_distance(sphere, ray);
-	t_vec3			center_to_intersect;
 
 	if (distance < 0)
 	{

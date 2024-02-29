@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:19:09 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 14:07:07 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 15:20:01 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_light	*_get_a_light(char **lines)
 	{
 		ft_perror_exit(EXIT_FAILURE, "ft_calloc failed.");
 	}
-	light->vector = vec3_str_init(lines[1]);
+	light->vector = vec3_defalt_ranged_str_init(lines[1]);
 	light->brightness = ft_ranged_xatod(lines[2], 0.0, 1.0);
 	light->color = tcolor_str_set(lines[3]);
 	return (light);
@@ -38,7 +38,7 @@ t_shape	*_get_a_sphere(char **lines)
 	if (sphere == NULL)
 		ft_perror_exit(EXIT_FAILURE, "ft_calloc failed.");
 	sphere->type = sphere_type;
-	sphere->u_obj.sphere.center = vec3_str_init(lines[1]);
+	sphere->u_obj.sphere.center = vec3_defalt_ranged_str_init(lines[1]);
 	sphere->u_obj.sphere.r = ft_ranged_xatod(lines[2], 0.0, 100) / 2.0;
 	sphere->u_obj.sphere.color = tcolor_str_set(lines[3]);
 	return (sphere);
@@ -52,7 +52,7 @@ t_shape	*_get_a_plain(char **lines)
 	if (plane == NULL)
 		ft_perror_exit(EXIT_FAILURE, "ft_calloc failed.");
 	plane->type = plane_type;
-	plane->u_obj.plane.position = vec3_str_init(lines[1]);
+	plane->u_obj.plane.position = vec3_defalt_ranged_str_init(lines[1]);
 	plane->u_obj.plane.normal = \
 		vec3_normalize(vec3_ranged_str_init(lines[2], -1.0, 1.0));
 	plane->u_obj.plane.color = tcolor_str_set(lines[3]);
@@ -67,7 +67,7 @@ t_shape	*_get_a_cylinder(char **lines)
 	if (cylinder == NULL)
 		ft_perror_exit(EXIT_FAILURE, "ft_calloc failed");
 	cylinder->type = cylinder_type;
-	cylinder->u_obj.cylinder.position = vec3_str_init(lines[1]);
+	cylinder->u_obj.cylinder.position = vec3_defalt_ranged_str_init(lines[1]);
 	cylinder->u_obj.cylinder.normal = \
 		vec3_normalize(vec3_ranged_str_init(lines[2], -1.0, 1.0));
 	cylinder->u_obj.cylinder.r = ft_ranged_xatod(lines[3], 0.0, 100.0) / 2.0;

@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/02/29 13:27:11 by mogawa           ###   ########.fr        #
+#    Updated: 2024/02/29 15:08:08 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,9 @@ SRCS		:=	\
 			t_plane.c \
 			t_ray.c \
 			t_sphere.c \
-			t_vec3.c \
+			t_vec3_utils.c \
+			t_vec3_utils2.c \
+			t_vec3_utils3.c \
 			t_world.c \
 			validation.c \
 			wrapper.c \

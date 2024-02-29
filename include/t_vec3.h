@@ -6,12 +6,12 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:59:21 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/20 09:30:17 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 15:19:51 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_VEC3_H
-#define T_VEC3_H
+# define T_VEC3_H
 
 typedef struct s_vec3
 {
@@ -33,9 +33,7 @@ double	vec3_length(t_vec3 a);
 t_vec3	vec3_multiply(t_vec3 a, double scalar);
 double	vec3_dot(t_vec3 a, t_vec3 b);
 t_vec3	vec3_cross(t_vec3 a, t_vec3 b);
-void	vec3_print(t_vec3 const *a);
-t_vec3	vec3_copy(t_vec3 const *a);
-t_vec3	vec3_str_init(char const *line);
-t_vec3	vec3_ranged_str_init(char const *line, int min, int max);
+t_vec3	vec3_defalt_ranged_str_init(char const *line);
+t_vec3	vec3_ranged_str_init(char const *line, double min, double max);
 
 #endif

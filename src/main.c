@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:20:54 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 12:11:51 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/29 15:15:09 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,3 +36,5 @@ void	leakcheck(void)
 	status = system("leaks -q miniRT");
 }
 #endif
+
+//! 座標の入力値は「−１００〜＋１００」の仕様
