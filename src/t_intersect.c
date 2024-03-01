@@ -6,12 +6,14 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:28:11 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 10:20:40 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 07:55:00 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_intersect.h"
 #include "t_shape.h"
+
+extern	double const	g_epsilon;
 
 static int	test_intersection(t_shape const *shape, t_ray const *ray, t_intersect *out_intersect)
 {
@@ -76,10 +78,10 @@ int	test_shadow_intersection(t_list const * const shapes, t_light const *light, 
 
 	vector_light = vec3_subtract(light->vector, intersect->position);
 	double	light_distance = vec3_length(vector_light);
-	double	light_distance_minus_epsilon = light_distance - EPSILON;
+	double	light_distance_minus_epsilon = light_distance - g_epsilon;
 
 	shadow_ray.direction = vec3_normalize(vector_light);
-	shadow_ray.start = vec3_add(intersect->position, vec3_multiply(shadow_ray.direction, EPSILON));
+	shadow_ray.start = vec3_add(intersect->position, vec3_multiply(shadow_ray.direction, g_epsilon));
 
 	crnt = shapes->next;
 	while (crnt)

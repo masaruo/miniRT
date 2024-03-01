@@ -6,14 +6,14 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 15:38:30 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 17:23:24 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 07:34:12 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_COLOR_H
-#define T_COLOR_H
+# define T_COLOR_H
 
-#include <stdint.h>
+# include <stdint.h>
 
 typedef struct s_color
 {

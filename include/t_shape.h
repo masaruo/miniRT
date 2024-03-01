@@ -6,24 +6,24 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:39:35 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 13:03:54 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 07:37:24 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_SHAPE_H
-#define T_SHAPE_H
+# define T_SHAPE_H
 
-#include "t_color.h"
-#include "t_vec3.h"
-#include "t_intersect.h"
-#include "t_ray.h"
-#include "t_light.h"
-#include "t_cylinder.h"
-#include "t_sphere.h"
-#include "t_plane.h"
+# include "t_color.h"
+# include "t_vec3.h"
+# include "t_intersect.h"
+# include "t_ray.h"
+# include "t_light.h"
+# include "t_cylinder.h"
+# include "t_sphere.h"
+# include "t_plane.h"
 
-#define NO_INTERSECTION (0)
-#define HAS_INTERSECTION (1)
+# define NO_INTERSECTION (0)
+# define HAS_INTERSECTION (1)
 
 typedef enum e_shape_type
 {

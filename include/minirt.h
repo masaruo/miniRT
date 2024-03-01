@@ -6,12 +6,12 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 10:21:33 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 11:48:16 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 07:29:44 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
-#define MINIRT_H
+# define MINIRT_H
 
 int	minirt_main(char const *file_name);
 

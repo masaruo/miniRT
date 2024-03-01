@@ -6,13 +6,14 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/03/02 06:58:23 by mogawa           ###   ########.fr        #
+#    Updated: 2024/03/02 07:42:07 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	:=	miniRT
 CC		:=	cc
 CFLAGS	:=	-Wall -Wextra -Werror -MMD -MP
+LDFLAGS	:=	-L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -lm
 DBGFLG	:=	-g3 -O0
 SRCDIR	:=	./src
 OBJDIR	:=	./obj
@@ -51,7 +52,6 @@ SRCS		:=	\
 			main.c
 OBJS	:=	$(SRCS:%.c=$(OBJDIR)/%.o)
 DEPS	:=	$(OBJS:%.o=%.d)
-LDFLAGS	:=	-L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -lm
 
 ifdef WITH_LEAK
 CFLAGS	:=	$(filter-out -Werror, $(CFLAGS))
@@ -92,10 +92,13 @@ fclean:	clean
 	$(MAKE) fclean -C $(LIBFTDIR)
 
 dev: asan
-	./miniRT test.rt
+	$(shell ./miniRT test.rt)
 
 re:	fclean all
 
+norm:
+	$(shell echo 'norminette ./include ./src')
+
 -include $(DEPS)
 
-.PHONY: clean fclean re leak asan dev
+.PHONY: clean fclean re leak asan dev norm

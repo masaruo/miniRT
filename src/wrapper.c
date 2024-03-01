@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:58:13 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 16:52:56 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 07:24:54 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	ft_isaccepted_char(int c)
 		return (0);
 }
 
-double	ft_xatod(char const * const str_num)
+double	ft_xatod(char const *const str_num)
 {
 	size_t	i;
 
@@ -39,7 +39,7 @@ double	ft_xatod(char const * const str_num)
 	return (ft_atod(str_num));
 }
 
-double	ft_ranged_xatod(char const * const str_num, double min, double max)
+double	ft_ranged_xatod(char const *const str_num, double min, double max)
 {
 	double	num;
 
@@ -52,7 +52,7 @@ double	ft_ranged_xatod(char const * const str_num, double min, double max)
 	return (num);
 }
 
-char** ft_xsplit(char const *s, char c, size_t num_childs)
+char	**ft_xsplit(char const *s, char c, size_t num_childs)
 {
 	size_t	i;
 	char	**splitted;
