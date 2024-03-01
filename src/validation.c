@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:18:26 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 13:17:41 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 07:00:08 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ static void	_validate_file_name(char const *filename)
 	char const	*dot_loc_front = ft_strchr(filename, '.');
 	char const	*dot_loc_back = ft_strrchr(filename, '.');
 
-	if (dot_loc_front != dot_loc_back)
+	if (!dot_loc_front || dot_loc_front != dot_loc_back)
 	{
-		ft_perror_exit(EXIT_FAILURE, "more than one dot in the name.");
+		ft_perror_exit(EXIT_FAILURE, "number of dots has an issue.");
 	}
 	else if (filename[FIRST_STR] == '.')
 	{
