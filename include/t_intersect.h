@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:21:56 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/02 07:57:17 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 10:54:37 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "libft.h"
 # include "t_ray.h"
 # include "t_light.h"
+# include "t_world.h"
 
 # define NO_INTERSECTION (0)
 # define HAS_INTERSECTION (1)
@@ -33,9 +34,10 @@ typedef struct s_intersect
 	t_color		color;
 }	t_intersect;
 
-int	test_all_intersection(t_list const *const shapes, \
+int		test_intersection(t_list const *const shapes, \
 							t_ray const *ray, t_intersect *out_intersect);
-int	test_shadow_intersection(t_list const *const shapes, \
+int		test_shadow_intersection(t_list const *const shapes, \
 						t_light const *light, t_intersect const *intersect);
+t_color	get_color_at_xy_coord(t_world const *world, t_ray const *eye_ray);
 
 #endif

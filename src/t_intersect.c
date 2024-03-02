@@ -6,16 +6,17 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:28:11 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/02 07:55:00 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 10:54:39 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_intersect.h"
 #include "t_shape.h"
+#include "phong.h"
 
 extern	double const	g_epsilon;
 
-static int	test_intersection(t_shape const *shape, t_ray const *ray, t_intersect *out_intersect)
+static int	test_intersection_by_shape(t_shape const *shape, t_ray const *ray, t_intersect *out_intersect)
 {
 	if (shape->type == sphere_type)
 	{
@@ -35,7 +36,7 @@ static int	test_intersection(t_shape const *shape, t_ray const *ray, t_intersect
 	}
 }
 
-int	test_all_intersection(t_list const * const shapes, t_ray const *ray, t_intersect *out_intersect)
+int	test_intersection(t_list const * const shapes, t_ray const *ray, t_intersect *out_intersect)
 {
 	t_list		*crnt;
 	t_shape		*shape;
@@ -47,7 +48,7 @@ int	test_all_intersection(t_list const * const shapes, t_ray const *ray, t_inter
 	while (crnt)
 	{
 		shape = crnt->content;
-		if(test_intersection(shape, ray, &crnt_intersect))
+		if(test_intersection_by_shape(shape, ray, &crnt_intersect))
 		{
 			if (crnt_intersect.distance < out_intersect->distance)
 			{
@@ -87,7 +88,7 @@ int	test_shadow_intersection(t_list const * const shapes, t_light const *light, 
 	while (crnt)
 	{
 		shape = crnt->content;
-		if (test_intersection(shape, &shadow_ray, &shadow_intersect) == HAS_INTERSECTION)
+		if (test_intersection_by_shape(shape, &shadow_ray, &shadow_intersect) == HAS_INTERSECTION)
 		{
 			if (shadow_intersect.distance < light_distance_minus_epsilon)
 				return (HAS_INTERSECTION);
@@ -95,4 +96,21 @@ int	test_shadow_intersection(t_list const * const shapes, t_light const *light, 
 		crnt = crnt->next;
 	}
 	return (NO_INTERSECTION);
+}
+
+t_color	get_color_at_xy_coord(t_world const *world, t_ray const *eye_ray)
+{
+	t_intersect	intersection_data;
+	t_color		paint_color;
+
+	intersection_data.distance = __DBL_MAX__;
+	if (test_intersection(world->shapes, eye_ray, &intersection_data) == true)
+	{
+		paint_color = tcolor_calc_phong(world, &intersection_data, eye_ray);
+	}
+	else
+	{
+		paint_color = tcolor_convert_rgbcolor(100, 149, 237);
+	}
+	return (paint_color);
 }
