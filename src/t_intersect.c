@@ -6,21 +6,24 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:28:11 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/02 10:54:39 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 11:38:39 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_intersect.h"
 #include "t_shape.h"
 #include "phong.h"
+#include "shadow.h"
 
 extern	double const	g_epsilon;
 
-static int	test_intersection_by_shape(t_shape const *shape, t_ray const *ray, t_intersect *out_intersect)
+static int	test_intersection_by_shape(\
+	t_shape const *shape, t_ray const *ray, t_intersect *out_intersect)
 {
 	if (shape->type == sphere_type)
 	{
-		return (get_distance_to_sphere(&shape->u_obj.sphere, ray, out_intersect));
+		return (get_distance_to_sphere(\
+			&shape->u_obj.sphere, ray, out_intersect));
 	}
 	else if (shape->type == plane_type)
 	{
@@ -28,7 +31,8 @@ static int	test_intersection_by_shape(t_shape const *shape, t_ray const *ray, t_
 	}
 	else if (shape->type == cylinder_type)
 	{
-		return (get_distance_to_cylinder(&shape->u_obj.cylinder, ray, out_intersect));
+		return (get_distance_to_cylinder(\
+			&shape->u_obj.cylinder, ray, out_intersect));
 	}
 	else
 	{
@@ -36,7 +40,8 @@ static int	test_intersection_by_shape(t_shape const *shape, t_ray const *ray, t_
 	}
 }
 
-int	test_intersection(t_list const * const shapes, t_ray const *ray, t_intersect *out_intersect)
+static bool	test_intersection(t_list const *const shapes, \
+						t_ray const *ray, t_intersect *out_intersect)
 {
 	t_list		*crnt;
 	t_shape		*shape;
@@ -48,19 +53,11 @@ int	test_intersection(t_list const * const shapes, t_ray const *ray, t_intersect
 	while (crnt)
 	{
 		shape = crnt->content;
-		if(test_intersection_by_shape(shape, ray, &crnt_intersect))
+		if (test_intersection_by_shape(shape, ray, &crnt_intersect))
 		{
 			if (crnt_intersect.distance < out_intersect->distance)
 			{
-				out_intersect->distance = crnt_intersect.distance;
-				out_intersect->normal = crnt_intersect.normal;
-				out_intersect->position = crnt_intersect.position;
-				if (shape->type == sphere_type)
-					out_intersect->color = shape->u_obj.sphere.color;
-				else if (shape->type == plane_type)
-					out_intersect->color = shape->u_obj.plane.color;
-				else
-					out_intersect->color = shape->u_obj.cylinder.color;
+				*out_intersect = crnt_intersect;
 				has_intersection = true;
 			}
 		}
@@ -69,28 +66,23 @@ int	test_intersection(t_list const * const shapes, t_ray const *ray, t_intersect
 	return (has_intersection);
 }
 
-int	test_shadow_intersection(t_list const * const shapes, t_light const *light, t_intersect const *intersect)
+int	test_shadow_intersection(t_list const *const shapes, \
+						t_light const *light, t_intersect const *intersect)
 {
-	t_vec3	vector_light;
-	t_ray	shadow_ray;
-	t_list	*crnt;
-	t_shape	*shape;
-	t_intersect shadow_intersect;
+	t_ray		shadow_ray;
+	t_list		*crnt;
+	t_shape		*shape;
+	t_intersect	shadow_intersect;
 
-	vector_light = vec3_subtract(light->vector, intersect->position);
-	double	light_distance = vec3_length(vector_light);
-	double	light_distance_minus_epsilon = light_distance - g_epsilon;
-
-	shadow_ray.direction = vec3_normalize(vector_light);
-	shadow_ray.start = vec3_add(intersect->position, vec3_multiply(shadow_ray.direction, g_epsilon));
-
+	shadow_ray = get_shadow_ray(intersect, light);
 	crnt = shapes->next;
 	while (crnt)
 	{
 		shape = crnt->content;
-		if (test_intersection_by_shape(shape, &shadow_ray, &shadow_intersect) == HAS_INTERSECTION)
+		if (test_intersection_by_shape(\
+				shape, &shadow_ray, &shadow_intersect) == HAS_INTERSECTION)
 		{
-			if (shadow_intersect.distance < light_distance_minus_epsilon)
+			if (shadow_intersect.distance < shadow_ray.light_distance)
 				return (HAS_INTERSECTION);
 		}
 		crnt = crnt->next;
