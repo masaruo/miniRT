@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:28:11 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/02 11:38:39 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 12:28:21 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_color	get_color_at_xy_coord(t_world const *world, t_ray const *eye_ray)
 	}
 	else
 	{
-		paint_color = tcolor_convert_rgbcolor(100, 149, 237);
+		paint_color = tcolor_rgb_init(100, 149, 237);
 	}
 	return (paint_color);
 }

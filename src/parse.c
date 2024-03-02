@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 15:19:02 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 12:27:21 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_ambient	_get_ambient_light(char **lines, uint8_t *flag)
 
 	check_flag_error(F_AMBIENT, flag);
 	ambient.ratio = ft_ranged_xatod(lines[1], 0.0, 1.0);
-	ambient.color = tcolor_str_set(lines[2]);
+	ambient.color = tcolor_str_init(lines[2]);
 	return (ambient);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:19:09 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 15:20:01 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 12:27:21 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_light	*_get_a_light(char **lines)
 	}
 	light->vector = vec3_defalt_ranged_str_init(lines[1]);
 	light->brightness = ft_ranged_xatod(lines[2], 0.0, 1.0);
-	light->color = tcolor_str_set(lines[3]);
+	light->color = tcolor_str_init(lines[3]);
 	return (light);
 }
 
@@ -40,7 +40,7 @@ t_shape	*_get_a_sphere(char **lines)
 	sphere->type = sphere_type;
 	sphere->u_obj.sphere.center = vec3_defalt_ranged_str_init(lines[1]);
 	sphere->u_obj.sphere.r = ft_ranged_xatod(lines[2], 0.0, 100) / 2.0;
-	sphere->u_obj.sphere.color = tcolor_str_set(lines[3]);
+	sphere->u_obj.sphere.color = tcolor_str_init(lines[3]);
 	return (sphere);
 }
 
@@ -55,7 +55,7 @@ t_shape	*_get_a_plain(char **lines)
 	plane->u_obj.plane.position = vec3_defalt_ranged_str_init(lines[1]);
 	plane->u_obj.plane.normal = \
 		vec3_normalize(vec3_ranged_str_init(lines[2], -1.0, 1.0));
-	plane->u_obj.plane.color = tcolor_str_set(lines[3]);
+	plane->u_obj.plane.color = tcolor_str_init(lines[3]);
 	return (plane);
 }
 
@@ -72,6 +72,6 @@ t_shape	*_get_a_cylinder(char **lines)
 		vec3_normalize(vec3_ranged_str_init(lines[2], -1.0, 1.0));
 	cylinder->u_obj.cylinder.r = ft_ranged_xatod(lines[3], 0.0, 100.0) / 2.0;
 	cylinder->u_obj.cylinder.height = ft_ranged_xatod(lines[4], 0.0, 100.0);
-	cylinder->u_obj.cylinder.color = tcolor_str_set(lines[5]);
+	cylinder->u_obj.cylinder.color = tcolor_str_init(lines[5]);
 	return (cylinder);
 }

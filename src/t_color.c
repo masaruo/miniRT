@@ -6,13 +6,13 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 08:22:03 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 17:23:41 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 12:29:10 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "t_color.h"
 #include <math.h>
 #include "math_utils.h"
-#include "t_color.h"
 #include "libft.h"
 #include "wrapper.h"
 
@@ -26,36 +26,9 @@ t_color	tcolor_clamp(t_color color)
 	return (new);
 }
 
-uint32_t	get_hex_color(int r, int g, int b)//todo to be static
-{
-	uint32_t	color;
-
-	color = 0;
-	color |= b;
-	color |= g << 8;
-	color |= r << 16;
-	return (color);
-}
-
-uint32_t	tcolor_to_hex(t_color color)
-{
-	return(get_hex_color(color.red * 255, color.green * 255, color.blue * 255));
-}
-
-//rgb data is already clamped
-t_color	tcolor_init(double r, double g, double b)
-{
-	t_color	new;
-
-	new.red = r;
-	new.green = g;
-	new.blue = b;
-	return (tcolor_clamp(new));
-}
-
 t_color	tcolor_add(t_color a, t_color b)
 {
-	t_color new;
+	t_color	new;
 
 	new.red = a.red + b.red;
 	new.green = a.green + b.green;
@@ -83,17 +56,7 @@ t_color	tcolor_scalar_multiply(t_color a, double scalar)
 	return (tcolor_clamp(new));
 }
 
-t_color	tcolor_convert_rgbcolor(double r, double g, double b)
-{
-	t_color	new;
-
-	new.red = r / 255.0f;
-	new.green = g / 255.0f;
-	new.blue = b / 255.0f;
-	return (tcolor_clamp(new));
-}
-
-t_color	tcolor_str_set(char const *line)
+t_color	tcolor_str_init(char const *line)
 {
 	t_color	color;
 	char	**rgb;
@@ -109,7 +72,10 @@ t_color	tcolor_str_set(char const *line)
 	r = rgb[0];
 	g = rgb[1];
 	b = rgb[2];
-	color = tcolor_convert_rgbcolor(ft_ranged_xatod(r, 0, 255), ft_ranged_xatod(g, 0, 255), ft_ranged_xatod(b, 0, 255));
+	color = tcolor_rgb_init(\
+		ft_ranged_xatod(r, 0, 255), \
+		ft_ranged_xatod(g, 0, 255), \
+		ft_ranged_xatod(b, 0, 255));
 	ft_free_all(rgb);
 	return (color);
 }
