@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/02 10:59:02 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 16:55:15 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static double	\
 	}
 }
 
-static void	paint_each_xy_pixcel(t_world *world, t_image const *image)
+static void	paint_each_xy_pixcel(t_world *world)
 {
 	t_ray		eye_ray;
 	t_color		paint_color;
@@ -74,7 +74,7 @@ int	minirt_main(char const *file_name)
 
 	world = tworld_init();
 	parse_main(file_name, &world);
-	paint_each_xy_pixcel(&world, &world.img);
+	paint_each_xy_pixcel(&world);
 	mlx_put_image_to_window(world.mlx_ptr, world.win_ptr, world.img.ptr, 0, 0);
 	mlx_key_hook(world.win_ptr, deal_key, &world);
 	mlx_hook(world.win_ptr, 17, 1L << 3, click_close_button, &world);

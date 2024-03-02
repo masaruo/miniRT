@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 22:17:28 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/02 15:18:38 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 16:55:48 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static t_color	_get_diffuse_effect(\
 
 static t_color	_get_specular_effect(\
 	t_light const *light, t_intersect const *intersect, \
-	t_ray const *eye, double lambert)
+	t_ray const *eye)
 {
 	t_vec3_unit const	to_eye = vec3_multiply(eye->direction, -1);
 	t_vec3_unit const	to_light = \
@@ -86,7 +86,7 @@ static t_color	_calc_diffuse_and_specular(\
 			== NO_INTERSECTION)
 		{
 			total_effect = _get_diffuse_effect(light, intersect, lambert);
-			specular = _get_specular_effect(light, intersect, ray, lambert);
+			specular = _get_specular_effect(light, intersect, ray);
 			total_effect = tcolor_add(total_effect, specular);
 		}
 		crnt = crnt->next;
