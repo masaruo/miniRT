@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:56:27 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/05 14:04:29 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/05 15:33:51 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,11 @@ double	calculate_cylinder_distance(t_cylinder_calc *cy_data)
 		{
 			if (!is_tplus_valid)
 			{
-				t_distance = t_minus;
-				cy_data->is_inside = true;
+				if (is_tminus_valid)
+				{
+					t_distance = t_minus;
+					cy_data->is_inside = true;
+				}
 			}
 			else
 			t_distance = t_plus;
@@ -87,8 +90,11 @@ double	calculate_cylinder_distance(t_cylinder_calc *cy_data)
 		{
 			if (!is_tminus_valid)
 			{
-				t_distance = t_plus;
-				cy_data->is_inside = true;
+				if (is_tplus_valid)
+				{
+					t_distance = t_plus;
+					cy_data->is_inside = true;
+				}
 			}
 			else
 				t_distance = t_minus;
@@ -104,20 +110,6 @@ double	calculate_cylinder_distance(t_cylinder_calc *cy_data)
 		if (is_tminus_valid)
 			t_distance = t_minus;
 	}
-	// if (is_tplus_valid && is_tminus_valid)
-	// {
-	// 	t_distance = d_min(t_plus, t_minus);
-	// }
-	// else if (is_tplus_valid)
-	// {
-	// 	t_distance = t_plus;
-	// 	// cy_data->is_inside = true;
-	// }
-	// else if (is_tminus_valid)
-	// {
-	// 	t_distance = t_minus;
-	// 	// cy_data->is_inside = true;
-	// }
 	return (t_distance);
 }
 
