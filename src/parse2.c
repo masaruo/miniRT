@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:19:09 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/02 12:27:21 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/05 08:58:37 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_shape	*_get_a_sphere(char **lines)
 		ft_perror_exit(EXIT_FAILURE, "ft_calloc failed.");
 	sphere->type = sphere_type;
 	sphere->u_obj.sphere.center = vec3_defalt_ranged_str_init(lines[1]);
-	sphere->u_obj.sphere.r = ft_ranged_xatod(lines[2], 0.0, 100) / 2.0;
+	sphere->u_obj.sphere.r = ft_ranged_xatod(lines[2], 0.1, 100) / 2.0;
 	sphere->u_obj.sphere.color = tcolor_str_init(lines[3]);
 	return (sphere);
 }
@@ -70,8 +70,8 @@ t_shape	*_get_a_cylinder(char **lines)
 	cylinder->u_obj.cylinder.position = vec3_defalt_ranged_str_init(lines[1]);
 	cylinder->u_obj.cylinder.normal = \
 		vec3_normalize(vec3_ranged_str_init(lines[2], -1.0, 1.0));
-	cylinder->u_obj.cylinder.r = ft_ranged_xatod(lines[3], 0.0, 100.0) / 2.0;
-	cylinder->u_obj.cylinder.height = ft_ranged_xatod(lines[4], 0.0, 100.0);
+	cylinder->u_obj.cylinder.r = ft_ranged_xatod(lines[3], 0.1, 100.0) / 2.0;
+	cylinder->u_obj.cylinder.height = ft_ranged_xatod(lines[4], 0.1, 100.0);
 	cylinder->u_obj.cylinder.color = tcolor_str_init(lines[5]);
 	return (cylinder);
 }

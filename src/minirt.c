@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/02 16:55:15 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/05 08:46:18 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,22 @@
 #define Y (1)
 
 static double	\
-	_get_screen_coord(double raw, int x_or_y, double width, double height)
+	convert_to_screen_coord_(double raw, int x_or_y, double screen_size)
 {
 	if (x_or_y == X)
 	{
-		return (raw - (width - 1) / 2);
+		return (raw - (screen_size - 1) / 2);
 	}
 	else
 	{
-		return ((height - 1) / 2 - raw);
+		return ((screen_size - 1) / 2 - raw);
 	}
 }
 
 static void	paint_each_xy_pixcel(t_world *world)
 {
 	t_ray		eye_ray;
-	t_color		paint_color;
+	t_color		color_to_paint;
 	double		x;
 	double		y;
 
@@ -56,11 +56,11 @@ static void	paint_each_xy_pixcel(t_world *world)
 		{
 			eye_ray = \
 			get_camera_ray(world->camera, \
-			_get_screen_coord(x, X, world->screen_witdh, world->screen_height), \
-			_get_screen_coord(y, Y, world->screen_witdh, world->screen_height), \
-				world->screen_witdh);
-			paint_color = get_color_at_xy_coord(world, &eye_ray);
-			my_mlx_pixcel_put(&world->img, x, y, tcolor_to_hex(paint_color));
+			convert_to_screen_coord_(x, X, world->screen_witdh), \
+			convert_to_screen_coord_(y, Y, world->screen_height), \
+			world->screen_witdh);
+			color_to_paint = get_color_at_xy_coord(world, &eye_ray);
+			my_mlx_pixcel_put(&world->img, x, y, tcolor_to_hex(color_to_paint));
 			x++;
 		}
 		y++;
