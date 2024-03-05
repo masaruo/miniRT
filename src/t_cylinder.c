@@ -6,13 +6,14 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:56:27 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/05 15:33:51 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/05 18:08:18 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_cylinder.h"
 #include <stdbool.h>
 #include "math_utils.h"
+#include <math.h>
 
 static double	get_projection_len_(t_cylinder_calc *cy_data, double distance)
 {
@@ -67,9 +68,9 @@ double	calculate_cylinder_distance(t_cylinder_calc *cy_data)
 	bool	is_tminus_valid;
 
 	t_distance = -1;
-	t_plus = (-cy_data->b + sqrt(cy_data->d)) / (2 * cy_data->a);
+	t_plus = (-(cy_data->b) + sqrt(cy_data->d)) / (2 * cy_data->a);
 	is_tplus_valid = is_distance_valid_(t_plus, cy_data);
-	t_minus = (-cy_data->b - sqrt(cy_data->d)) / (2 * cy_data->a);
+	t_minus = (-(cy_data->b) - sqrt(cy_data->d)) / (2 * cy_data->a);
 	is_tminus_valid = is_distance_valid_(t_minus, cy_data);
 	if (t_plus > 0 && t_minus > 0)
 	{
