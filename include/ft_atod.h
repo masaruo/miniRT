@@ -6,13 +6,13 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 13:20:48 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 13:22:14 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 07:39:43 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_ATOD_H
-#define FT_ATOD_H
+# define FT_ATOD_H
 
-double	ft_atod(char const * const str_num);
+double	ft_atod(char const*const str_num);
 
 #endif

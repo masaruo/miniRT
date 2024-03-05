@@ -6,26 +6,13 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:58:13 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/20 11:07:26 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 07:24:54 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wrapper.h"
 #include "libft.h"
 #include "ft_atod.h"
-
-// decided not to include destructor() as it will exit at the end of the day.
-void	ft_perror_exit(int status, char const *msg)
-{
-	ft_putstr_fd("Error\n", STDERR_FILENO);
-	ft_putstr_fd(msg, STDERR_FILENO);
-	ft_putchar_fd('\n', STDERR_FILENO);
-#ifdef LEAK
-#include <stdlib.h>
-system("leaks -q miniRT");
-#endif
-	exit(status);
-}
 
 static int	ft_isaccepted_char(int c)
 {
@@ -35,7 +22,7 @@ static int	ft_isaccepted_char(int c)
 		return (0);
 }
 
-double	ft_xatod(char const * const str_num)
+double	ft_xatod(char const *const str_num)
 {
 	size_t	i;
 
@@ -44,27 +31,28 @@ double	ft_xatod(char const * const str_num)
 	{
 		if (!ft_isdigit(str_num[i]) && !ft_isaccepted_char(str_num[i]))
 		{
-			ft_perror_exit(EXIT_FAILURE, "ft_xatod: no digit nor dot detected.");
+			ft_perror_exit(EXIT_FAILURE, \
+						"ft_xatod: no digit nor dot detected.");
 		}
 		i++;
 	}
 	return (ft_atod(str_num));
 }
 
-double	ft_ranged_xatod(char const * const str_num, int min, int max)
+double	ft_ranged_xatod(char const *const str_num, double min, double max)
 {
 	double	num;
 
 	num = ft_xatod(str_num);
 	if (num < min || max < num)
 	{
-		ft_perror_exit(EXIT_FAILURE, "ft_ranged_xatod: input is out of the acceptable range.");
+		ft_perror_exit(EXIT_FAILURE, \
+					"ft_ranged_xatod: input is out of the acceptable range.");
 	}
-	else
-		return (num);
+	return (num);
 }
 
-char** ft_xsplit(char const *s, char c, size_t num_childs)
+char	**ft_xsplit(char const *s, char c, size_t num_childs)
 {
 	size_t	i;
 	char	**splitted;
@@ -77,8 +65,8 @@ char** ft_xsplit(char const *s, char c, size_t num_childs)
 	}
 	if (i < num_childs)
 	{
-		ft_perror_exit(EXIT_FAILURE, "ft_xsplit: number of inputs to split is not correct.");
+		ft_perror_exit(EXIT_FAILURE, \
+					"ft_xsplit: number of inputs to split is not correct.");
 	}
-	else
-		return (splitted);
+	return (splitted);
 }

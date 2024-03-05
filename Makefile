@@ -6,13 +6,15 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/02/20 13:29:08 by mogawa           ###   ########.fr        #
+#    Updated: 2024/03/02 11:31:49 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	:=	miniRT
 CC		:=	cc
-CFLAGS	:=	-Wall -Wextra -MMD -MP
+CFLAGS	:=	-Wall -Wextra -Werror -MMD -MP
+LDFLAGS	:=	-L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -lm
+DBGFLG	:=	-g3 -O0
 SRCDIR	:=	./src
 OBJDIR	:=	./obj
 LIBFTDIR	:=	./libft
@@ -25,36 +27,44 @@ SRCS		:=	\
 			ft_atod.c \
 			get_next_line.c get_next_line_utils.c \
 			math_utils.c \
+			minirt.c \
 			parse.c \
+			parse2.c \
 			phong.c \
 			shadow.c \
 			t_camera.c \
 			t_color.c \
+			t_color2.c \
 			t_cylinder.c \
+			t_cylinder2.c \
 			t_image.c \
 			t_intersect.c \
 			t_plane.c \
 			t_ray.c \
 			t_sphere.c \
-			t_vec3.c \
+			t_vec3_utils.c \
+			t_vec3_utils2.c \
+			t_vec3_utils3.c \
 			t_world.c \
 			validation.c \
 			wrapper.c \
-			minirt.c
+			wrapper2.c \
+			main.c
 OBJS	:=	$(SRCS:%.c=$(OBJDIR)/%.o)
 DEPS	:=	$(OBJS:%.o=%.d)
-LDFLAGS	:=	-L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -lm
 
-ifdef WITH_DEBUG
-CFLAGS	:=	-Wall -Wextra -g3 -O0 -DLEAK
+ifdef WITH_LEAK
+CFLAGS	:=	$(filter-out -Werror, $(CFLAGS))
+CFLAGS	+=	$(DBGFLG) -DLEAK
 endif
 
 ifdef WITH_ASAN
-CFLAGS	:=	-Wall -Wextra -g3 -O0 -fsanitize=address
+CFLAGS	:=	$(filter-out -Werror, $(CFLAGS))
+CFLAGS	+=	$(DBGFLG) -fsanitize=address
 endif
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c
-	@mkdir -p $(OBJDIR)
+	@mkdir -p $(dir $@)
 	$(CC) $(INCLUDE) $(CFLAGS) -c $< -o $@
 
 all:	$(NAME)
@@ -66,7 +76,7 @@ $(NAME) : $(OBJS)
 
 leak: 
 	$(RM) -r $(OBJDIR)
-	$(MAKE) WITH_DEBUG=1 all
+	$(MAKE) WITH_LEAK=1 all
 
 asan: 
 	$(RM) -r $(OBJDIR)
@@ -81,11 +91,14 @@ fclean:	clean
 	$(RM) $(NAME)
 	$(MAKE) fclean -C $(LIBFTDIR)
 
-dev: all
-	./miniRT test_rt
+dev: asan
+	$(shell ./miniRT test.rt)
 
 re:	fclean all
 
+norm:
+	$(shell echo 'norminette ./include ./src')
+
 -include $(DEPS)
 
-.PHONY: clean fclean re debug asan
+.PHONY: clean fclean re leak asan dev norm
