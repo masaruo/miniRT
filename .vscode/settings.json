@@ -1,0 +1,10 @@
+{
+	"files.associations": {
+		"*.c": "c",
+		"t_shape.h": "c",
+		"t_world.h": "c",
+		"stdlib.h": "c",
+		"validation.h": "c",
+		"t_intersect.h": "c"
+	}
+}

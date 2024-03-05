@@ -6,106 +6,103 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:28:11 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/16 11:13:58 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 12:28:21 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_intersect.h"
-#include <math.h>
-#include "math_utils.h"
-#include <stdio.h>
+#include "t_shape.h"
+#include "phong.h"
+#include "shadow.h"
 
-static void	_calc_intersection(t_intersect *ans, double t)
+extern	double const	g_epsilon;
+
+static int	test_intersection_by_shape(\
+	t_shape const *shape, t_ray const *ray, t_intersect *out_intersect)
 {
-	// ans->distance = t;
-	// ans->position
-	return ;
+	if (shape->type == sphere_type)
+	{
+		return (get_distance_to_sphere(\
+			&shape->u_obj.sphere, ray, out_intersect));
+	}
+	else if (shape->type == plane_type)
+	{
+		return (get_distance_to_plane(&shape->u_obj.plane, ray, out_intersect));
+	}
+	else if (shape->type == cylinder_type)
+	{
+		return (get_distance_to_cylinder(\
+			&shape->u_obj.cylinder, ray, out_intersect));
+	}
+	else
+	{
+		return (NO_INTERSECTION);
+	}
 }
 
-//球体との交差判定
-static int	_intersect_against_sphere(t_shape const *shape, t_ray const *ray, t_intersect *ans)
+static bool	test_intersection(t_list const *const shapes, \
+						t_ray const *ray, t_intersect *out_intersect)
 {
-	t_vec3 const	sphere_to_ray = vec3_subtract(&ray->start, &shape->u_data.sphere.center);
-	double const	a = vec3_dot(&ray->direction, &ray->direction);//? 1で決め打ちでもいいか？
-	double const	b = 2 * vec3_dot(&sphere_to_ray, &ray->direction);
-	double const	c = vec3_dot(&sphere_to_ray, &sphere_to_ray) - shape->u_data.sphere.r * shape->u_data.sphere.r;
-	double const	d = (b * b) - (4 * a * c);
-	double			t;
+	t_list		*crnt;
+	t_shape		*shape;
+	t_intersect	crnt_intersect;
+	bool		has_intersection;
 
-	t = -1;//todo make func called get_distance for t
-	if (d == 0)
+	has_intersection = false;
+	crnt = shapes->next;
+	while (crnt)
 	{
-		t = -b / (2 * a);
-	}
-	else if (d > 0)
-	{
-		double t1 = (-b + sqrt(d)) / (2 * a);
-		double t2 = (-b - sqrt(d)) / (2 * a);
-		if (t1 > 0 && t2 > 0)
+		shape = crnt->content;
+		if (test_intersection_by_shape(shape, ray, &crnt_intersect))
 		{
-			t = double_min(t1, t2);
+			if (crnt_intersect.distance < out_intersect->distance)
+			{
+				*out_intersect = crnt_intersect;
+				has_intersection = true;
+			}
 		}
-		else if (t1 > 0 || t2 > 0)
+		crnt = crnt->next;
+	}
+	return (has_intersection);
+}
+
+int	test_shadow_intersection(t_list const *const shapes, \
+						t_light const *light, t_intersect const *intersect)
+{
+	t_ray		shadow_ray;
+	t_list		*crnt;
+	t_shape		*shape;
+	t_intersect	shadow_intersect;
+
+	shadow_ray = get_shadow_ray(intersect, light);
+	crnt = shapes->next;
+	while (crnt)
+	{
+		shape = crnt->content;
+		if (test_intersection_by_shape(\
+				shape, &shadow_ray, &shadow_intersect) == HAS_INTERSECTION)
 		{
-			if (t1 > 0)
-				t = t1;
-			else
-				t = t2;
+			if (shadow_intersect.distance < shadow_ray.light_distance)
+				return (HAS_INTERSECTION);
 		}
+		crnt = crnt->next;
 	}
-	else
-	{
-		return (NO_INTERSECTION);
-	}
-	ans->distance = t;
-	t_vec3	tmp = vec3_multiply(&ray->direction, t);
-	ans->position = vec3_add(&ray->start, &tmp);
-	ans->normal = vec3_subtract(&ans->position, &shape->u_data.sphere.center);
-	ans->normal = vec3_normalize(&ans->normal);
-	return (HAS_INTERSECTION);
+	return (NO_INTERSECTION);
 }
 
-//平面との交差判定
-static int	_intersect_against_plane(t_shape const *shape, t_ray const *ray, t_intersect *ans)
+t_color	get_color_at_xy_coord(t_world const *world, t_ray const *eye_ray)
 {
-	double	t;
-	double	numerator;
-	double	denominator;
-	t_vec3 const plane_to_camera = vec3_subtract(&ray->start, &shape->u_data.plane.position);
+	t_intersect	intersection_data;
+	t_color		paint_color;
 
-	t = -1;
-	numerator = vec3_dot(&plane_to_camera, &shape->u_data.plane.normal) * -1;
-	denominator = vec3_dot(&ray->direction, &shape->u_data.plane.normal);
-	if (denominator == 0)
-		return (NO_INTERSECTION);
-	t = numerator / denominator;
-	if (t >= 0)
+	intersection_data.distance = __DBL_MAX__;
+	if (test_intersection(world->shapes, eye_ray, &intersection_data) == true)
 	{
-		ans->distance = t;
-		t_vec3 tmp = vec3_multiply(&ray->direction, t);
-		ans->position = vec3_add(&ray->start, &tmp);
-		ans->normal = shape->u_data.plane.normal;
+		paint_color = tcolor_calc_phong(world, &intersection_data, eye_ray);
 	}
 	else
 	{
-		return (NO_INTERSECTION);
+		paint_color = tcolor_rgb_init(100, 149, 237);
 	}
-	dprintf(2, "numerator=[%lf], denom=[%lf], t=[%lf]\n", numerator,denominator,t);
-	return (HAS_INTERSECTION);
-}
-
-int	get_intersect(t_shape const *shape, t_ray const *ray, t_intersect *ans)
-{
-	if (shape->type == e_sphere)
-	{
-		return (_intersect_against_sphere(shape, ray, ans));
-	}
-	else if (shape->type == e_plane)
-	{
-		return (_intersect_against_plane(shape, ray, ans));
-	}
-	else
-	{
-		return (NO_INTERSECTION);
-	}
+	return (paint_color);
 }

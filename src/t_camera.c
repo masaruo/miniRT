@@ -1,0 +1,73 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   t_camera.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/26 14:03:56 by mogawa            #+#    #+#             */
+/*   Updated: 2024/03/02 11:58:23 by mogawa           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "t_camera.h"
+#include "t_ray.h"
+#include "t_world.h"
+#include <math.h>
+#include <math_utils.h>
+
+static double	_get_distance_to_screen(double width, double fov)
+{
+	double const	t = (width / 2.0) / (tan(convert_degree_to_radian(fov/2)));
+
+	return (t);
+}
+
+static t_vec3_unit	_get_vetted_forward(t_vec3_unit d)
+{
+	t_vec3_unit	vetted_forward;
+
+	vetted_forward = d;
+	if (d.x == 0 && d.z == 0)
+	{
+		if (0.9 < d.y)
+			vetted_forward.y = 0.9;
+		else if (d.y < -0.9)
+			vetted_forward.y = -0.9;
+	}
+	return (vetted_forward);
+}
+
+t_vec3_pos	convert_xy_to_world_coord(\
+			t_vec3_unit d, double screen_x, double screen_y, double distance)
+{
+	t_vec3_unit const	forwd = _get_vetted_forward(d);
+	t_vec3_unit const	right = vec3_normalize(\
+		vec3_cross(vec3_init(0, 1, 0), forwd));
+	t_vec3_unit const	up = vec3_normalize(vec3_cross(forwd, right));
+	double const		screen_z = distance;
+	t_vec3				point;
+
+	point = vec3_init(0, 0, 0);
+	point.x = screen_x * right.x + screen_y * right.y + screen_z * right.z;
+	point.y = screen_x * up.x + screen_y * up.y + screen_z * up.z;
+	point.z = screen_x * forwd.x + screen_y * forwd.y + screen_z * forwd.z;
+	return (point);
+}
+
+t_ray	get_camera_ray(\
+			t_camera camera, double screen_x, double screen_y, double width)
+{
+	double const	distance_to_screen = \
+		_get_distance_to_screen(width, camera.field_of_view);
+	t_vec3_pos		xy_in_world_coord;
+	t_ray			camera_ray;
+
+	xy_in_world_coord = convert_xy_to_world_coord(\
+		camera.orientation, screen_x, screen_y, distance_to_screen);
+	camera_ray.light_distance = 0;
+	camera_ray.start = camera.position;
+	camera_ray.direction = vec3_normalized_subtract(\
+		xy_in_world_coord, camera.position);
+	return (camera_ray);
+}

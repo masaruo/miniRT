@@ -6,198 +6,79 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/16 10:27:34 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/05 08:46:18 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "t_vec3.h"
+#include "t_vec3.h"
 #include "t_world.h"
 #include "mlx.h"
 #include "t_color.h"
 #include "math_utils.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
 #include "t_ray.h"
 #include "t_shape.h"
 #include "t_light.h"
 #include "t_intersect.h"
 #include "libft.h"
+#include "phong.h"
+#include "parse.h"
+#include "ft_atod.h"
+#include "destructor.h"
+#include "t_camera.h"
+#define X (0)
+#define Y (1)
 
-#define window_width 512
-#define window_height 512
-
-void	sphere(t_world const *world, t_image const *image)
+static double	\
+	convert_to_screen_coord_(double raw, int x_or_y, double screen_size)
 {
-	t_ray			eyePos;
-	t_shape			sphere1;
-	sphere1.type = e_sphere;
-	sphere1.u_data.sphere.center = vec3_init(0, 0, 5);
-	sphere1.u_data.sphere.r = 1;
-	// t_shape			sphere2;
-	// sphere2.type = e_sphere;
-	// sphere2.u_data.sphere.center = vec3_init(1, 5, 50);
-	// sphere2.u_data.sphere.r = 1;
-	t_light			light;
-	light.type = e_point;
-	light.vector = vec3_init(0, 5, 5);
-	t_vec3			pw;//スクリーン上の点
-	t_list			*head_of_shapes;
-
-	// ft_lstadd_back(&head_of_shapes, ft_lstnew(NULL));
-	// ft_lstadd_back(&head_of_shapes, ft_lstnew(&sphere1));
-	// ft_lstadd_back(&head_of_shapes, ft_lstnew(&sphere2));
-	pw.z = 0;
-	for (double y = 0; y < window_height; y++)
+	if (x_or_y == X)
 	{
-		pw.y = -2 * y / (window_height - 1) + 1;
-		for (double x = 0; x < window_width; x++)
-		{
-			pw.x = 2 * x / (window_width - 1) - 1;
-			t_vec3	tmp = vec3_init(0, 0, -5);
-			eyePos = t_ray_init(&tmp, &pw);
-
-			// t_list *crnt = head_of_shapes->next;
-			// while (crnt)
-			// {
-				t_intersect isect;
-			// 	t_shape		*shape;
-				// shape = crnt->content;
-				if (get_intersect(&sphere1, &eyePos, &isect))
-				{
-					t_vec3	lightDir = vec3_subtract(&light.vector, &isect.position);
-					lightDir = vec3_normalize(&lightDir);
-					//! ambient
-					double Ka = 0.01;
-					double Ia = 0.1;
-					double Ra = Ka * Ia;
-					//! diffuse
-					double Rd = 0;
-					double Kd = 0.69;
-					double n_dot_l = vec3_dot(&isect.normal, &lightDir);
-					Rd = double_clamp(n_dot_l, 0, 1) * Kd;
-					//! specular
-					double Rs = 0;
-					double alpha = 8;
-					double Ks = 0.3;
-					t_vec3 r = vec3_copy(&isect.normal);
-					r = vec3_multiply(&r, 2 * n_dot_l);
-					r = vec3_subtract(&r, &lightDir);
-					double v_dot_r = vec3_dot(&lightDir, &r);
-					Rs = Ks * pow(v_dot_r, alpha);
-					//! combine
-					if (n_dot_l < 0)
-					{
-						Rd = 0;
-					}
-					if (v_dot_r < 0)
-					{
-						Rs = 0;
-					}
-					double phong = Ra + Rd + Rs;
-					int grey = (int)(255 * phong);
-					// t_color color = tcolor_init(grey, grey, grey);
-					my_mlx_pixcel_put(image, x, y, get_hex_color(grey, grey, grey));
-				}
-				else
-				{
-					my_mlx_pixcel_put(image, x, y, get_hex_color(100, 149, 237));
-				}
-				// crnt = crnt->next;
-			// }
-		}
+		return (raw - (screen_size - 1) / 2);
 	}
-	return ;
+	else
+	{
+		return ((screen_size - 1) / 2 - raw);
+	}
 }
 
-void	plane(t_world const *world, t_image const *image)
+static void	paint_each_xy_pixcel(t_world *world)
 {
-	t_ray	camera;
-	camera.start = vec3_init(0, 0, -5);
-	t_shape	plane;
-	plane.type = e_plane;
-	plane.u_data.plane.position = vec3_init(0, -1, 0);
-	plane.u_data.plane.normal = vec3_init(0, 1, 0);
-	t_light	light;
-	light.type = e_point;
-	light.vector = vec3_init(-10, 5, -5);
-	light.brightness = 0.6;
-	t_vec3	pw;
-	pw.z = 0;
-	for (double y = 0; y < window_height; y++)
+	t_ray		eye_ray;
+	t_color		color_to_paint;
+	double		x;
+	double		y;
+
+	y = 0;
+	while (y < world->screen_height)
 	{
-		pw.y = -2 * y / (window_height - 1) + 1; 
-		for (double x = 0; x < window_width; x++)
+		x = 0;
+		while (x < world->screen_witdh)
 		{
-			pw.x = 2 * x / (window_width - 1) - 1;
-			camera.direction = vec3_subtract(&pw, &camera.start);
-			camera.direction = vec3_normalize(&camera.direction);
-			t_intersect isect;
-			if (get_intersect(&plane, &camera, &isect))
-			{
-				t_vec3	lightDir = vec3_subtract(&light.vector, &isect.position);
-				lightDir = vec3_normalize(&lightDir);
-				//! ambient
-				double Ka = 0.01;
-				double Ia = 0.1;
-				double Ra = Ka * Ia;
-				//! diffuse
-				double Rd = 0;
-				double Kd = 0.69;
-				double n_dot_l = vec3_dot(&isect.normal, &lightDir);
-				Rd = double_clamp(n_dot_l, 0, 1) * Kd;
-				//! specular
-				double Rs = 0;
-				double alpha = 8;
-				double Ks = 0.3;
-				t_vec3 r = vec3_copy(&isect.normal);
-				r = vec3_multiply(&r, 2 * n_dot_l);
-				r = vec3_subtract(&r, &lightDir);
-				double v_dot_r = vec3_dot(&lightDir, &r);
-				Rs = Ks * pow(v_dot_r, alpha);
-				//! combine
-				if (n_dot_l < 0)
-				{
-					Rd = 0;
-				}
-				if (v_dot_r < 0)
-				{
-					Rs = 0;
-				}
-				double phong = Ra + Rd + Rs;
-				int grey = (int)(255 * phong);
-				// t_color color = tcolor_init(grey, grey, grey);
-				my_mlx_pixcel_put(image, x, y, get_hex_color(grey, grey, grey));
-				
-			}
-			else
-				my_mlx_pixcel_put(image, x, y, get_hex_color(255, 255, 255));
+			eye_ray = \
+			get_camera_ray(world->camera, \
+			convert_to_screen_coord_(x, X, world->screen_witdh), \
+			convert_to_screen_coord_(y, Y, world->screen_height), \
+			world->screen_witdh);
+			color_to_paint = get_color_at_xy_coord(world, &eye_ray);
+			my_mlx_pixcel_put(&world->img, x, y, tcolor_to_hex(color_to_paint));
+			x++;
 		}
+		y++;
 	}
-	
 }
 
-int	main(void)
+int	minirt_main(char const *file_name)
 {
 	t_world	world;
-	t_image image;
+	int		status;
 
-	//todo parse check
-	world = tworld_init(window_width, window_height);
-	image = timage_init(world.mlx_ptr, world.screen_witdh, world.screen_height);
-	sphere(&world, &image);
-	// plane(&world, &image);
-	mlx_put_image_to_window(world.mlx_ptr, world.win_ptr, image.img_ptr, 0, 0);
+	world = tworld_init();
+	parse_main(file_name, &world);
+	paint_each_xy_pixcel(&world);
+	mlx_put_image_to_window(world.mlx_ptr, world.win_ptr, world.img.ptr, 0, 0);
+	mlx_key_hook(world.win_ptr, deal_key, &world);
+	mlx_hook(world.win_ptr, 17, 1L << 3, click_close_button, &world);
 	mlx_loop(world.mlx_ptr);
-	return (EXIT_SUCCESS);
+	status = ft_destructor(&world);
+	return (status);
 }
-
-#ifdef LEAK
-#include <stdlib.h>
-__attribute__((destructor))
-void	destructor(void)
-{
-	int	status;
-	status = system("leaks -q miniRT");
-}
-#endif

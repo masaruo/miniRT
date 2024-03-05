@@ -6,82 +6,76 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 08:22:03 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/10 13:22:37 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 12:29:10 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_color.h"
+#include <math.h>
+#include "math_utils.h"
+#include "libft.h"
+#include "wrapper.h"
 
-static double	get_minzero_maxone_number(double number)
-{
-	if (number < 0)
-		return (0);
-	else if (number > 1)
-		return (1);
-	else
-		return (number);
-}
-
-uint32_t	get_hex_color(int r, int g, int b)
-{
-	uint32_t	color;
-
-	color = 0;
-	color |= b;
-	color |= g << 8;
-	color |= r << 16;
-	return (color);
-}
-
-uint32_t	tcolor_to_hex(t_color color)
-{
-	return(get_hex_color(color.red * 255, color.green * 255, color.blue * 255));
-}
-
-t_color	tcolor_normalize(t_color color)
-{
-	color.red = get_minzero_maxone_number(color.red);
-	color.green = get_minzero_maxone_number(color.green);
-	color.blue = get_minzero_maxone_number(color.blue);
-	return (color);
-}
-
-t_color	tcolor_init(double r, double g, double b)
+t_color	tcolor_clamp(t_color color)
 {
 	t_color	new;
 
-	new.red = get_minzero_maxone_number(r);
-	new.green = get_minzero_maxone_number(g);
-	new.blue = get_minzero_maxone_number(b);
+	new.red = d_clamp(color.red, 0, 1);
+	new.green = d_clamp(color.green, 0, 1);
+	new.blue = d_clamp(color.blue, 0, 1);
 	return (new);
 }
 
 t_color	tcolor_add(t_color a, t_color b)
 {
-	t_color new;
+	t_color	new;
 
-	new.red = get_minzero_maxone_number(a.red + b.red);
-	new.green = get_minzero_maxone_number(a.green + b.green);
-	new.blue = get_minzero_maxone_number(a.blue + b.blue);
-	return (new);
+	new.red = a.red + b.red;
+	new.green = a.green + b.green;
+	new.blue = a.blue + b.blue;
+	return (tcolor_clamp(new));
 }
 
 t_color	tcolor_multiply(t_color a, t_color b)
 {
 	t_color	new;
 
-	new.red = get_minzero_maxone_number(a.red * b.red);
-	new.green = get_minzero_maxone_number(a.green * b.green);
-	new.blue = get_minzero_maxone_number(a.blue * b.blue);
-	return (new);
+	new.red = a.red * b.red;
+	new.green = a.green * b.green;
+	new.blue = a.blue * b.blue;
+	return (tcolor_clamp(new));
 }
 
 t_color	tcolor_scalar_multiply(t_color a, double scalar)
 {
 	t_color	new;
 
-	new.red = get_minzero_maxone_number(a.red * scalar);
-	new.green = get_minzero_maxone_number(a.green * scalar);
-	new.blue = get_minzero_maxone_number(a.blue * scalar);
-	return (new);
+	new.red = a.red * scalar;
+	new.green = a.green * scalar;
+	new.blue = a.blue * scalar;
+	return (tcolor_clamp(new));
+}
+
+t_color	tcolor_str_init(char const *line)
+{
+	t_color	color;
+	char	**rgb;
+	char	*r;
+	char	*g;
+	char	*b;
+
+	rgb = ft_xsplit(line, ',', 3);
+	if (!rgb)
+	{
+		ft_perror_exit(EXIT_FAILURE, "tcolor_str_set failed.");
+	}
+	r = rgb[0];
+	g = rgb[1];
+	b = rgb[2];
+	color = tcolor_rgb_init(\
+		ft_ranged_xatod(r, 0, 255), \
+		ft_ranged_xatod(g, 0, 255), \
+		ft_ranged_xatod(b, 0, 255));
+	ft_free_all(rgb);
+	return (color);
 }

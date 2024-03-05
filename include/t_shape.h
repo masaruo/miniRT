@@ -6,54 +6,41 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:39:35 by mogawa            #+#    #+#             */
-/*   Updated: 2024/01/11 15:26:09 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/02 07:37:24 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef T_SHAPE_H
-#define T_SHAPE_H
-#include "t_vec3.h"
-#include "t_color.h"
+# define T_SHAPE_H
 
-// マテリアル構造体
-typedef struct s_material
-{
-	t_color	ambient;
-	t_color	diffuse;
-	t_color	specular;
-	double	alpha;
-}	t_material;
+# include "t_color.h"
+# include "t_vec3.h"
+# include "t_intersect.h"
+# include "t_ray.h"
+# include "t_light.h"
+# include "t_cylinder.h"
+# include "t_sphere.h"
+# include "t_plane.h"
 
-typedef struct s_sphere
-{
-	t_vec3	center;
-	double	r;
-}	t_sphere;
+# define NO_INTERSECTION (0)
+# define HAS_INTERSECTION (1)
 
-typedef struct s_plane
+typedef enum e_shape_type
 {
-	t_vec3	position;
-	t_vec3	normal;
-}	t_plane;
-
-typedef enum
-{
-	e_sphere,
-	e_plane,
-}	e_shape_type;
+	sphere_type,
+	plane_type,
+	cylinder_type,
+}	t_shape_type;
 
 typedef struct s_shape
 {
-	e_shape_type	type;
+	t_shape_type	type;
 	union
 	{
 		t_plane		plane;
 		t_sphere	sphere;
-	}	u_data;
-	t_material	material;
+		t_cylinder	cylinder;
+	}	u_obj;
 }	t_shape;
-
-
-// t_sphere t_sphere_init(t_vec3 const *center, double in_r);
 
 #endif

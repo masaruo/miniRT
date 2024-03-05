@@ -6,14 +6,14 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 16:18:48 by mogawa            #+#    #+#             */
-/*   Updated: 2023/06/09 00:47:23 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/02/19 13:57:57 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 // free all childs strs first then free parent arr.
-static void	ft_free_all(char **arr)
+void	ft_free_all(char **arr)
 {
 	char	**tmp;
 
@@ -46,6 +46,24 @@ static void	ft_free_all(char **arr)
 // 	return (n);
 // }
 
+static char	*ft_strndup_split(char const *s, size_t len)
+{
+	char	*res;
+	size_t	n;
+
+	res = malloc(sizeof(char) * (len + 1));
+	if (res == NULL)
+		return (NULL);
+	n = 0;
+	while (n < len)
+	{
+		res[n] = s[n];
+		n++;
+	}
+	res[n] = '\0';
+	return (res);
+}
+
 // return 0 for malloc error else number 'cnt'.
 // cal how many cnt and exe strndup to add child arrs to parent arr 'res'
 static size_t	ft_putstr_arr(char **res, char const *str, size_t *n, char c)
@@ -57,7 +75,7 @@ static size_t	ft_putstr_arr(char **res, char const *str, size_t *n, char c)
 		cnt++;
 	if (cnt > 0)
 	{
-		res[*n] = ft_strndup(str, cnt);
+		res[*n] = ft_strndup_split(str, cnt);
 		if (res[*n] == NULL)
 		{
 			ft_free_all(res);
