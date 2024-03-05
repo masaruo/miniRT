@@ -6,125 +6,136 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:56:27 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/05 08:46:42 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/05 14:04:29 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_cylinder.h"
 #include <stdbool.h>
+#include "math_utils.h"
 
-
-static double	_get_length_of_projection(t_ray const *ray, t_cylinder const *cylinder, double distance)
+static double	get_projection_len_(t_cylinder_calc *cy_data, double distance)
 {
-	t_vec3_pos const	point = vec3_add(ray->start, vec3_multiply(ray->direction, distance));
-	t_vec3 const		cylinder_pos_to_point = vec3_subtract(point, cylinder->position);
-	double const		len_of_projection = vec3_dot(cylinder_pos_to_point, cylinder->normal);
-	// t_vec3 const		projection = vec3_add(cylinder->position, vec3_multiply(cylinder->normal, len_of_projection));
+	t_vec3_pos	point;
+	t_vec3		cy_to_point;
+	double		len_of_projection;
 
+	point = vec3_add(cy_data->ray->start, \
+			vec3_multiply(cy_data->ray->direction, distance));
+	cy_to_point = vec3_subtract(point, cy_data->cy->position);
+	len_of_projection = vec3_dot(cy_to_point, cy_data->cy->normal);
 	return (len_of_projection);
 }
 
-static bool	_is_contact_distance_valid(double distance, t_ray const *ray, t_cylinder const *cylinder)
+static bool	is_distance_valid_(double distance, t_cylinder_calc *cy_data)
 {
-	double const	len_of_projection = _get_length_of_projection(ray, cylinder, distance);
+	double const	len_of_projection = get_projection_len_(cy_data, distance);
 
-	if (distance >= 0 && len_of_projection >= 0 && len_of_projection <= cylinder->height)
+	if (len_of_projection >= 0 && len_of_projection <= cy_data->cy->height)
 		return (true);
 	else
 		return (false);
 }
 
-t_vec3	get_normal(double t, t_ray *ray, t_cylinder *cylinder, t_vec3 point, bool is_inside)
+t_vec3	get_normal(t_cylinder_calc *cy_data, double distance, bool is_inside)
 {
-	t_vec3	normal;
-	t_vec3	cylinder_center_to_point = vec3_subtract(point, cylinder->position);
-	double	len_projection = vec3_dot(cylinder_center_to_point, cylinder->normal);
-	t_vec3	projection = vec3_add(cylinder->position, vec3_multiply(cylinder->normal, len_projection));
+	t_vec3_unit		normal;
+	t_vec3_pos		projection;
+	t_vec3_pos		point;
+	double const	proj_len = get_projection_len_(cy_data, distance);
 
+	point = t_ray_get_point(&cy_data->ray->start, distance);
+	projection = vec3_add(cy_data->cy->position, \
+				vec3_multiply(cy_data->cy->normal, proj_len));
 	if (is_inside)
 	{
 		normal = vec3_normalized_subtract(projection, point);
-		// normal = vec3_normalized_subtractx(point, projection);
 	}
 	else
 	{
 		normal = vec3_normalized_subtract(point, projection);
-		// normal = vec3_normalized_subtractx(projection, point);
 	}
-	normal = vec3_normalized_subtract(point, projection);
 	return (normal);
 }
 
-double	calculate_cylinder_distance(double A, double B, double C, t_vec3 *point, t_vec3 *normal, t_ray *ray, t_cylinder *cylinder)
+double	calculate_cylinder_distance(t_cylinder_calc *cy_data)
 {
-	double	t;
-	double	d = B * B - 4 * A * C;
+	double	t_distance;
 	double	t_plus;
 	double	t_minus;
 	bool	is_tplus_valid;
 	bool	is_tminus_valid;
-	t_vec3	cylinder_to_point;
 
-	t = -1;
-	if (d < 0)
-		return (t);
-	t_plus = (-B + sqrt(d)) / (2 * A);
-	t_minus = (-B - sqrt(d)) / (2 * A);
-
-	is_tplus_valid = _is_contact_distance_valid(t_plus, ray, cylinder);
-	is_tminus_valid = _is_contact_distance_valid(t_minus, ray, cylinder);
-
-	if (is_tplus_valid && is_tminus_valid)
+	t_distance = -1;
+	t_plus = (-cy_data->b + sqrt(cy_data->d)) / (2 * cy_data->a);
+	is_tplus_valid = is_distance_valid_(t_plus, cy_data);
+	t_minus = (-cy_data->b - sqrt(cy_data->d)) / (2 * cy_data->a);
+	is_tminus_valid = is_distance_valid_(t_minus, cy_data);
+	if (t_plus > 0 && t_minus > 0)
 	{
-		if (t_plus < t_minus)
+		if (t_plus <= t_minus)
 		{
-			t = t_plus;
+			if (!is_tplus_valid)
+			{
+				t_distance = t_minus;
+				cy_data->is_inside = true;
+			}
+			else
+			t_distance = t_plus;
 		}
-		else
+		else if (t_minus < t_plus)
 		{
-			t = t_minus;
+			if (!is_tminus_valid)
+			{
+				t_distance = t_plus;
+				cy_data->is_inside = true;
+			}
+			else
+				t_distance = t_minus;
 		}
-		*point = vec3_add(ray->start, vec3_multiply(ray->direction, t));
-		*normal = get_normal(t, ray, cylinder, *point, false);
-		return (t);
 	}
-	if (is_tplus_valid)
+	else if (t_plus > 0)
 	{
-		t = t_plus;
+		if (is_tplus_valid)
+			t_distance = t_plus;
 	}
-	else if (is_tminus_valid)
+	else if (t_minus > 0)
 	{
-		t = t_minus;
+		if (is_tminus_valid)
+			t_distance = t_minus;
 	}
-	*point = vec3_add(ray->start, vec3_multiply(ray->direction, t));
-	*normal = get_normal(t, ray, cylinder, *point, true);
-	// *normal = vec3_multiply(*normal, -1);
-	return (t);
+	// if (is_tplus_valid && is_tminus_valid)
+	// {
+	// 	t_distance = d_min(t_plus, t_minus);
+	// }
+	// else if (is_tplus_valid)
+	// {
+	// 	t_distance = t_plus;
+	// 	// cy_data->is_inside = true;
+	// }
+	// else if (is_tminus_valid)
+	// {
+	// 	t_distance = t_minus;
+	// 	// cy_data->is_inside = true;
+	// }
+	return (t_distance);
 }
 
-int	get_distance_to_cylinder(t_cylinder const *cylinder, t_ray const *ray, t_intersect *out_intersect)
+int	get_distance_to_cylinder(t_cylinder const *cylinder, \
+			t_ray const *ray, t_intersect *out_intersect)
 {
-	t_vec3	const	cylinder_to_ray = vec3_subtract(cylinder->position, ray->start);
-	double const	a = _cylinder_get_a(ray->direction, cylinder->normal);
-	double const	b = _cylinder_get_b(ray->direction, cylinder->normal, cylinder_to_ray);
-	double const	c = _cylinder_get_c(cylinder->normal, cylinder_to_ray, cylinder->r);
-	double const	d = b * b - 4 * a * c;
+	t_cylinder_calc	cy_data;
+	double			t_distance;
 
-	if (a == 0 || d < 0)
-	{
+	cy_data = cylinder_data_init(cylinder, ray);
+	if (cy_data.a == 0 || cy_data.d < 0)
 		return (NO_INTERSECTION);
-	}
-	t_vec3	point;
-	t_vec3	normal;
-	double t = calculate_cylinder_distance(a, b, c, &point, &normal, ray, cylinder);
-	if (t < 0)
-	{
+	t_distance = calculate_cylinder_distance(&cy_data);
+	if (t_distance < 0)
 		return (NO_INTERSECTION);
-	}
-
-	out_intersect->distance = t;
-	out_intersect->position = t_ray_get_point(ray, t);
-	out_intersect->normal = normal;
+	out_intersect->distance = t_distance;
+	out_intersect->position = t_ray_get_point(ray, t_distance);
+	out_intersect->normal = get_normal(&cy_data, t_distance, cy_data.is_inside);
 	out_intersect->color = cylinder->color;
 	return (HAS_INTERSECTION);
 }
