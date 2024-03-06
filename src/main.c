@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:20:54 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/06 16:38:37 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/06 17:15:22 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 int	main(int argc, char **argv)
 {	
-	int	status;
-
 	if (argc != 2)
 	{
 		ft_putstr_fd("Error\n", STDERR_FILENO);

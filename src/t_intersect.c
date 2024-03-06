@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:28:11 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/02 12:28:21 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/06 17:26:10 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "phong.h"
 #include "shadow.h"
 
-extern	double const	g_epsilon;
+extern double const	g_epsilon;
 
 static int	test_intersection_by_shape(\
 	t_shape const *shape, t_ray const *ray, t_intersect *out_intersect)

@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:03:56 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/02 11:58:23 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/06 17:25:16 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@
 
 static double	_get_distance_to_screen(double width, double fov)
 {
-	double const	t = (width / 2.0) / (tan(convert_degree_to_radian(fov/2)));
+	double	t;
 
+	t = (width / 2.0) / (tan(convert_degree_to_radian(fov / 2)));
 	return (t);
 }
 
