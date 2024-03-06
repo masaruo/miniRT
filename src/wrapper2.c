@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:40:01 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/06 18:04:58 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/06 21:11:17 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	ft_perror_exit(int status, char const *msg)
 	system("leaks -q miniRT");
 	exit(status);
 }
+
 #else
 
 void	ft_perror_exit(int status, char const *msg)
