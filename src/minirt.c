@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/05 08:46:18 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/06 16:38:58 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include "ft_atod.h"
 #include "destructor.h"
 #include "t_camera.h"
+#include "key.h"
 #define X (0)
 #define Y (1)
 
@@ -41,7 +42,7 @@ static double	\
 	}
 }
 
-static void	paint_each_xy_pixcel(t_world *world)
+void	paint_each_xy_pixcel(t_world *world)
 {
 	t_ray		eye_ray;
 	t_color		color_to_paint;
@@ -67,18 +68,16 @@ static void	paint_each_xy_pixcel(t_world *world)
 	}
 }
 
-int	minirt_main(char const *file_name)
+void	minirt_main(char const *file_name)
 {
 	t_world	world;
-	int		status;
 
 	world = tworld_init();
 	parse_main(file_name, &world);
 	paint_each_xy_pixcel(&world);
 	mlx_put_image_to_window(world.mlx_ptr, world.win_ptr, world.img.ptr, 0, 0);
-	mlx_key_hook(world.win_ptr, deal_key, &world);
+	mlx_key_hook(world.win_ptr, hook_keys, &world);
 	mlx_hook(world.win_ptr, 17, 1L << 3, click_close_button, &world);
 	mlx_loop(world.mlx_ptr);
-	status = ft_destructor(&world);
-	return (status);
+	ft_destructor(&world);
 }
