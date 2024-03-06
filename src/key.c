@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:37:01 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/06 17:12:06 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/07 08:48:03 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,8 @@
 
 int	hook_keys(int key, t_world *world)
 {
-	ft_putstr_fd("key pressed.\n", STDERR_FILENO);
 	if (key == ESC)
-	{
 		ft_destructor(world);
-	}
 	else if (key == KEY_DOWN)
 		world->camera.position.y -= 1.0;
 	else if (key == KEY_UP)
@@ -48,6 +45,9 @@ int	hook_keys(int key, t_world *world)
 		world->camera.position.z += 1.0;
 	else if (key == KEY_Z_MINUS)
 		world->camera.position.z -= 1.0;
+	else
+		return (EXIT_FAILURE);
+	ft_putstr_fd("key pressed.\n", STDERR_FILENO);
 	paint_each_xy_pixcel(world);
 	mlx_put_image_to_window(\
 	world->mlx_ptr, world->win_ptr, world->img.ptr, 0, 0);
