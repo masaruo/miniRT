@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:18:26 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/02 07:00:08 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/06 17:21:09 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ static void	_validate_file_name(char const *filename)
 int	get_validated_fd(char const *filename)
 {
 	int		fd;
-	char	*line;
-	char	**split_by_space;
 
 	_validate_file_name(filename);
 	fd = open(filename, O_RDONLY);

@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:56:27 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/06 14:48:06 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/06 17:19:55 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ t_vec3	get_normal(t_cylinder_calc const *cy_data, double distance)
 	t_vec3_pos		point;
 	double const	proj_len = get_proj_len_(cy_data, distance);
 
-	point = t_ray_get_point(&cy_data->ray->start, distance);
+	point = vec3_add(cy_data->ray->start, \
+				vec3_multiply(cy_data->ray->direction, distance));
 	projection = vec3_add(cy_data->cy->position, \
 				vec3_multiply(cy_data->cy->normal, proj_len));
 	if (cy_data->is_inside)

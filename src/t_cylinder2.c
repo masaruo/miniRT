@@ -6,11 +6,12 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:00:53 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/06 14:45:46 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/06 17:20:40 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_cylinder.h"
+#include "math.h"
 
 double	_cylinder_get_a(t_vec3_unit d, t_vec3_unit v)
 {
