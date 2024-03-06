@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 22:17:28 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/06 21:09:41 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/06 21:13:53 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ t_color	tcolor_calc_phong(\
 {
 	t_color			phong;
 	t_color const	ambient = \
-		tcolor_scalar_multiply(world->ambient.color, world->ambient.ratio * 0.3);
+	tcolor_scalar_multiply(world->ambient.color, world->ambient.ratio * 0.3);
 	t_color			diffuse_and_specular;
 
 	phong = ambient;
