@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 13:21:56 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/02 11:19:09 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/06 17:27:18 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@
 
 # define NO_INTERSECTION (0)
 # define HAS_INTERSECTION (1)
-// # define EPSILON (1.0f / 512)
-// double const	g_epsilon = 1.0f / 512.0;
-// extern double const	g_epsilon;
+// # define EPSILON (1.0f/512)
 
 typedef struct s_intersect
 {

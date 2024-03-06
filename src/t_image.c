@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/06 14:29:09 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/05 08:36:33 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/06 18:03:13 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	my_mlx_pixcel_put(t_image const *img, int x, int y, int color)
 	char	*pixcel;
 	int		offset;
 
-	// todo input error handle
 	offset = y * img->line_length + x * (img->bits_per_pixel / 8);
 	pixcel = img->addr + offset;
 	*(unsigned int *) pixcel = color;
