@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 22:17:28 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/02 16:55:48 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/06 21:09:41 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static t_color	_get_diffuse_effect(\
 	diffuse = tcolor_scalar_multiply(light->color, light->brightness);
 	diffuse = tcolor_multiply(intersect->color, diffuse);
 	diffuse = tcolor_scalar_multiply(diffuse, lambert);
-	diffuse = tcolor_scalar_multiply(diffuse, 0.69);
+	diffuse = tcolor_scalar_multiply(diffuse, 0.6);
 	return (diffuse);
 }
 
@@ -99,7 +99,7 @@ t_color	tcolor_calc_phong(\
 {
 	t_color			phong;
 	t_color const	ambient = \
-		tcolor_scalar_multiply(world->ambient.color, world->ambient.ratio);
+		tcolor_scalar_multiply(world->ambient.color, world->ambient.ratio * 0.3);
 	t_color			diffuse_and_specular;
 
 	phong = ambient;

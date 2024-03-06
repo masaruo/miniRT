@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 20:04:33 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/19 09:35:27 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/06 14:50:57 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ double	d_min(double a, double b)
 		return (a);
 }
 
-double d_max(double a, double b)
+double	d_max(double a, double b)
 {
 	if (a > b)
 		return (a);
@@ -45,4 +45,3 @@ double	convert_degree_to_radian(double degree)
 {
 	return (degree * M_PI / 180);
 }
-

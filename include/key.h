@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minirt.h                                           :+:      :+:    :+:   */
+/*   key.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/29 10:21:33 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/06 16:35:25 by mogawa           ###   ########.fr       */
+/*   Created: 2024/03/06 15:36:59 by mogawa            #+#    #+#             */
+/*   Updated: 2024/03/06 16:04:20 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIRT_H
-# define MINIRT_H
+#ifndef KEY_H
+# define KEY_H
 
-void	minirt_main(char const *file_name);
+# include "t_world.h"
+
+int		hook_keys(int key, t_world *world);
+void	paint_each_xy_pixcel(t_world *world);
 
 #endif
