@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/03/02 11:31:49 by mogawa           ###   ########.fr        #
+#    Updated: 2024/03/06 16:02:45 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRCS		:=	\
 			destructor.c \
 			ft_atod.c \
 			get_next_line.c get_next_line_utils.c \
+			key.c \
 			math_utils.c \
 			minirt.c \
 			parse.c \

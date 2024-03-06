@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:20:54 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 15:38:28 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/06 16:38:37 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,18 @@ int	main(int argc, char **argv)
 		ft_putstr_fd("Number of argc is invalid\n", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
-	status = minirt_main(argv[1]);
-	return (status);
+	minirt_main(argv[1]);
+	return (EXIT_SUCCESS);
 }
 
-//! 座標の入力値は「−１００〜＋１００」の仕様
+/*
+座標の入力値は「−１００〜＋１００」の仕様
+arrow up = camera y +
+arrow down = camera y -
+arrow right = camera x +
+arrow left = camera x -
+z = camera z forward
+x = camera z backward
+r = camera orientation y -
+t = camera orientation y +
+*/
