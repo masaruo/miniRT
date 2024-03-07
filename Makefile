@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/03/07 14:26:37 by mogawa           ###   ########.fr        #
+#    Updated: 2024/03/07 16:31:28 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,4 +102,4 @@ norm:
 
 -include $(DEPS)
 
-.PHONY: clean fclean re leak asan dev norm
+.PHONY: clean fclean re review asan dev norm
