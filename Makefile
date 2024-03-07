@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/03/06 16:02:45 by mogawa           ###   ########.fr        #
+#    Updated: 2024/03/07 10:52:33 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,7 +98,7 @@ dev: asan
 re:	fclean all
 
 norm:
-	$(shell echo 'norminette ./include ./src')
+	$(shell echo 'norminette ./include ./src ./libft')
 
 -include $(DEPS)
 

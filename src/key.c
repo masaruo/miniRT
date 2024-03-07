@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:37:01 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/07 08:48:03 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/07 10:49:50 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 #define KEY_REV_ROTATE 116//t
 #define KEY_Z_PLUS 122//z
 #define KEY_Z_MINUS 120//x
+
+#ifdef LEAK
 
 int	hook_keys(int key, t_world *world)
 {
@@ -53,3 +55,14 @@ int	hook_keys(int key, t_world *world)
 	world->mlx_ptr, world->win_ptr, world->img.ptr, 0, 0);
 	return (EXIT_SUCCESS);
 }
+
+#else
+
+int	hook_keys(int key, t_world *world)
+{
+	if (key == ESC)
+		ft_destructor(world);
+	return (EXIT_SUCCESS);
+}
+
+#endif
