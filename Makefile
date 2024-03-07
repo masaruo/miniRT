@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/03/07 10:52:33 by mogawa           ###   ########.fr        #
+#    Updated: 2024/03/07 14:26:37 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,7 +75,7 @@ $(NAME) : $(OBJS)
 	$(MAKE) -C $(MLXDIR)
 	$(CC) $(CFLAGS) $(LIBFT) $(MLX) $(LDFLAGS) $^ -o $@
 
-leak: 
+review: 
 	$(RM) -r $(OBJDIR)
 	$(MAKE) WITH_LEAK=1 all
 
@@ -93,7 +93,7 @@ fclean:	clean
 	$(MAKE) fclean -C $(LIBFTDIR)
 
 dev: asan
-	$(shell ./miniRT test.rt)
+	$(shell ./miniRT maps/test.rt)
 
 re:	fclean all
 
