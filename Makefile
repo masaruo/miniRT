@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/03/07 16:31:28 by mogawa           ###   ########.fr        #
+#    Updated: 2024/03/08 10:55:41 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,11 +73,13 @@ all:	$(NAME)
 $(NAME) : $(OBJS)
 	$(MAKE) -C $(LIBFTDIR)
 	$(MAKE) -C $(MLXDIR)
-	$(CC) $(CFLAGS) $(LIBFT) $(MLX) $(LDFLAGS) $^ -o $@
+	$(CC) $(LDFLAGS) $(LIBFT) $(MLX) $^ -o $@
 
-review: 
+leak: 
 	$(RM) -r $(OBJDIR)
 	$(MAKE) WITH_LEAK=1 all
+
+review: leak
 
 asan: 
 	$(RM) -r $(OBJDIR)
@@ -102,4 +104,4 @@ norm:
 
 -include $(DEPS)
 
-.PHONY: clean fclean re review asan dev norm
+.PHONY: clean fclean re leak asan dev norm review
