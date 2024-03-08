@@ -6,12 +6,11 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 18:51:48 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/06 16:44:36 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/08 15:11:28 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "destructor.h"
-#include "stddef.h"
 #include "libft.h"
 #include "mlx.h"
 

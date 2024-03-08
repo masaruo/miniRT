@@ -6,14 +6,13 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 17:42:43 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 11:43:38 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/08 15:09:25 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mlx.h"
 #include "t_world.h"
 #include "wrapper.h"
-#include "libft.h"
 
 t_world	tworld_init(void)
 {

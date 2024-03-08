@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:03:56 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/08 11:00:41 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/08 11:04:13 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ static t_vec3	get_right_vec(t_vec3 fwd)
 	}
 	else
 		assumption = vec3_init(0, -1, 0);
-	right = vec3_normalize(vec3_cross(fwd, assumption));
+	right = vec3_normalize(vec3_cross(assumption, fwd));
 	return (right);
 }
 
 t_vec3_pos	conv_xy_to_world(\
 	t_vec3 fwd, double raw_x, double raw_y, double dist)
 {
-	t_vec3_unit const	right = get_right_vec(fwd);
+	t_vec3_unit const	right = vec3_multiply(get_right_vec(fwd), -1);
 	t_vec3_unit const	up = vec3_normalize(vec3_cross(fwd, right));
 	double const		screen_z = dist;
 	t_vec3				point;

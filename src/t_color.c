@@ -6,12 +6,11 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 08:22:03 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/02 12:29:10 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/08 15:21:55 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_color.h"
-#include <math.h>
 #include "math_utils.h"
 #include "libft.h"
 #include "wrapper.h"

@@ -6,14 +6,13 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:07:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 15:19:03 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/08 15:06:12 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_vec3.h"
 #include "math.h"
 #include "libft.h"
-#include "ft_atod.h"
 #include "wrapper.h"
 
 double	vec3_length(t_vec3 a)

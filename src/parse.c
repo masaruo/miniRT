@@ -6,14 +6,13 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/05 09:01:21 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/08 15:00:27 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
 #include "validation.h"
 #include "get_next_line.h"
-#include "t_color.h"
 #include "wrapper.h"
 #include <stdint.h>
 #define SPACE (' ')

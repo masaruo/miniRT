@@ -6,18 +6,14 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:18:26 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/06 17:21:09 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/08 15:07:58 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "validation.h"
 #include "wrapper.h"
-#include <stdbool.h>
 #include "libft.h"
-#include <stdio.h>
 #include <fcntl.h>
-#include <stdlib.h>
-#include "get_next_line.h"
 #define VALID_PARSE_BITFLG (15)
 
 static void	_validate_file_name(char const *filename)

@@ -6,13 +6,11 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 20:04:33 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/06 14:50:57 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/08 15:18:15 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "math_utils.h"
 #include <math.h>
-#include "t_vec3.h"
 
 double	d_clamp(double num, double min, double max)
 {

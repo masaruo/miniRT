@@ -6,12 +6,11 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:19:09 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/07 09:44:36 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/08 15:01:09 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parse.h"
-#include "validation.h"
 #include "t_color.h"
 #include "wrapper.h"
 

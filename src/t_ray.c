@@ -6,13 +6,11 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 13:32:22 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/06 14:54:50 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/08 15:03:39 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "t_ray.h"
-#include <math.h>
-#include "math_utils.h"
 
 t_ray	t_ray_create_ray(t_vec3 const *start, t_vec3 const *end)
 {

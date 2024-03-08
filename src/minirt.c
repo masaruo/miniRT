@@ -6,26 +6,16 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/06 16:38:58 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/08 15:19:20 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "t_vec3.h"
 #include "t_world.h"
 #include "mlx.h"
 #include "t_color.h"
-#include "math_utils.h"
 #include "t_ray.h"
-#include "t_shape.h"
-#include "t_light.h"
-#include "t_intersect.h"
-#include "libft.h"
-#include "phong.h"
 #include "parse.h"
-#include "ft_atod.h"
 #include "destructor.h"
-#include "t_camera.h"
-#include "key.h"
 #define X (0)
 #define Y (1)
 

@@ -6,11 +6,10 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:04:13 by mogawa            #+#    #+#             */
-/*   Updated: 2024/02/29 14:30:19 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/08 15:10:51 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_atod.h"
 #include "libft.h"
 #include <math.h>
 #define BASE10 (10)
