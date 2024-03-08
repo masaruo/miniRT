@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:36:59 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/06 16:04:20 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/08 15:24:32 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,5 @@
 # include "t_world.h"
 
 int		hook_keys(int key, t_world *world);
-void	paint_each_xy_pixcel(t_world *world);
 
 #endif
