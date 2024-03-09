@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/08 15:24:48 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/09 10:49:34 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static double	\
 	}
 }
 
-static void	paint_each_xy_pixcel(t_world *world)
+void	paint_each_xy_pixcel(t_world *world)
 {
 	t_ray		eye_ray;
 	t_color		color_to_paint;

@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/03/08 10:55:41 by mogawa           ###   ########.fr        #
+#    Updated: 2024/03/09 10:55:09 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ endif
 ifdef WITH_ASAN
 CFLAGS	:=	$(filter-out -Werror, $(CFLAGS))
 CFLAGS	+=	$(DBGFLG) -fsanitize=address
+LDFLAGS	+=	-fsanitize=address
 endif
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c
