@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:20:54 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/06 17:15:22 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/09 15:48:41 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char **argv)
 
 /*
 座標の入力値は「−１００〜＋１００」の仕様
+make review
 arrow up = camera y +
 arrow down = camera y -
 arrow right = camera x +
