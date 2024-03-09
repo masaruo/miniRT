@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 08:37:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/09 13:43:50 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/09 14:35:18 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ int	get_distance_to_sphere(\
 	}
 	out_intersect->distance = distance;
 	out_intersect->position = t_ray_get_point(ray, distance);
-	out_intersect->normal = get_normal(out_intersect->position, sphere->center, ray->start, sphere->r);
+	out_intersect->normal = get_normal(\
+	out_intersect->position, sphere->center, ray->start, sphere->r);
 	out_intersect->color = sphere->color;
 	return (HAS_INTERSECTION);
 }
