@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 12:56:27 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/08 15:01:50 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/09 11:38:52 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,9 @@ static void	calculate_cylinder_distance(t_cylinder_calc *cy_data)
 		}
 	}
 	else if (cy_data->dist_plus > 0 && cy_data->is_dist_p_valid)
-		// cy_data->distance = cy_data->dist_plus;
 		get_dist_n_inside(cy_data, cy_data->dist_plus);
 	else if (cy_data->dist_minus > 0 && cy_data->is_dist_m_valid)
-	 	get_dist_n_inside(cy_data, cy_data->dist_minus);
-		// cy_data->distance = cy_data->dist_minus;
+		get_dist_n_inside(cy_data, cy_data->dist_minus);
 }
 
 int	get_distance_to_cylinder(t_cylinder const *cylinder, \
