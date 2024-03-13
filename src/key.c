@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:37:01 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/09 17:28:36 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/12 20:57:11 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,3 +76,9 @@ int	hook_keys(int key, t_world *world)
 }
 
 #endif
+
+int	click_expose_button(t_world *world)
+{
+	
+	return (EXIT_SUCCESS);
+}
