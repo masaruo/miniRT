@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 14:03:56 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/08 11:04:13 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/13 16:47:15 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,39 +28,37 @@ static double	_get_distance_to_screen(double width, double fov)
 
 static t_vec3	get_right_vec(t_vec3 fwd)
 {
-	t_vec3_unit	assumption;
+	t_vec3_unit	tmp_up;
 	t_vec3_unit	right;
 
-	assumption = vec3_init(0, 0, 0);
+	tmp_up = vec3_init(0, 1, 0);
 	if (fwd.x == 0 && fwd.z == 0)
 	{
-		if (fwd.y > 0.9)
+		if (fwd.y > 0)
 		{
-			assumption = vec3_init(0, 0, -1);
+			tmp_up = vec3_init(0, 0, 1);
 		}
-		else if (fwd.y < -0.9)
+		else
 		{
-			assumption = vec3_init(0, 0, 1);
+			tmp_up = vec3_init(0, 0, -1);
 		}
 	}
-	else
-		assumption = vec3_init(0, -1, 0);
-	right = vec3_normalize(vec3_cross(assumption, fwd));
+	right = vec3_normalize(vec3_cross(fwd, tmp_up));
 	return (right);
 }
 
 t_vec3_pos	conv_xy_to_world(\
-	t_vec3 fwd, double raw_x, double raw_y, double dist)
+	t_vec3 forward, double raw_x, double raw_y, double dist)
 {
-	t_vec3_unit const	right = vec3_multiply(get_right_vec(fwd), -1);
-	t_vec3_unit const	up = vec3_normalize(vec3_cross(fwd, right));
+	t_vec3_unit const	right = get_right_vec(forward);
+	t_vec3_unit const	up = vec3_normalize(vec3_cross(right, forward));
 	double const		screen_z = dist;
 	t_vec3				point;
 
 	point = vec3_init(0, 0, 0);
 	point.x = raw_x * right.x + raw_y * right.y + screen_z * right.z;
 	point.y = raw_x * up.x + raw_y * up.y + screen_z * up.z;
-	point.z = raw_x * fwd.x + raw_y * fwd.y + screen_z * fwd.z;
+	point.z = raw_x * forward.x + raw_y * forward.y + screen_z * forward.z;
 	return (point);
 }
 

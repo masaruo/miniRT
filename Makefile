@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/03/09 10:55:09 by mogawa           ###   ########.fr        #
+#    Updated: 2024/03/13 15:11:02 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,7 +95,7 @@ fclean:	clean
 	$(RM) $(NAME)
 	$(MAKE) fclean -C $(LIBFTDIR)
 
-dev: asan
+dev: leak
 	$(shell ./miniRT maps/test.rt)
 
 re:	fclean all
