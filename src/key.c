@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:37:01 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/13 13:12:12 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/13 16:29:42 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,12 @@ static void	redraw_screen(t_world *world)
 static void	print_camera_data(t_world *world)
 {
 	t_vec3_pos	pos;
+	t_vec3_pos	look;
 
 	pos = world->camera.position;
-	dprintf(2, "camera coord[x:%.f][y:%.f][z:%.f]\n", pos.x, pos.y, pos.z);
+	look = world->camera.orientation;
+	dprintf(2, "camera coord[x:%.f][y:%.f][z:%.f]|", pos.x, pos.y, pos.z);
+	dprintf(2, "look[x:%.f][y:%.f][z:%.f]\n", look.x, look.y, look.z);
 }
 
 int	hook_keys(int key, t_world *world)
@@ -57,9 +60,9 @@ int	hook_keys(int key, t_world *world)
 	else if (key == KEY_REV_ROTATE)
 		world->camera.orientation.y -= 1.0;
 	else if (key == KEY_Z_PLUS)
-		world->camera.position.z += 1.0;
-	else if (key == KEY_Z_MINUS)
 		world->camera.position.z -= 1.0;
+	else if (key == KEY_Z_MINUS)
+		world->camera.position.z += 1.0;
 	print_camera_data(world);
 	redraw_screen(world);
 	return (EXIT_SUCCESS);
