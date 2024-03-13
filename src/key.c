@@ -6,18 +6,21 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:37:01 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/12 20:57:11 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/13 12:20:49 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "key.h"
 #include "destructor.h"
-
-#ifdef LEAK
-# include "mlx.h"
-#endif
-
+#include "mlx.h"
 #define ESC (65307)
+
+static void	redraw_screen(t_world *world)
+{
+	paint_each_xy_pixcel(world);
+	mlx_put_image_to_window(\
+	world->mlx_ptr, world->win_ptr, world->img.ptr, 0, 0);
+}
 
 #ifdef LEAK
 # define KEY_UP (65362)
@@ -57,12 +60,8 @@ int	hook_keys(int key, t_world *world)
 		world->camera.position.z += 1.0;
 	else if (key == KEY_Z_MINUS)
 		world->camera.position.z -= 1.0;
-	else
-		return (EXIT_FAILURE);
 	print_camera_data(world);
-	paint_each_xy_pixcel(world);
-	mlx_put_image_to_window(\
-	world->mlx_ptr, world->win_ptr, world->img.ptr, 0, 0);
+	redraw_screen(world);
 	return (EXIT_SUCCESS);
 }
 
@@ -72,13 +71,9 @@ int	hook_keys(int key, t_world *world)
 {
 	if (key == ESC)
 		ft_destructor(world);
+	else
+		redraw_screen(world);
 	return (EXIT_SUCCESS);
 }
 
 #endif
-
-int	click_expose_button(t_world *world)
-{
-	
-	return (EXIT_SUCCESS);
-}

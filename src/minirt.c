@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/12 20:55:54 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/13 12:21:33 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 #include "t_ray.h"
 #include "parse.h"
 #include "destructor.h"
+#include "key.h"
 #define X (0)
 #define Y (1)
-#define ON_EXPOSE (12)
 #define ON_DESTROY (17)
 
 static double	\
@@ -69,9 +69,7 @@ void	minirt_main(char const *file_name)
 	paint_each_xy_pixcel(&world);
 	mlx_put_image_to_window(world.mlx_ptr, world.win_ptr, world.img.ptr, 0, 0);
 	mlx_key_hook(world.win_ptr, hook_keys, &world);
-	mlx_hook(world.win_ptr, ON_EXPOSE, 0, click_expose_button, &world);
 	mlx_hook(world.win_ptr, ON_DESTROY, 0, click_close_button, &world);
-	// mlx_hook(world.win_ptr, CLOSE_WINDOW, 1L << 3, click_close_button, &world);
 	mlx_loop(world.mlx_ptr);
 	ft_destructor(&world);
 }
