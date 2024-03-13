@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 15:37:01 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/13 12:20:49 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/13 13:12:12 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,13 @@ int	hook_keys(int key, t_world *world)
 {
 	if (key == ESC)
 		ft_destructor(world);
-	else
-		redraw_screen(world);
 	return (EXIT_SUCCESS);
 }
 
 #endif
+
+int	render_next_frame(t_world *world)
+{
+	redraw_screen(world);
+	return (EXIT_SUCCESS);
+}

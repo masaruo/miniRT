@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:56:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/13 12:21:33 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/13 13:10:26 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	minirt_main(char const *file_name)
 	mlx_put_image_to_window(world.mlx_ptr, world.win_ptr, world.img.ptr, 0, 0);
 	mlx_key_hook(world.win_ptr, hook_keys, &world);
 	mlx_hook(world.win_ptr, ON_DESTROY, 0, click_close_button, &world);
+	mlx_loop_hook(world.mlx_ptr, render_next_frame, &world);
 	mlx_loop(world.mlx_ptr);
 	ft_destructor(&world);
 }
