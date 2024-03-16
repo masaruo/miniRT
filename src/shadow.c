@@ -6,13 +6,13 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 17:43:09 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/09 15:57:32 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/16 14:33:15 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shadow.h"
 
-double const	g_epsilon = 1.0f / 512.0;
+double const	g_epsilon = 1.0f / 10000.0;
 
 t_ray	get_shadow_ray(t_intersect const *intersect, t_light const *light)
 {
