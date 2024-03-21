@@ -6,29 +6,29 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:04:13 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/08 15:10:51 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/21 14:52:53 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <math.h>
+#include "wrapper.h"
 #define BASE10 (10)
 #define ONE_AFTER_DOT (1)
 
 static size_t	_cnt_digits(char const *const dot_location)
 {
 	char const *const	start_of_decimal = dot_location + ONE_AFTER_DOT;
-	size_t				i;
+	size_t				cnt;
 
-	i = 0;
-	while (start_of_decimal[i])
+	cnt = 0;
+	while (start_of_decimal[cnt])
 	{
-		if (ft_isdigit(start_of_decimal[i]))
-		{
-			i++;
-		}
+		if (!ft_isdigit(start_of_decimal[cnt]))
+			ft_perror_exit(EXIT_FAILURE, "non digits detected");
+		cnt++;
 	}
-	return (i);
+	return (cnt);
 }
 
 static double	_get_decimal_part(char const *const str_num)
@@ -50,14 +50,31 @@ static double	_get_decimal_part(char const *const str_num)
 	return (decimal);
 }
 
+static bool	_get_sign(char const *s)
+{
+	bool	is_minus;
+	int		void_base;
+
+	is_minus = false;
+	ft_prefix_atoi(s, &is_minus, &void_base);
+	(void) void_base;
+	return (is_minus);
+}
+
 double	ft_atod(char const *const str_num)
 {
 	double			double_num;
-	double const	int_part = ft_strtol(str_num, NULL, BASE10);
-	double const	decima_part = _get_decimal_part(str_num);
+	double			int_part;
+	bool const		is_minus = _get_sign(str_num);
+	double const	decimal_part = _get_decimal_part(str_num);
 
+	int_part = ft_strtol(str_num, NULL, BASE10);
+	if (int_part < 0)
+		int_part *= -1;
 	double_num = 0;
 	double_num += int_part;
-	double_num += decima_part;
+	double_num += decimal_part;
+	if (is_minus)
+		double_num *= -1;
 	return (double_num);
 }

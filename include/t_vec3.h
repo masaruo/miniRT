@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 13:59:21 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/02 07:39:10 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/21 15:03:42 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ double	vec3_length(t_vec3 a);
 t_vec3	vec3_multiply(t_vec3 a, double scalar);
 double	vec3_dot(t_vec3 a, t_vec3 b);
 t_vec3	vec3_cross(t_vec3 a, t_vec3 b);
-t_vec3	vec3_defalt_ranged_str_init(char const *line);
+t_vec3	vec3_default_ranged_str_init(char const *line);
 t_vec3	vec3_ranged_str_init(char const *line, double min, double max);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/16 13:33:55 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/21 15:03:44 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_ambient	_get_ambient_light(char **lines, uint8_t *flag)
 {
 	t_ambient	ambient;
 
+	check_num_childs_valid(lines, 3);
 	check_flag_error(F_AMBIENT, flag);
 	ambient.ratio = ft_ranged_xatod(lines[1], 0.0, 1.0);
 	ambient.color = tcolor_str_init(lines[2]);
@@ -31,8 +32,9 @@ t_camera	_get_a_camera(char **lines, uint8_t *flag)
 {
 	t_camera	camera;
 
+	check_num_childs_valid(lines, 4);
 	check_flag_error(F_CAMERA, flag);
-	camera.position = vec3_defalt_ranged_str_init(lines[1]);
+	camera.position = vec3_default_ranged_str_init(lines[1]);
 	camera.orientation = \
 		vec3_normalize(vec3_ranged_str_init(lines[2], -1.0, 1.0));
 	camera.field_of_view = ft_ranged_xatod(lines[3], 0.0, 180.0);
@@ -79,9 +81,10 @@ static uint8_t	parse_each_lines(int fd, t_world *const world)
 	{
 		line_splitted = ft_split(line, SPACE);
 		free(line);
-		if (!line_splitted || line_splitted[FIRST_STR] == NULL)
+		if (!line_splitted || line_splitted[0] == NULL)
 		{
-			ft_perror_exit(EXIT_FAILURE, "failed to create splitted line");
+			ft_perror_exit(EXIT_FAILURE, \
+				"parse_each_lines: failed to create splitted line");
 		}
 		_parse_splitted(line_splitted, world, &flag);
 		ft_free_all(line_splitted);

@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 14:07:29 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/08 15:06:12 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/21 15:05:06 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ double	vec3_length(t_vec3 a)
 	return (sqrt(vec3_square(a)));
 }
 
-t_vec3	vec3_defalt_ranged_str_init(char const *line)
+t_vec3	vec3_default_ranged_str_init(char const *line)
 {
 	t_vec3	vec;
 
