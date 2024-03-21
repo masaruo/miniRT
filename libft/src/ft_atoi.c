@@ -6,13 +6,13 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 14:50:40 by mogawa            #+#    #+#             */
-/*   Updated: 2023/07/24 17:05:44 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/21 13:07:55 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static const char	*ft_prefix_atoi(const char *s, bool *is_minus, int *base)
+const char	*ft_prefix_atoi(const char *s, bool *is_minus, int *base)
 {
 	while (ft_isspace(*s))
 		s++;
@@ -78,7 +78,7 @@ long	ft_strtol(const char *str, char **endptr, int base_num)
 	bool		is_minus;
 	long		num;
 	long		vetted_num;
-	const char	*s;
+	char const	*s;
 	int			base;
 
 	base = base_num;

@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 16:34:50 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/21 10:32:44 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/21 15:03:44 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_camera	_get_a_camera(char **lines, uint8_t *flag)
 
 	check_num_childs_valid(lines, 4);
 	check_flag_error(F_CAMERA, flag);
-	camera.position = vec3_defalt_ranged_str_init(lines[1]);
+	camera.position = vec3_default_ranged_str_init(lines[1]);
 	camera.orientation = \
 		vec3_normalize(vec3_ranged_str_init(lines[2], -1.0, 1.0));
 	camera.field_of_view = ft_ranged_xatod(lines[3], 0.0, 180.0);

@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/03/13 15:11:02 by mogawa           ###   ########.fr        #
+#    Updated: 2024/03/21 15:49:58 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,7 +82,7 @@ leak:
 
 review: leak
 
-asan: 
+asan:
 	$(RM) -r $(OBJDIR)
 	$(MAKE) WITH_ASAN=1 all
 
@@ -96,7 +96,7 @@ fclean:	clean
 	$(MAKE) fclean -C $(LIBFTDIR)
 
 dev: leak
-	$(shell ./miniRT maps/test.rt)
+	$(shell ./miniRT test.rt)
 
 re:	fclean all
 
