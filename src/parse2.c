@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 13:19:09 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/08 15:01:09 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/20 11:45:26 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_light	*_get_a_light(char **lines)
 {
 	t_light	*light;
 
+	check_num_childs_valid(lines, 4);
 	light = ft_calloc(1, sizeof(t_light));
 	if (light == NULL)
 	{
@@ -33,6 +34,7 @@ t_shape	*_get_a_sphere(char **lines)
 {
 	t_shape	*sphere;
 
+	check_num_childs_valid(lines, 4);
 	sphere = ft_calloc(1, sizeof(t_shape));
 	if (sphere == NULL)
 		ft_perror_exit(EXIT_FAILURE, "ft_calloc failed.");
@@ -47,6 +49,7 @@ t_shape	*_get_a_plain(char **lines)
 {
 	t_shape	*plane;
 
+	check_num_childs_valid(lines, 4);
 	plane = ft_calloc(1, sizeof(t_shape));
 	if (plane == NULL)
 		ft_perror_exit(EXIT_FAILURE, "ft_calloc failed.");
@@ -62,6 +65,7 @@ t_shape	*_get_a_cylinder(char **lines)
 {
 	t_shape	*cylinder;
 
+	check_num_childs_valid(lines, 6);
 	cylinder = ft_calloc(1, sizeof(t_shape));
 	if (cylinder == NULL)
 		ft_perror_exit(EXIT_FAILURE, "ft_calloc failed");

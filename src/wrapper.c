@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:58:13 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/02 07:24:54 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/21 10:34:18 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,22 @@ double	ft_ranged_xatod(char const *const str_num, double min, double max)
 	return (num);
 }
 
+void	check_num_childs_valid(char **splitted, size_t num_childs)
+{
+	size_t	i;
+
+	i = 0;
+	while (splitted[i])
+	{
+		i++;
+	}
+	if (i != num_childs)
+	{
+		ft_perror_exit(EXIT_FAILURE, \
+			"number of inputs to split is not correct.");
+	}
+}
+
 char	**ft_xsplit(char const *s, char c, size_t num_childs)
 {
 	size_t	i;
@@ -59,14 +75,6 @@ char	**ft_xsplit(char const *s, char c, size_t num_childs)
 
 	i = 0;
 	splitted = ft_split(s, c);
-	while (splitted[i])
-	{
-		i++;
-	}
-	if (i < num_childs)
-	{
-		ft_perror_exit(EXIT_FAILURE, \
-					"ft_xsplit: number of inputs to split is not correct.");
-	}
+	check_num_childs_valid(splitted, num_childs);
 	return (splitted);
 }
