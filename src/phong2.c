@@ -6,16 +6,15 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 22:17:28 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/23 12:22:22 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/23 12:55:38 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "phong.h"
-#include "math_utils.h"
-#include <math.h>
 #include "shadow.h"
 
 #ifdef BONUS
+# include <math.h>
 
 static t_color	_get_specular_effect(\
 	t_light const *light, t_intersect const *intersect, \
