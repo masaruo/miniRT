@@ -6,7 +6,7 @@
 #    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/03/21 15:49:58 by mogawa           ###   ########.fr        #
+#    Updated: 2024/03/23 12:17:01 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS		:=	\
 			parse.c \
 			parse2.c \
 			phong.c \
+			phong2.c \
 			shadow.c \
 			t_camera.c \
 			t_color.c \
@@ -55,7 +56,6 @@ OBJS	:=	$(SRCS:%.c=$(OBJDIR)/%.o)
 DEPS	:=	$(OBJS:%.o=%.d)
 
 ifdef WITH_LEAK
-CFLAGS	:=	$(filter-out -Werror, $(CFLAGS))
 CFLAGS	+=	$(DBGFLG) -DLEAK
 endif
 
@@ -64,6 +64,11 @@ CFLAGS	:=	$(filter-out -Werror, $(CFLAGS))
 CFLAGS	+=	$(DBGFLG) -fsanitize=address
 LDFLAGS	+=	-fsanitize=address
 endif
+
+ifdef WITH_BONUS
+CFLAGS	+=	-DBONUS
+endif
+
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
@@ -81,6 +86,10 @@ leak:
 	$(MAKE) WITH_LEAK=1 all
 
 review: leak
+
+bonus:
+	$(RM) -r $(OBJDIR)
+	$(MAKE) WITH_BONUS=1 WITH_LEAK=1 all
 
 asan:
 	$(RM) -r $(OBJDIR)
