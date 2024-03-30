@@ -6,7 +6,7 @@
 /*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 15:58:13 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/21 17:00:11 by mogawa           ###   ########.fr       */
+/*   Updated: 2024/03/30 18:31:36 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,8 @@ void	check_num_childs_valid(char **splitted, size_t num_childs)
 
 char	**ft_xsplit(char const *s, char c, size_t num_childs)
 {
-	size_t	i;
 	char	**splitted;
 
-	i = 0;
 	splitted = ft_split(s, c);
 	check_num_childs_valid(splitted, num_childs);
 	return (splitted);
