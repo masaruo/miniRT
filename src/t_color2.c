@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   t_color2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+        */
+/*   By: mogawa <masaruo@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:54:05 by mogawa            #+#    #+#             */
-/*   Updated: 2024/03/02 12:28:25 by mogawa           ###   ########.fr       */
+/*   Updated: 2025/06/24 14:12:53 by mogawa           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static uint32_t	get_hex_color(int r, int g, int b)
 
 uint32_t	tcolor_to_hex(t_color color)
 {
-	u_int32_t	mlx_color;
+	uint32_t	mlx_color;
 	int const	r = color.red * 255;
 	int const	g = color.green * 255;
 	int const	b = color.blue * 255;
