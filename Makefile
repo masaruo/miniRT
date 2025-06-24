@@ -3,25 +3,23 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mogawa <mogawa@student.42tokyo.jp>         +#+  +:+       +#+         #
+#    By: mogawa <masaruo@gmail.com>                 +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2024/03/23 12:17:01 by mogawa           ###   ########.fr        #
+#    Updated: 2025/06/24 14:16:51 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	:=	miniRT
 CC		:=	cc
 CFLAGS	:=	-Wall -Wextra -Werror -MMD -MP
-LDFLAGS	:=	-L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -lm
+LDFLAGS	:=	-L/usr/local/lib -lmlx -lX11 -lXext -lbsd -lm
 DBGFLG	:=	-g3 -O0
 SRCDIR	:=	./src
 OBJDIR	:=	./obj
 LIBFTDIR	:=	./libft
 LIBFT	:=	$(LIBFTDIR)/libft.a
-MLXDIR	:=	./mlx
-MLX		:=	$(MLXDIR)/libmlx_Darwin.a
-INCLUDE	:=	-I./include -I$(LIBFTDIR)/include -I$(MLXDIR)
+INCLUDE	:=	-I./include -I$(LIBFTDIR)/include -I/usr/local/include -I./mlx
 SRCS		:=	\
 			destructor.c \
 			ft_atod.c \
@@ -69,7 +67,6 @@ ifdef WITH_BONUS
 CFLAGS	+=	-DBONUS
 endif
 
-
 $(OBJDIR)/%.o : $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(INCLUDE) $(CFLAGS) -c $< -o $@
@@ -78,10 +75,9 @@ all:	$(NAME)
 
 $(NAME) : $(OBJS)
 	$(MAKE) -C $(LIBFTDIR)
-	$(MAKE) -C $(MLXDIR)
-	$(CC) $(LDFLAGS) $(LIBFT) $(MLX) $^ -o $@
+	$(CC) $^ $(LDFLAGS) $(LIBFT) -o $@
 
-leak: 
+leak:
 	$(RM) -r $(OBJDIR)
 	$(MAKE) WITH_LEAK=1 all
 
@@ -91,14 +87,13 @@ bonus:
 	$(RM) -r $(OBJDIR)
 	$(MAKE) WITH_BONUS=1 WITH_LEAK=1 all
 
-asan:
+gdb:
 	$(RM) -r $(OBJDIR)
 	$(MAKE) WITH_ASAN=1 all
 
 clean:
 	$(RM) -r $(OBJDIR)
 	$(MAKE) clean -C $(LIBFTDIR)
-	$(MAKE) clean -C $(MLXDIR)
 
 fclean:	clean
 	$(RM) $(NAME)
@@ -108,9 +103,6 @@ dev: leak
 	$(shell ./miniRT test.rt)
 
 re:	fclean all
-
-norm:
-	$(shell echo 'norminette ./include ./src ./libft')
 
 -include $(DEPS)
 
