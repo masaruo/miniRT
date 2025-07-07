@@ -3,6 +3,7 @@
 
 ### set up
 * only tested on Ubuntu (not including wsl).
+* `sudo apt-get install gcc make xorg libxext-dev libbsd-dev` for minilibx.
 * you need to `make` and `./configure` in `./mlx` to make mlx ar files for minilibx.
 * `make` to create an executable file, `miniRT`.
 * provides maps via arg1 like `./miniRT ./maps/xyz.rt`
