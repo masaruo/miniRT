@@ -6,20 +6,20 @@
 #    By: mogawa <masaruo@gmail.com>                 +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/11 16:04:53 by mogawa            #+#    #+#              #
-#    Updated: 2025/06/24 14:16:51 by mogawa           ###   ########.fr        #
+#    Updated: 2025/07/07 14:56:44 by mogawa           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	:=	miniRT
-CC		:=	cc
+CC		:=	gcc
 CFLAGS	:=	-Wall -Wextra -Werror -MMD -MP
-LDFLAGS	:=	-L/usr/local/lib -lmlx -lX11 -lXext -lbsd -lm
+LDFLAGS	:=	-L./mlx -lmlx -lX11 -lXext -lbsd -lm -L/user/lib
 DBGFLG	:=	-g3 -O0
 SRCDIR	:=	./src
 OBJDIR	:=	./obj
 LIBFTDIR	:=	./libft
 LIBFT	:=	$(LIBFTDIR)/libft.a
-INCLUDE	:=	-I./include -I$(LIBFTDIR)/include -I/usr/local/include -I./mlx
+INCLUDE	:=	-I./include -I$(LIBFTDIR)/include -I/usr/include -I./mlx
 SRCS		:=	\
 			destructor.c \
 			ft_atod.c \
